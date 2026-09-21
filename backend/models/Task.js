@@ -8,11 +8,26 @@ const taskSchema = new mongoose.Schema(
     department: { type: String, required: true },
     frequency: {
       type: String,
-      // Daily / Weekly / Monthly / Quarterly / Yearly, plus the sheet's
-      // "Every Nth of the month" shorthand (E1st = every 1st, E3rd = every 3rd, etc.)
-      enum: ["D", "W", "M", "Q", "Y", "E1st", "E2nd", "E3rd", "E4th"],
+      // Matches the original Google Sheet's frequency codes exactly:
+      // D=Daily, W=Weekly, M=Monthly, Q=Quarterly, Y=Yearly, F=Fortnightly,
+      // E1st/E2nd/E3rd/E4th/ELast = "the Nth (or last) occurrence of the
+      // task's weekday each month" (e.g. first Monday of the month).
+      enum: ["D", "W", "M", "Q", "Y", "F", "E1st", "E2nd", "E3rd", "E4th", "ELast"],
       required: true,
     },
+    // The date the recurring schedule begins. Combined with `frequency` and
+    // `defaultAssignee`, this drives automatic generation of Master
+    // (TaskInstance) rows — see utils/generateOccurrences.js. Optional: a
+    // task with no startDate just stays a catalog entry, added to Master
+    // manually as before.
+    startDate: { type: Date },
+    // Internal bookkeeping for the recurrence engine — the next
+    // (pre-working-day-shift) anchor date to resume generating from. Reset
+    // to null whenever startDate changes, so a new schedule starts clean.
+    nextAnchor: { type: Date },
+    // Advisory lock so two concurrent generation calls for this task can't
+    // race each other and double-insert the same Master rows.
+    generating: { type: Boolean, default: false },
     defaultAssignee: { type: mongoose.Schema.Types.ObjectId, ref: "Doer" },
     active: { type: Boolean, default: true },
   },

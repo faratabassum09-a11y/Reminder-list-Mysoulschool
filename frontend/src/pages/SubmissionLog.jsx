@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { api } from "../api.js";
+import { api, API_BASE } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
 import SearchInput from "../components/SearchInput.jsx";
@@ -76,11 +76,20 @@ export default function SubmissionLog() {
 
       <div className="toolbar">
         <SearchInput value={q} onChange={setQ} placeholder="Search by name or task… (press /)" />
-        {data.rows && (
-          <span className="chip">
-            <strong>{data.total.toLocaleString()}</strong> {debouncedQ ? "matches" : "total rows"}
-          </span>
-        )}
+        <div className="row-actions">
+          {data.rows && (
+            <span className="chip">
+              <strong>{data.total.toLocaleString()}</strong> {debouncedQ ? "matches" : "total rows"}
+            </span>
+          )}
+          <a
+            className="link-btn generate-btn"
+            href={`${API_BASE}/submissions/export.csv${debouncedQ ? `?q=${encodeURIComponent(debouncedQ)}` : ""}`}
+            title="Download every row matching the current search as a CSV file"
+          >
+            ⬇ Export CSV
+          </a>
+        </div>
       </div>
 
       <div className="table-panel">

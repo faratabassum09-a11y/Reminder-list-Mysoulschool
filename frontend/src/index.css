@@ -466,6 +466,16 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
 }
 .inline-form button:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(44, 90, 160, 0.28); }
 .inline-form button:active { transform: translateY(0); box-shadow: none; }
+.inline-form button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.schedule-form {
+  background: var(--accent-light);
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(44, 90, 160, 0.18);
+}
+.schedule-form button { background: var(--accent-2); }
+.schedule-form button:hover:not(:disabled) { background: #5a3fa8; }
 
 .toolbar {
   display: flex;
@@ -476,7 +486,7 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
   margin: 16px 0 4px;
 }
 
-.filter-row { font-size: 13.5px; display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.filter-row { font-size: 13.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--muted); }
 .filter-row select {
   padding: 7px 10px;
   border-radius: var(--radius-sm);
@@ -486,6 +496,79 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
   background: var(--panel);
   color: var(--ink);
 }
+.generate-btn {
+  margin-left: auto;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.generate-btn:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); text-decoration: none; }
+.generate-btn:disabled { opacity: 0.6; cursor: wait; }
+a.generate-btn { display: inline-block; text-decoration: none; }
+
+.form-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin: -6px 0 16px;
+}
+
+/* ---------------------------------------------------------------------
+   Settings page
+------------------------------------------------------------------------*/
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.settings-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.settings-card h3 { margin: 0 0 6px; font-size: 15px; }
+.settings-hint { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+}
+.settings-row:first-of-type { border-top: none; }
+.settings-row input[type="date"], .settings-row input[type="number"] {
+  padding: 6px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+}
+.holiday-form { margin-bottom: 12px; }
+.holiday-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+.holiday-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  padding: 6px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.holiday-list li:last-child { border-bottom: none; }
+.mailer-status {
+  font-size: 12.5px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  margin: 10px 0;
+}
+.mailer-ok { background: var(--good-bg); color: var(--good); }
+.mailer-off { background: var(--warn-bg); color: var(--warn); }
 
 .search-input {
   display: flex;
@@ -620,6 +703,17 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
 
 .row-inactive { opacity: 0.55; }
 .row-inactive:hover { opacity: 0.85; }
+.row-actions { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+.cell-edit-input {
+  width: 100%;
+  min-width: 90px;
+  padding: 5px 8px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+  background: var(--accent-light);
+}
 
 /* ---------------------------------------------------------------------
    Toasts
@@ -720,3 +814,154 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
   .page-header { flex-direction: column; }
   .status-cell { flex-wrap: wrap; }
 }
+
+/* ---------------------------------------------------------------------
+   Sidebar user block (bottom of sidebar) + logout
+------------------------------------------------------------------------*/
+.sidebar-user {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.sidebar-user-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s ease;
+}
+.sidebar-user-link:hover { background: rgba(255, 255, 255, 0.06); }
+.sidebar-user-info { min-width: 0; overflow: hidden; }
+.sidebar-user-name {
+  font-size: 12.5px; font-weight: 600; color: #e7e9ef;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sidebar-user-role { font-size: 10.5px; color: #8b93a3; }
+
+/* A clearly-labeled, full-width action — not just a tiny icon square — so
+   signing out is easy to spot and unambiguous to click/tap, while still
+   reading as a "leave/exit" action via its red tint. */
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 90, 75, 0.25);
+  background: rgba(193, 57, 47, 0.12);
+  color: #ff9a8f;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+.sidebar-logout svg { flex-shrink: 0; }
+.sidebar-logout:hover {
+  background: rgba(193, 57, 47, 0.28);
+  border-color: rgba(255, 90, 75, 0.5);
+  color: #ffb3aa;
+}
+.sidebar-logout:active { transform: scale(0.97); }
+.sidebar-logout:focus-visible {
+  outline: 2px solid #ff9a8f;
+  outline-offset: 2px;
+}
+/* Collapsed sidebar: shrink back to an icon-only square, centered. */
+.sidebar-collapsed .sidebar-logout {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  align-self: center;
+}
+.sidebar-collapsed .sidebar-user-info { display: none; }
+
+/* ---------------------------------------------------------------------
+   Login page
+------------------------------------------------------------------------*/
+.auth-loading {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 14px;
+}
+.login-page {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(190deg, var(--sidebar-bg-top), var(--sidebar-bg-bottom));
+  padding: 20px;
+}
+.login-card {
+  width: 100%; max-width: 380px;
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 32px 30px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+.login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+.login-title { font-weight: 700; font-size: 16px; color: var(--ink); }
+.login-subtitle { font-size: 12px; color: var(--muted); }
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.login-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.login-form input {
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px;
+}
+.login-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+.login-form button {
+  margin-top: 4px;
+  background: var(--accent);
+  color: #fff; border: none;
+  padding: 11px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 14px; cursor: pointer;
+  transition: background 0.12s ease;
+}
+.login-form button:hover:not(:disabled) { background: var(--accent-dark); }
+.login-form button:disabled { opacity: 0.6; cursor: wait; }
+.login-error { color: var(--bad); font-size: 12.5px; margin: -4px 0 0; }
+.login-hint { margin: 18px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+
+/* ---------------------------------------------------------------------
+   Roles & permission hints
+------------------------------------------------------------------------*/
+.role-toggle {
+  border: none; border-radius: 999px;
+  padding: 4px 12px; font-size: 11.5px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  transition: filter 0.12s ease;
+}
+.role-toggle:hover:not(:disabled) { filter: brightness(0.95); }
+.role-toggle:disabled { opacity: 0.6; cursor: wait; }
+.role-admin { background: var(--accent-light); color: var(--accent-dark); }
+.role-member { background: #eef0f4; color: var(--muted); }
+.admin-only-hint { font-size: 13px; opacity: 0.5; cursor: default; }
+.link-btn.danger:disabled { opacity: 0.4; cursor: not-allowed; background: none; }
+
+.reset-pw-form { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.reset-pw-form input {
+  padding: 5px 9px; border: 1px solid var(--accent); border-radius: var(--radius-sm);
+  font-size: 12.5px; width: 140px;
+}
+
+.stacked-form { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+.stacked-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.stacked-form input {
+  padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13.5px;
+}
+.stacked-form button {
+  align-self: flex-start;
+  background: var(--accent); color: #fff; border: none;
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 13.5px; cursor: pointer;
+}
+.stacked-form button:hover:not(:disabled) { background: var(--accent-dark); }
+.stacked-form button:disabled { opacity: 0.6; cursor: wait; }

@@ -1,6 +1,8 @@
 import express from "express";
 import TaskInstance from "../models/TaskInstance.js";
 import Doer from "../models/Doer.js";
+import WeeklyArchive from "../models/WeeklyArchive.js";
+import { requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -86,6 +88,34 @@ router.get("/summary", async (req, res) => {
     pending,
     byDepartment: Array.from(byDeptMap.values()).sort((a, b) => b.total - a.total),
   });
+});
+
+// Archive — a non-destructive log of Dashboard snapshots over time, the
+// equivalent of the original's archive() button (which copied that week's
+// numbers into an Archive sheet). Here it never resets the live totals.
+router.post("/archive", requireAdmin, async (req, res) => {
+  const { doerMap, statusCounts } = await rollupByDoer();
+  let total = 0, onTime = 0, delayed = 0, pending = 0;
+  for (const row of statusCounts) {
+    total += row.total;
+    onTime += row.onTime;
+    delayed += row.delayed;
+    pending += row.pending;
+  }
+  const label = req.body?.label || `Snapshot of ${new Date().toLocaleDateString()}`;
+  const archived = await WeeklyArchive.create({ label, total, onTime, delayed, pending });
+  res.status(201).json(archived);
+});
+
+router.get("/archive", async (req, res) => {
+  const archives = await WeeklyArchive.find().sort({ snapshotDate: -1 }).limit(100).lean();
+  res.json(archives);
+});
+
+router.delete("/archive/:id", requireAdmin, async (req, res) => {
+  const deleted = await WeeklyArchive.findByIdAndDelete(req.params.id);
+  if (!deleted) return res.status(404).json({ error: "Archive entry not found" });
+  res.json({ ok: true });
 });
 
 export default router;

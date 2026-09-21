@@ -1,7 +1,22 @@
 import express from "express";
 import SubmissionLog from "../models/SubmissionLog.js";
+import { sendCsv } from "../utils/csv.js";
 
 const router = express.Router();
+
+// CSV export of every row matching the current search (?q=), not just the
+// current page. Capped at 20k rows as a sanity limit.
+router.get("/export.csv", async (req, res) => {
+  const filter = {};
+  if (req.query.q) {
+    const re = { $regex: req.query.q.trim(), $options: "i" };
+    filter.$or = [{ name: re }, { task: re }];
+  }
+  const rows = await SubmissionLog.find(filter).sort({ timestamp: -1 }).limit(20000).lean();
+  const headers = ["Task Id", "Timestamp", "Name", "Task"];
+  const body = rows.map((r) => [r.taskId, new Date(r.timestamp).toLocaleString(), r.name, r.task]);
+  sendCsv(res, "submission-log.csv", headers, body);
+});
 
 // GET paginated submission log (Consolidated sheet).
 // Query params: page (default 1), limit (default 100, max 500),

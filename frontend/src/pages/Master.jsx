@@ -1,11 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { api } from "../api.js";
+import { api, API_BASE } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
 import TableScrollControls from "../components/TableScrollControls.jsx";
+import { useToast } from "../components/Toast.jsx";
 import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
-const empty = { doer: "", task: "", planned: "" };
+const emptyReminder = { doer: "", task: "", planned: "" };
+const emptyTask = { taskName: "", department: "", frequency: "D", defaultAssignee: "", startDate: "" };
+
+const freqLabels = {
+  D: "Daily", W: "Weekly", M: "Monthly", Q: "Quarterly", Y: "Yearly", F: "Fortnightly",
+  E1st: "1st same weekday/mo", E2nd: "2nd same weekday/mo", E3rd: "3rd same weekday/mo",
+  E4th: "4th same weekday/mo", ELast: "Last same weekday/mo",
+};
 
 function statusClass(s) {
   if (s === "On Time") return "badge badge-good";
@@ -14,14 +23,20 @@ function statusClass(s) {
 }
 
 export default function Master() {
+  const { user, isAdmin } = useAuth();
   const [data, setData] = useState({ rows: null, total: 0, page: 1, pages: 1 });
   const [doers, setDoers] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [form, setForm] = useState(empty);
+  const [reminderForm, setReminderForm] = useState(emptyReminder);
+  const [taskForm, setTaskForm] = useState(emptyTask);
+  const [taskBusy, setTaskBusy] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
   const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [error, setError] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [deduping, setDeduping] = useState(false);
+  const toast = useToast();
   const limit = 100;
   const tableRef = useRef(null);
   useTableHotkeys(tableRef);
@@ -36,6 +51,65 @@ export default function Master() {
   useEffect(load, [filterStatus, page]);
   useEffect(() => setPageInput(String(page)), [page]);
 
+  // Tops up Master with any due occurrences for schedule-driven tasks once
+  // when the page first loads, so recurring reminders keep appearing on
+  // their own without anyone having to remember to add them.
+  useEffect(() => {
+    api
+      .generateUpcoming()
+      .then((res) => {
+        if (res.created > 0) {
+          toast(`${res.created} upcoming reminder${res.created === 1 ? "" : "s"} auto-generated`, "good");
+          load();
+        }
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const generateNow = async () => {
+    setGenerating(true);
+    try {
+      const res = await api.generateUpcoming();
+      if (res.horizonMissing) {
+        toast("Set a Schedule Horizon in Settings first — recurring tasks need to know how far ahead to generate", "bad");
+      } else {
+        toast(
+          res.created > 0
+            ? `${res.created} upcoming reminder${res.created === 1 ? "" : "s"} generated`
+            : "Everything's already up to date",
+          res.created > 0 ? "good" : "default"
+        );
+      }
+      if (res.created > 0) load();
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // One-time cleanup for duplicate rows from a race-condition bug that's
+  // now fixed (concurrent generation calls could double-insert). Safe to
+  // click any time — it's a no-op once there's nothing left to remove.
+  const dedupeNow = async () => {
+    setDeduping(true);
+    try {
+      const res = await api.dedupeMaster();
+      toast(
+        res.removed > 0
+          ? `Removed ${res.removed} duplicate reminder${res.removed === 1 ? "" : "s"}`
+          : "No duplicates found",
+        res.removed > 0 ? "good" : "default"
+      );
+      if (res.removed > 0) load();
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setDeduping(false);
+    }
+  };
+
   // Changing the filter should always jump back to page 1, so the numbering
   // and the "Page X of Y" count stay in sync with the new result set.
   const changeFilter = (value) => {
@@ -43,14 +117,35 @@ export default function Master() {
     setPage(1);
   };
 
-  const submit = async (e) => {
+  const submitReminder = async (e) => {
     e.preventDefault();
     try {
-      await api.createMaster({ ...form, planned: new Date(form.planned).toISOString() });
-      setForm(empty);
+      await api.createMaster({ ...reminderForm, planned: new Date(reminderForm.planned).toISOString() });
+      setReminderForm(emptyReminder);
       load();
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  // Creates the task AND starts its recurring schedule in one step — Task
+  // Name, Department, Frequency, Default Assignee, and Date all live here
+  // on Master, not split off onto a separate Task List form.
+  const submitTask = async (e) => {
+    e.preventDefault();
+    setTaskBusy(true);
+    try {
+      const created = await api.createTask({
+        ...taskForm,
+        startDate: new Date(taskForm.startDate).toISOString(),
+      });
+      setTaskForm(emptyTask);
+      load();
+      toast(`"${created.taskName}" added (ID ${created.taskId}) — reminders generating from ${taskForm.startDate}`, "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setTaskBusy(false);
     }
   };
 
@@ -79,19 +174,51 @@ export default function Master() {
       />
       {error && <p className="error">{error}</p>}
 
-      <form className="inline-form" onSubmit={submit}>
-        <select required value={form.doer} onChange={(e) => setForm({ ...form, doer: e.target.value })}>
-          <option value="">Select Doer</option>
-          {doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
-        </select>
-        <select required value={form.task} onChange={(e) => setForm({ ...form, task: e.target.value })}>
-          <option value="">Select Task</option>
-          {tasks.map((t) => <option key={t._id} value={t._id}>{t.taskName}</option>)}
-        </select>
-        <input required type="datetime-local" value={form.planned}
-          onChange={(e) => setForm({ ...form, planned: e.target.value })} />
-        <button type="submit">Add Reminder</button>
-      </form>
+      {isAdmin && (
+        <>
+          <form className="inline-form schedule-form" onSubmit={submitTask}>
+            <input placeholder="Task Name" required value={taskForm.taskName}
+              onChange={(e) => setTaskForm({ ...taskForm, taskName: e.target.value })} />
+            <input placeholder="Department" required value={taskForm.department}
+              onChange={(e) => setTaskForm({ ...taskForm, department: e.target.value })} />
+            <select value={taskForm.frequency} onChange={(e) => setTaskForm({ ...taskForm, frequency: e.target.value })}>
+              {Object.entries(freqLabels).map(([code, label]) => (
+                <option key={code} value={code}>{label}</option>
+              ))}
+            </select>
+            <select required value={taskForm.defaultAssignee} onChange={(e) => setTaskForm({ ...taskForm, defaultAssignee: e.target.value })}>
+              <option value="">Assignee</option>
+              {doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
+            </select>
+            <input required type="date" value={taskForm.startDate}
+              onChange={(e) => setTaskForm({ ...taskForm, startDate: e.target.value })} />
+            <button type="submit" disabled={taskBusy}>{taskBusy ? "Adding…" : "+ Add Task & Start Schedule"}</button>
+          </form>
+          <p className="form-hint">
+            Creates the task and starts generating its Master reminders from the date above, in one step. For "every
+            Nth weekday of month" frequencies, the weekday comes from whichever day of the week that date falls on.
+          </p>
+        </>
+      )}
+
+      {isAdmin && (
+        <>
+          <form className="inline-form" onSubmit={submitReminder}>
+            <select required value={reminderForm.doer} onChange={(e) => setReminderForm({ ...reminderForm, doer: e.target.value })}>
+              <option value="">Select Doer</option>
+              {doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
+            </select>
+            <select required value={reminderForm.task} onChange={(e) => setReminderForm({ ...reminderForm, task: e.target.value })}>
+              <option value="">Select Task</option>
+              {tasks.map((t) => <option key={t._id} value={t._id}>{t.taskName}</option>)}
+            </select>
+            <input required type="datetime-local" value={reminderForm.planned}
+              onChange={(e) => setReminderForm({ ...reminderForm, planned: e.target.value })} />
+            <button type="submit">Add One-Off Reminder</button>
+          </form>
+          <p className="form-hint">For a single reminder that isn't part of a recurring schedule — pick an existing task and one date/time.</p>
+        </>
+      )}
 
       <div className="filter-row">
         <label>Filter status: </label>
@@ -101,6 +228,23 @@ export default function Master() {
           <option value="Delayed">Delayed</option>
           <option value="Pending">Pending</option>
         </select>
+        <button type="button" className="link-btn generate-btn" disabled={generating} onClick={generateNow}
+          title="Check schedule-driven tasks and add any occurrences that are due">
+          {generating ? "Checking…" : "↻ Generate Upcoming"}
+        </button>
+        {isAdmin && (
+          <button type="button" className="link-btn generate-btn" disabled={deduping} onClick={dedupeNow}
+            title="One-time cleanup for any duplicate reminders">
+            {deduping ? "Checking…" : "🧹 Remove Duplicates"}
+          </button>
+        )}
+        <a
+          className="link-btn generate-btn"
+          href={`${API_BASE}/master/export.csv${filterStatus ? `?status=${encodeURIComponent(filterStatus)}` : ""}`}
+          title="Download every row matching the current filter as a CSV file"
+        >
+          ⬇ Export CSV
+        </a>
       </div>
 
       <div className="table-panel">
@@ -117,22 +261,32 @@ export default function Master() {
               {data.rows && data.rows.length === 0 && (
                 <tr><td colSpan={8} className="empty-state">No reminders match this filter.</td></tr>
               )}
-              {data.rows?.map((e, i) => (
-                <tr key={e._id}>
-                  <td>{(data.page - 1) * limit + i + 1}</td>
-                  <td>{e.doer?.name}</td>
-                  <td className="col-task truncate-cell" title={e.task?.taskName}>{e.task?.taskName}</td>
-                  <td>{e.doer?.department}</td>
-                  <td>{new Date(e.planned).toLocaleString()}</td>
-                  <td>{e.actual ? new Date(e.actual).toLocaleString() : "-"}</td>
-                  <td><span className={statusClass(e.status)}>{e.status}</span></td>
-                  <td>
-                    {!e.actual && <button className="link-btn" onClick={() => complete(e._id)}>Mark Complete</button>}
-                    {" "}
-                    <button className="link-btn danger" onClick={() => remove(e._id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
+              {data.rows?.map((e, i) => {
+                const canEdit = isAdmin || e.doer?.email === user?.email;
+                return (
+                  <tr key={e._id}>
+                    <td>{(data.page - 1) * limit + i + 1}</td>
+                    <td>{e.doer?.name}</td>
+                    <td className="col-task truncate-cell" title={e.task?.taskName}>{e.task?.taskName}</td>
+                    <td>{e.doer?.department}</td>
+                    <td>{new Date(e.planned).toLocaleString()}</td>
+                    <td>{e.actual ? new Date(e.actual).toLocaleString() : "-"}</td>
+                    <td><span className={statusClass(e.status)}>{e.status}</span></td>
+                    <td>
+                      {!e.actual && (
+                        canEdit ? (
+                          <button className="link-btn" onClick={() => complete(e._id)}>Mark Complete</button>
+                        ) : (
+                          <span className="admin-only-hint" title="Only the assigned doer or an admin can mark this complete">🔒</span>
+                        )
+                      )}
+                      {" "}
+                      <button className="link-btn danger" disabled={!isAdmin} onClick={() => remove(e._id)}
+                        title={isAdmin ? undefined : "Only admins can delete"}>Delete</button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

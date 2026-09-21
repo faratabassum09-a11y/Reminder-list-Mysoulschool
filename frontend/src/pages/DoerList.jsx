@@ -12,6 +12,8 @@ import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import { sortRows, toggleSort } from "../utils/sortRows.js";
 import { avatarStyleFromString, chipStyleFromString, initials } from "../utils/colorFromString.js";
+import { downloadCsv } from "../utils/csv.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const empty = { name: "", email: "", department: "", buddyEmailsText: "" };
 
@@ -24,12 +26,17 @@ function parseBuddyEmails(text) {
 }
 
 export default function DoerList() {
+  const { isAdmin, user } = useAuth();
   const [doers, setDoers] = useState(null);
   const [form, setForm] = useState(empty);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
   const [q, setQ] = useState("");
   const [sort, setSort] = useState({ key: null, dir: 1 });
+  const [emailingId, setEmailingId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState(empty);
+  const [savingEdit, setSavingEdit] = useState(false);
   const toast = useToast();
   const tableRef = useRef(null);
   useTableHotkeys(tableRef);
@@ -77,6 +84,56 @@ export default function DoerList() {
     }
   };
 
+  // Emails this doer their current pending/delayed tasks as a table —
+  // equivalent of the original's "send tasks to doer" action.
+  const emailTasks = async (d) => {
+    setEmailingId(d._id);
+    try {
+      const res = await api.emailDoerTasks(d._id);
+      if (res.count === 0) {
+        toast(`${d.name} has no pending tasks to email`, "default");
+      } else if (!res.sent) {
+        toast(`SMTP isn't configured yet — see Settings/.env (would've emailed ${res.count} tasks)`, "default");
+      } else {
+        toast(`Emailed ${d.name} — ${res.count} task${res.count === 1 ? "" : "s"}`, "good");
+      }
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setEmailingId(null);
+    }
+  };
+
+  const startEdit = (d) => {
+    setEditingId(d._id);
+    setEditForm({
+      name: d.name,
+      email: d.email,
+      department: d.department,
+      buddyEmailsText: (d.buddyEmails || []).join(", "),
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(empty);
+  };
+
+  const saveEdit = async (id) => {
+    setSavingEdit(true);
+    try {
+      const { buddyEmailsText, ...rest } = editForm;
+      const updated = await api.updateDoer(id, { ...rest, buddyEmails: parseBuddyEmails(buddyEmailsText) });
+      setDoers((prev) => prev.map((x) => (x._id === id ? updated : x)));
+      setEditingId(null);
+      toast(`Saved changes to ${updated.name}`, "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   const visibleDoers = useMemo(() => {
     let rows = doers || [];
     if (debouncedQ.trim()) {
@@ -91,6 +148,14 @@ export default function DoerList() {
     return sortRows(rows, sort);
   }, [doers, debouncedQ, sort]);
 
+  const exportCsv = () => {
+    downloadCsv(
+      "doer-list.csv",
+      ["Name", "Email", "Department", "Buddy Emails", "Active"],
+      visibleDoers.map((d) => [d.name, d.email, d.department, (d.buddyEmails || []).join("; "), d.active !== false ? "Yes" : "No"])
+    );
+  };
+
   return (
     <div className="page">
       <PageHeader
@@ -100,21 +165,24 @@ export default function DoerList() {
       />
       {error && <p className="error">{error}</p>}
 
-      <form className="inline-form" onSubmit={submit}>
-        <input placeholder="Name" required value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        <input placeholder="Email" required type="email" value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })} />
-        <input placeholder="Department" required value={form.department}
-          onChange={(e) => setForm({ ...form, department: e.target.value })} />
-        <input placeholder="Buddy Emails (comma-separated)" value={form.buddyEmailsText}
-          onChange={(e) => setForm({ ...form, buddyEmailsText: e.target.value })} />
-        <button type="submit">Add Doer</button>
-      </form>
+      {isAdmin && (
+        <form className="inline-form" onSubmit={submit}>
+          <input placeholder="Name" required value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <input placeholder="Email" required type="email" value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <input placeholder="Department" required value={form.department}
+            onChange={(e) => setForm({ ...form, department: e.target.value })} />
+          <input placeholder="Buddy Emails (comma-separated)" value={form.buddyEmailsText}
+            onChange={(e) => setForm({ ...form, buddyEmailsText: e.target.value })} />
+          <button type="submit">Add Doer</button>
+        </form>
+      )}
 
       {doers && doers.length > 0 && (
         <div className="toolbar">
           <SearchInput value={q} onChange={setQ} placeholder="Search by name, email, or department… (press /)" />
+          <button type="button" className="link-btn generate-btn" onClick={exportCsv}>⬇ Export CSV</button>
         </div>
       )}
 
@@ -139,36 +207,90 @@ export default function DoerList() {
                   {debouncedQ ? `No doers match “${debouncedQ}”.` : "No doers added yet — add one above."}
                 </td></tr>
               )}
-              {visibleDoers.map((d, i) => (
-                <tr key={d._id} className={d.active === false ? "row-inactive" : ""}>
-                  <td>{i + 1}</td>
-                  <td>
-                    <div className="name-cell">
-                      <span className="avatar" style={avatarStyleFromString(d.name)}>{initials(d.name)}</span>
-                      {d.name}
-                    </div>
-                  </td>
-                  <td>{d.email}</td>
-                  <td><span className="dept-chip" style={chipStyleFromString(d.department)}>{d.department}</span></td>
-                  <td className="col-buddy truncate-cell" title={d.buddyEmails?.join(", ")}>
-                    {d.buddyEmails && d.buddyEmails.length ? d.buddyEmails.join(", ") : "-"}
-                  </td>
-                  <td>
-                    <div className="status-cell">
-                      <ToggleSwitch
-                        checked={d.active !== false}
-                        disabled={busyId === d._id}
-                        label={`Toggle ${d.name} active status`}
-                        onChange={() => toggleActive(d)}
-                      />
-                      <span className={"badge " + (d.active !== false ? "badge-good" : "badge-bad")}>
-                        {d.active !== false ? "Active" : "Inactive"}
-                      </span>
-                    </div>
-                  </td>
-                  <td><ConfirmDeleteButton onConfirm={() => remove(d)} /></td>
-                </tr>
-              ))}
+              {visibleDoers.map((d, i) => {
+                const isEditing = editingId === d._id;
+                return (
+                  <tr key={d._id} className={d.active === false ? "row-inactive" : ""}>
+                    <td>{i + 1}</td>
+                    <td>
+                      {isEditing ? (
+                        <input className="cell-edit-input" value={editForm.name}
+                          onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
+                      ) : (
+                        <div className="name-cell">
+                          <span className="avatar" style={avatarStyleFromString(d.name)}>{initials(d.name)}</span>
+                          {d.name}
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {isEditing ? (
+                        <input className="cell-edit-input" type="email" value={editForm.email}
+                          onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
+                      ) : d.email}
+                    </td>
+                    <td>
+                      {isEditing ? (
+                        <input className="cell-edit-input" value={editForm.department}
+                          onChange={(e) => setEditForm({ ...editForm, department: e.target.value })} />
+                      ) : (
+                        <span className="dept-chip" style={chipStyleFromString(d.department)}>{d.department}</span>
+                      )}
+                    </td>
+                    <td className={isEditing ? "" : "col-buddy truncate-cell"} title={isEditing ? undefined : d.buddyEmails?.join(", ")}>
+                      {isEditing ? (
+                        <input className="cell-edit-input" placeholder="comma-separated" value={editForm.buddyEmailsText}
+                          onChange={(e) => setEditForm({ ...editForm, buddyEmailsText: e.target.value })} />
+                      ) : (
+                        d.buddyEmails && d.buddyEmails.length ? d.buddyEmails.join(", ") : "-"
+                      )}
+                    </td>
+                    <td>
+                      <div className="status-cell">
+                        <ToggleSwitch
+                          checked={d.active !== false}
+                          disabled={busyId === d._id || !isAdmin}
+                          label={`Toggle ${d.name} active status`}
+                          onChange={() => toggleActive(d)}
+                        />
+                        <span className={"badge " + (d.active !== false ? "badge-good" : "badge-bad")}>
+                          {d.active !== false ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      {isEditing ? (
+                        <div className="row-actions">
+                          <button type="button" className="link-btn" disabled={savingEdit} onClick={() => saveEdit(d._id)}>
+                            {savingEdit ? "Saving…" : "Save"}
+                          </button>
+                          <button type="button" className="link-btn" disabled={savingEdit} onClick={cancelEdit}>Cancel</button>
+                        </div>
+                      ) : (
+                        <div className="row-actions">
+                          {isAdmin && <button type="button" className="link-btn" onClick={() => startEdit(d)}>Edit</button>}
+                          {(isAdmin || d.email === user?.email) && (
+                            <button
+                              type="button"
+                              className="link-btn"
+                              disabled={emailingId === d._id}
+                              onClick={() => emailTasks(d)}
+                              title="Email this doer their pending/delayed tasks"
+                            >
+                              {emailingId === d._id ? "Sending…" : "✉ Email Tasks"}
+                            </button>
+                          )}
+                          {isAdmin ? (
+                            <ConfirmDeleteButton onConfirm={() => remove(d)} />
+                          ) : (
+                            <span className="admin-only-hint" title="Only admins can delete">🔒</span>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

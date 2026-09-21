@@ -12,18 +12,18 @@ import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import { sortRows, toggleSort } from "../utils/sortRows.js";
 import { chipStyleFromString } from "../utils/colorFromString.js";
-
-const empty = { taskId: "", taskName: "", department: "", frequency: "D", defaultAssignee: "" };
+import { downloadCsv } from "../utils/csv.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const freqLabels = {
-  D: "Daily", W: "Weekly", M: "Monthly", Q: "Quarterly", Y: "Yearly",
-  E1st: "1st of month", E2nd: "2nd of month", E3rd: "3rd of month", E4th: "4th of month",
+  D: "Daily", W: "Weekly", M: "Monthly", Q: "Quarterly", Y: "Yearly", F: "Fortnightly",
+  E1st: "1st same weekday/mo", E2nd: "2nd same weekday/mo", E3rd: "3rd same weekday/mo",
+  E4th: "4th same weekday/mo", ELast: "Last same weekday/mo",
 };
 
 export default function TaskList() {
+  const { isAdmin } = useAuth();
   const [tasks, setTasks] = useState(null);
-  const [doers, setDoers] = useState([]);
-  const [form, setForm] = useState(empty);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
   const [q, setQ] = useState("");
@@ -35,22 +35,8 @@ export default function TaskList() {
 
   const load = () => {
     api.getTasks().then(setTasks).catch((e) => setError(e.message));
-    api.getDoers().then(setDoers).catch(() => {});
   };
   useEffect(load, []);
-
-  const submit = async (e) => {
-    e.preventDefault();
-    try {
-      await api.createTask({ ...form, taskId: Number(form.taskId) });
-      setForm(empty);
-      load();
-      toast(`Added task "${form.taskName}"`, "good");
-    } catch (err) {
-      setError(err.message);
-      toast(err.message, "bad");
-    }
-  };
 
   const toggleActive = async (t) => {
     setBusyId(t._id);
@@ -90,6 +76,22 @@ export default function TaskList() {
     return sortRows(rows, sort);
   }, [tasks, debouncedQ, sort]);
 
+  const exportCsv = () => {
+    downloadCsv(
+      "task-list.csv",
+      ["ID", "Task", "Department", "Frequency", "Default Assignee", "Start Date", "Active"],
+      visibleTasks.map((t) => [
+        t.taskId,
+        t.taskName,
+        t.department,
+        freqLabels[t.frequency] || t.frequency,
+        t.defaultAssignee?.name || "",
+        t.startDate ? new Date(t.startDate).toLocaleDateString() : "",
+        t.active !== false ? "Yes" : "No",
+      ])
+    );
+  };
+
   return (
     <div className="page">
       <PageHeader
@@ -98,35 +100,14 @@ export default function TaskList() {
         meta={tasks && <span className="chip"><strong>{visibleTasks.length}</strong> {debouncedQ ? `of ${tasks.length}` : "tasks"}</span>}
       />
       {error && <p className="error">{error}</p>}
-
-      <form className="inline-form" onSubmit={submit}>
-        <input placeholder="Task ID" required type="number" value={form.taskId}
-          onChange={(e) => setForm({ ...form, taskId: e.target.value })} />
-        <input placeholder="Task Name" required value={form.taskName}
-          onChange={(e) => setForm({ ...form, taskName: e.target.value })} />
-        <input placeholder="Department" required value={form.department}
-          onChange={(e) => setForm({ ...form, department: e.target.value })} />
-        <select value={form.frequency} onChange={(e) => setForm({ ...form, frequency: e.target.value })}>
-          <option value="D">Daily</option>
-          <option value="W">Weekly</option>
-          <option value="M">Monthly</option>
-          <option value="Q">Quarterly</option>
-          <option value="Y">Yearly</option>
-          <option value="E1st">Every 1st of month</option>
-          <option value="E2nd">Every 2nd of month</option>
-          <option value="E3rd">Every 3rd of month</option>
-          <option value="E4th">Every 4th of month</option>
-        </select>
-        <select value={form.defaultAssignee} onChange={(e) => setForm({ ...form, defaultAssignee: e.target.value })}>
-          <option value="">Default Assignee</option>
-          {doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
-        </select>
-        <button type="submit">Add Task</button>
-      </form>
+      <p className="form-hint">
+        This is a read-only view of the catalog. To add a new task (with its schedule), go to <strong>Master</strong>.
+      </p>
 
       {tasks && tasks.length > 0 && (
         <div className="toolbar">
           <SearchInput value={q} onChange={setQ} placeholder="Search by task, ID, department, or assignee… (press /)" />
+          <button type="button" className="link-btn generate-btn" onClick={exportCsv}>⬇ Export CSV</button>
         </div>
       )}
 
@@ -141,15 +122,16 @@ export default function TaskList() {
                 <SortableTh label="Department" sortKey="department" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <SortableTh label="Freq" sortKey="frequency" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <SortableTh label="Default Assignee" sortKey="defaultAssignee.name" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="Start Date" sortKey="startDate" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <SortableTh label="Status" sortKey="active" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {!tasks && <TableSkeleton columns={8} rows={8} />}
+              {!tasks && <TableSkeleton columns={9} rows={8} />}
               {tasks && visibleTasks.length === 0 && (
-                <tr><td colSpan={8} className="empty-state">
-                  {debouncedQ ? `No tasks match “${debouncedQ}”.` : "No tasks added yet — add one above."}
+                <tr><td colSpan={9} className="empty-state">
+                  {debouncedQ ? `No tasks match “${debouncedQ}”.` : "No tasks yet — add one from Master."}
                 </td></tr>
               )}
               {visibleTasks.map((t, i) => (
@@ -161,10 +143,17 @@ export default function TaskList() {
                   <td><span className="freq-badge">{freqLabels[t.frequency] || t.frequency}</span></td>
                   <td>{t.defaultAssignee?.name || "-"}</td>
                   <td>
+                    {t.startDate ? (
+                      <span className="badge badge-neutral" title="Master reminders auto-generate from this date">
+                        {new Date(t.startDate).toLocaleDateString()} · Auto
+                      </span>
+                    ) : "-"}
+                  </td>
+                  <td>
                     <div className="status-cell">
                       <ToggleSwitch
                         checked={t.active !== false}
-                        disabled={busyId === t._id}
+                        disabled={busyId === t._id || !isAdmin}
                         label={`Toggle ${t.taskName} active status`}
                         onChange={() => toggleActive(t)}
                       />
@@ -173,7 +162,13 @@ export default function TaskList() {
                       </span>
                     </div>
                   </td>
-                  <td><ConfirmDeleteButton onConfirm={() => remove(t)} /></td>
+                  <td>
+                    {isAdmin ? (
+                      <ConfirmDeleteButton onConfirm={() => remove(t)} />
+                    ) : (
+                      <span className="admin-only-hint" title="Only admins can delete">🔒</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

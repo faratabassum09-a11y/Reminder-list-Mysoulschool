@@ -4,12 +4,34 @@
 // frontend knows where to send requests — Vercel and Render are separate
 // domains, so there's no "/api" on the same origin to fall back to.
 const BASE = import.meta.env.VITE_API_URL || "/api";
+export { BASE as API_BASE };
+
+let authToken = localStorage.getItem("authToken") || null;
+let onUnauthorized = null;
+
+// Called once from AuthContext on login/logout — keeps the in-memory token
+// and localStorage (so a page refresh doesn't sign you out) in sync.
+export function setAuthToken(token) {
+  authToken = token;
+  if (token) localStorage.setItem("authToken", token);
+  else localStorage.removeItem("authToken");
+}
+
+// AuthContext registers a callback here so that ANY request anywhere in
+// the app that comes back 401 (expired/invalid session) bounces the user
+// to the login screen, not just ones from a specific page.
+export function setUnauthorizedHandler(fn) {
+  onUnauthorized = fn;
+}
 
 async function request(path, options = {}) {
-  const res = await fetch(`${BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
-    ...options,
-  });
+  const headers = { "Content-Type": "application/json" };
+  if (authToken) headers.Authorization = `Bearer ${authToken}`;
+  const res = await fetch(`${BASE}${path}`, { headers, ...options });
+  if (res.status === 401) {
+    setAuthToken(null);
+    onUnauthorized?.();
+  }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || "Request failed");
@@ -18,11 +40,25 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  // Auth
+  login: (email, password) => request("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
+  me: () => request("/auth/me"),
+  changePassword: (currentPassword, newPassword) =>
+    request("/auth/change-password", { method: "POST", body: JSON.stringify({ currentPassword, newPassword }) }),
+
+  // Users (admin only — backend enforces this regardless of who calls it)
+  getUsers: () => request("/users"),
+  createUser: (data) => request("/users", { method: "POST", body: JSON.stringify(data) }),
+  updateUser: (id, data) => request(`/users/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+  removeUser: (id) => request(`/users/${id}`, { method: "DELETE" }),
+
   // Doer List
   getDoers: () => request("/doers"),
   createDoer: (data) => request("/doers", { method: "POST", body: JSON.stringify(data) }),
   updateDoer: (id, data) => request(`/doers/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   removeDoer: (id) => request(`/doers/${id}`, { method: "DELETE" }),
+  emailDoerTasks: (id, status) =>
+    request(`/doers/${id}/email-tasks`, { method: "POST", body: JSON.stringify({ status }) }),
 
   // Task List
   getTasks: () => request("/tasks"),
@@ -36,12 +72,28 @@ export const api = {
   completeMaster: (id, actual) =>
     request(`/master/${id}/complete`, { method: "PATCH", body: JSON.stringify({ actual }) }),
   removeMaster: (id) => request(`/master/${id}`, { method: "DELETE" }),
+  generateUpcoming: () => request("/master/generate-upcoming", { method: "POST" }),
+  dedupeMaster: () => request("/master/dedupe", { method: "POST" }),
 
   // Consolidated (computed rollup)
   getConsolidated: () => request("/consolidated"),
   getSummary: () => request("/consolidated/summary"),
+  archiveDashboard: (label) => request("/consolidated/archive", { method: "POST", body: JSON.stringify({ label }) }),
+  getArchives: () => request("/consolidated/archive"),
+  removeArchive: (id) => request(`/consolidated/archive/${id}`, { method: "DELETE" }),
 
   // Submission Log (raw Consolidated sheet, paginated)
   getSubmissions: (params = "") => request(`/submissions${params}`),
   getSubmissionsSummary: () => request("/submissions/summary"),
+
+  // Settings — schedule horizon, skip-Sundays, daily reminder hour/toggle
+  getSettings: () => request("/settings"),
+  updateSettings: (data) => request("/settings", { method: "PUT", body: JSON.stringify(data) }),
+  getHolidays: () => request("/settings/holidays"),
+  addHoliday: (data) => request("/settings/holidays", { method: "POST", body: JSON.stringify(data) }),
+  removeHoliday: (id) => request(`/settings/holidays/${id}`, { method: "DELETE" }),
+
+  // Reminders — the daily "tasks due tomorrow" email
+  sendRemindersNow: () => request("/reminders/send-daily", { method: "POST" }),
+  getMailerStatus: () => request("/reminders/mailer-status"),
 };

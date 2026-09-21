@@ -7,6 +7,7 @@ import TableScrollControls from "../components/TableScrollControls.jsx";
 import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
 import { sortRows, toggleSort } from "../utils/sortRows.js";
 import { chipStyleFromString } from "../utils/colorFromString.js";
+import { downloadCsv } from "../utils/csv.js";
 
 export default function Consolidated() {
   const [rows, setRows] = useState(null);
@@ -21,6 +22,14 @@ export default function Consolidated() {
 
   const sortedRows = useMemo(() => sortRows(rows, sort), [rows, sort]);
 
+  const exportCsv = () => {
+    downloadCsv(
+      "consolidated.csv",
+      ["Name", "Department", "Total", "On Time", "Delayed", "Pending", "On-Time %"],
+      sortedRows.map((r) => [r.name, r.department, r.total, r.onTime, r.delayed, r.pending, `${Math.round(r.onTimePercent)}%`])
+    );
+  };
+
   return (
     <div className="page">
       <PageHeader
@@ -29,6 +38,11 @@ export default function Consolidated() {
         meta={rows && <span className="chip"><strong>{rows.length}</strong> doers</span>}
       />
       {error && <p className="error">{error}</p>}
+      {rows && rows.length > 0 && (
+        <div className="toolbar" style={{ justifyContent: "flex-end" }}>
+          <button type="button" className="link-btn generate-btn" onClick={exportCsv}>⬇ Export CSV</button>
+        </div>
+      )}
 
       <div className="table-panel">
         <div className="table-wrap" ref={tableRef}>

@@ -5,14 +5,14 @@
 //                              full list of buddy emails, not just one)
 //   - data/tasks.json       -> unique recurring task definitions, deduped by
 //                              (taskName, department, frequency) across the
-//                              Task List and Master tabs (489 tasks)
+//                              Task List and Master tabs (491 tasks)
 //   - data/instances.json   -> Master tab occurrences, plus any Task List
-//                              rows not already present in Master (58,828
+//                              rows not already present in Master (58,777
 //                              instances total, each with its real
 //                              Planned/Actual timestamps where an Actual was
 //                              recorded)
 //   - data/submissions.json -> Consolidated tab, the raw, unprocessed
-//                              form-submission log (52,498 rows, kept as-is
+//                              form-submission log (52,981 rows, kept as-is
 //                              including rows with a blank name/task where
 //                              the sheet's own lookup didn't resolve)
 //
@@ -71,7 +71,12 @@ async function seedReal() {
   console.log(`Inserted ${createdDoers.length} doers.`);
 
   // 2. Tasks (catalog) — defaultAssignee is whoever most commonly did that
-  // task in the source data.
+  // task in the source data. A task with a startDate gets an active
+  // recurring schedule (see utils/generateOccurrences.js) — for every task
+  // that already has real historic Master rows (from step 3), nextAnchor is
+  // seeded to just after its last real occurrence, so live generation
+  // picks up where the real history ends instead of regenerating/
+  // duplicating everything from startDate forward.
   const createdTasks = await Task.insertMany(
     tasksData.map((t) => ({
       taskId: t.taskId,
@@ -79,10 +84,19 @@ async function seedReal() {
       department: t.department,
       frequency: t.frequency,
       defaultAssignee: doerByName.get(t.defaultAssigneeName)?._id,
+      startDate: t.startDate ? new Date(t.startDate) : undefined,
+      nextAnchor: t.nextAnchor ? new Date(t.nextAnchor) : undefined,
     }))
   );
   const taskById = new Map(createdTasks.map((t) => [t.taskId, t]));
   console.log(`Inserted ${createdTasks.length} tasks.`);
+  const scheduledTasks = createdTasks.filter((t) => t.startDate);
+  console.log(
+    `  -> ${scheduledTasks.length} of them have an active startDate (auto-generating): ` +
+      (scheduledTasks.length
+        ? scheduledTasks.map((t) => `#${t.taskId} "${t.taskName}"`).join(", ")
+        : "(none)")
+  );
 
   // 3. Task instances (real Master-sheet rows, each with a genuine
   // Planned vs. Actual completion time where one was recorded).
