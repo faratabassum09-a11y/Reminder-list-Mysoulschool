@@ -4,6 +4,7 @@ import Holiday from "../models/Holiday.js";
 import { getSettings } from "../models/Settings.js";
 import { generateOccurrencesForTask } from "../utils/generateOccurrences.js";
 import { requireAdmin } from "../middleware/auth.js";
+import { cacheGet, cacheSet, cacheDel } from "../utils/cache.js";
 
 const router = express.Router();
 
@@ -16,10 +17,24 @@ async function loadGenerationContext() {
   return { settings, holidaySet };
 }
 
-// GET all tasks (Task List sheet)
+// GET all tasks (Task List sheet) — same reasoning as the Doers cache
+// above: this list is fetched by nearly every page, so it's cached for 5
+// minutes and invalidated below on every write.
+//
+// Members only see tasks whose default assignee is their own Doer record
+// (matched by email, same pattern used for Master's edit permission) —
+// admins see the full catalog. The underlying list is still cached as one
+// shared "tasks:all" entry (it's the same data for everyone); the
+// per-member filtering happens in memory after the cache read/load, so it
+// costs nothing extra in the database.
 router.get("/", async (req, res) => {
-  const tasks = await Task.find().populate("defaultAssignee").sort({ taskId: 1 }).lean();
-  res.json(tasks);
+  let all = await cacheGet("tasks:all");
+  if (!all) {
+    all = await Task.find().populate("defaultAssignee").sort({ taskId: 1 }).lean();
+    cacheSet("tasks:all", all, 300); // fire-and-forget
+  }
+  if (req.user.role === "admin") return res.json(all);
+  res.json(all.filter((t) => t.defaultAssignee?.email === req.user.email));
 });
 
 // CREATE task — taskId is assigned automatically (one higher than the
@@ -36,6 +51,7 @@ router.post("/", requireAdmin, async (req, res) => {
     // Master page visit.
     const { settings, holidaySet } = await loadGenerationContext();
     await generateOccurrencesForTask(task, settings, holidaySet);
+    await cacheDel("tasks:all");
     res.status(201).json(task);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -61,6 +77,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
     // unconditionally since it only ever tops up, never duplicates.
     const { settings, holidaySet } = await loadGenerationContext();
     await generateOccurrencesForTask(task, settings, holidaySet);
+    await cacheDel("tasks:all");
     res.json(task);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -71,6 +88,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
 router.delete("/:id", requireAdmin, async (req, res) => {
   const deleted = await Task.findByIdAndDelete(req.params.id);
   if (!deleted) return res.status(404).json({ error: "Task not found" });
+  await cacheDel("tasks:all");
   res.json({ ok: true });
 });
 

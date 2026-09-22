@@ -6,6 +6,58 @@ import { requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
+function startOfDay(d) {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+function addDays(d, n) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
+// Shared by the Dashboard's date-range pills (This Week / Yesterday /
+// Today / Last Week / Next Week / Last Month / Year). "planned" is the
+// field filtered on — the same field the rest of the app schedules and
+// sorts by. Returns null for "all time" (no range keyword, or one that
+// isn't recognized), which callers treat as "don't filter".
+function getDateRange(key) {
+  const today0 = startOfDay(new Date());
+  switch (key) {
+    case "today":
+      return { start: today0, end: addDays(today0, 1) };
+    case "yesterday":
+      return { start: addDays(today0, -1), end: today0 };
+    case "thisWeek": {
+      const day = today0.getDay(); // 0 = Sunday
+      const monday = addDays(today0, day === 0 ? -6 : 1 - day);
+      return { start: monday, end: addDays(monday, 7) };
+    }
+    case "lastWeek": {
+      const day = today0.getDay();
+      const thisMonday = addDays(today0, day === 0 ? -6 : 1 - day);
+      return { start: addDays(thisMonday, -7), end: thisMonday };
+    }
+    case "nextWeek": {
+      const day = today0.getDay();
+      const thisMonday = addDays(today0, day === 0 ? -6 : 1 - day);
+      const nextMonday = addDays(thisMonday, 7);
+      return { start: nextMonday, end: addDays(nextMonday, 7) };
+    }
+    case "lastMonth": {
+      const now = new Date();
+      return { start: new Date(now.getFullYear(), now.getMonth() - 1, 1), end: new Date(now.getFullYear(), now.getMonth(), 1) };
+    }
+    case "year": {
+      const now = new Date();
+      return { start: new Date(now.getFullYear(), 0, 1), end: new Date(now.getFullYear() + 1, 0, 1) };
+    }
+    default:
+      return null; // "all" / unrecognized — no filter
+  }
+}
+
 // Both routes below used to $lookup + $unwind the ~59k-row Master collection
 // against Doers on every request — that expands into ~59k joined documents
 // before it can even start grouping, which is the main reason Consolidated
@@ -13,10 +65,14 @@ const router = express.Router();
 // group Master by doer id first (cheap, uses the doer_1_planned_-1 index)
 // and then join names/departments from an in-memory map instead — same
 // result, one pass over Master instead of a full join.
-async function rollupByDoer() {
+async function rollupByDoer(rangeKey) {
+  const range = getDateRange(rangeKey);
+  const matchStage = range ? [{ $match: { planned: { $gte: range.start, $lt: range.end } } }] : [];
+
   const [doers, statusCounts] = await Promise.all([
     Doer.find().select("name department").lean(),
     TaskInstance.aggregate([
+      ...matchStage,
       {
         $group: {
           _id: "$doer",
@@ -33,10 +89,11 @@ async function rollupByDoer() {
   return { doerMap, statusCounts };
 }
 
-// Consolidated view = computed rollup, not a duplicated sheet.
-// Returns per-doer stats: total tasks, on-time, delayed, pending, % on-time
+// Consolidated (per-person) rollup, merged into the Dashboard page — not a
+// duplicated sheet, computed live. Optional ?range= narrows it to one of
+// the Dashboard's date-range pills; omit for all-time.
 router.get("/", async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer();
+  const { doerMap, statusCounts } = await rollupByDoer(req.query.range);
 
   const rows = statusCounts
     .map((row) => {
@@ -60,9 +117,53 @@ router.get("/", async (req, res) => {
   res.json(rows);
 });
 
-// Overall dashboard summary (for cards / charts)
+// A member's own performance rollup — same shape as a row from "/", but
+// scoped to just the signed-in user's Doer record (matched by email, same
+// convention as requireOwnDoerOrAdmin in routes/master.js). Powers the
+// "Your Performance" section on the Account page. Same ?range= support as
+// every other Consolidated endpoint.
+router.get("/me", async (req, res) => {
+  const doer = await Doer.findOne({ email: req.user.email }).lean();
+  if (!doer) {
+    // Admin accounts (or any user with no matching Doer record) simply
+    // have nothing to show here — not an error.
+    return res.json({ doer: null, total: 0, onTime: 0, delayed: 0, pending: 0, onTimePercent: 0 });
+  }
+
+  const range = getDateRange(req.query.range);
+  const match = { doer: doer._id, ...(range ? { planned: { $gte: range.start, $lt: range.end } } : {}) };
+
+  const [row] = await TaskInstance.aggregate([
+    { $match: match },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: 1 },
+        onTime: { $sum: { $cond: [{ $eq: ["$status", "On Time"] }, 1, 0] } },
+        delayed: { $sum: { $cond: [{ $eq: ["$status", "Delayed"] }, 1, 0] } },
+        pending: { $sum: { $cond: [{ $eq: ["$status", "Pending"] }, 1, 0] } },
+      },
+    },
+  ]);
+
+  const total = row?.total || 0;
+  const onTime = row?.onTime || 0;
+  const delayed = row?.delayed || 0;
+  const pending = row?.pending || 0;
+
+  res.json({
+    doer: { name: doer.name, department: doer.department },
+    total,
+    onTime,
+    delayed,
+    pending,
+    onTimePercent: total ? (onTime / total) * 100 : 0,
+  });
+});
+
+// Overall dashboard summary (for cards / charts). Same ?range= support.
 router.get("/summary", async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer();
+  const { doerMap, statusCounts } = await rollupByDoer(req.query.range);
 
   let total = 0, onTime = 0, delayed = 0, pending = 0;
   const byDeptMap = new Map();
@@ -93,6 +194,9 @@ router.get("/summary", async (req, res) => {
 // Archive — a non-destructive log of Dashboard snapshots over time, the
 // equivalent of the original's archive() button (which copied that week's
 // numbers into an Archive sheet). Here it never resets the live totals.
+// Always logs the all-time totals, regardless of whatever date-range pill
+// is selected on the Dashboard at the moment — a snapshot is meant to be a
+// consistent running record, not affected by what someone was filtering.
 router.post("/archive", requireAdmin, async (req, res) => {
   const { doerMap, statusCounts } = await rollupByDoer();
   let total = 0, onTime = 0, delayed = 0, pending = 0;

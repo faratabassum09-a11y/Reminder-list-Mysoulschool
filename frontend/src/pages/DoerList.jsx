@@ -26,14 +26,13 @@ function parseBuddyEmails(text) {
 }
 
 export default function DoerList() {
-  const { isAdmin, user } = useAuth();
+  const { isAdmin } = useAuth();
   const [doers, setDoers] = useState(null);
   const [form, setForm] = useState(empty);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
   const [q, setQ] = useState("");
   const [sort, setSort] = useState({ key: null, dir: 1 });
-  const [emailingId, setEmailingId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState(empty);
   const [savingEdit, setSavingEdit] = useState(false);
@@ -81,26 +80,6 @@ export default function DoerList() {
       toast(`Deleted ${d.name}`, "bad");
     } catch (err) {
       toast(err.message, "bad");
-    }
-  };
-
-  // Emails this doer their current pending/delayed tasks as a table —
-  // equivalent of the original's "send tasks to doer" action.
-  const emailTasks = async (d) => {
-    setEmailingId(d._id);
-    try {
-      const res = await api.emailDoerTasks(d._id);
-      if (res.count === 0) {
-        toast(`${d.name} has no pending tasks to email`, "default");
-      } else if (!res.sent) {
-        toast(`SMTP isn't configured yet — see Settings/.env (would've emailed ${res.count} tasks)`, "default");
-      } else {
-        toast(`Emailed ${d.name} — ${res.count} task${res.count === 1 ? "" : "s"}`, "good");
-      }
-    } catch (err) {
-      toast(err.message, "bad");
-    } finally {
-      setEmailingId(null);
     }
   };
 
@@ -269,17 +248,6 @@ export default function DoerList() {
                       ) : (
                         <div className="row-actions">
                           {isAdmin && <button type="button" className="link-btn" onClick={() => startEdit(d)}>Edit</button>}
-                          {(isAdmin || d.email === user?.email) && (
-                            <button
-                              type="button"
-                              className="link-btn"
-                              disabled={emailingId === d._id}
-                              onClick={() => emailTasks(d)}
-                              title="Email this doer their pending/delayed tasks"
-                            >
-                              {emailingId === d._id ? "Sending…" : "✉ Email Tasks"}
-                            </button>
-                          )}
                           {isAdmin ? (
                             <ConfirmDeleteButton onConfirm={() => remove(d)} />
                           ) : (

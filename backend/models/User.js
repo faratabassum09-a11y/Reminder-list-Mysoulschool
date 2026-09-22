@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema(
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ["admin", "member"], default: "member" },
     active: { type: Boolean, default: true },
+    // Optional — lets people @-mention or DM this user from Slack-integrated
+    // tooling (e.g. a future "notify on Slack" reminder). Just a plain
+    // member ID/handle string, not validated against Slack's API.
+    slackId: { type: String, trim: true, default: "" },
   },
   { timestamps: true }
 );

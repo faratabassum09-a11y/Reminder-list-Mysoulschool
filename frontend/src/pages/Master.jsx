@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api, API_BASE } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
@@ -7,7 +7,6 @@ import { useToast } from "../components/Toast.jsx";
 import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const emptyReminder = { doer: "", task: "", planned: "" };
 const emptyTask = { taskName: "", department: "", frequency: "D", defaultAssignee: "", startDate: "" };
 
 const freqLabels = {
@@ -27,10 +26,11 @@ export default function Master() {
   const [data, setData] = useState({ rows: null, total: 0, page: 1, pages: 1 });
   const [doers, setDoers] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [reminderForm, setReminderForm] = useState(emptyReminder);
   const [taskForm, setTaskForm] = useState(emptyTask);
   const [taskBusy, setTaskBusy] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
+  const [todayOnly, setTodayOnly] = useState(false);
+  const [mineOnly, setMineOnly] = useState(false);
   const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [error, setError] = useState("");
@@ -41,14 +41,28 @@ export default function Master() {
   const tableRef = useRef(null);
   useTableHotkeys(tableRef);
 
+  // Doers and Tasks are used here only to populate dropdowns and to look up
+  // a name/department for display — they don't change from filtering or
+  // paging through Master, so they're fetched once on mount rather than on
+  // every filter/page change.
+  useEffect(() => {
+    api.getDoers().then(setDoers).catch(() => {});
+    api.getTasks().then(setTasks).catch(() => {});
+  }, []);
+
+  // The Doer record matching the signed-in user (matched by email, same
+  // pattern the backend already uses for edit permissions) — powers the
+  // "My Tasks" quick filter below.
+  const myDoer = useMemo(() => doers.find((d) => d.email === user?.email), [doers, user]);
+
   const load = () => {
     const params = new URLSearchParams({ page, limit });
     if (filterStatus) params.set("status", filterStatus);
+    if (todayOnly) params.set("today", "1");
+    if (mineOnly && myDoer) params.set("doer", myDoer._id);
     api.getMaster(`?${params.toString()}`).then(setData).catch((e) => setError(e.message));
-    api.getDoers().then(setDoers).catch(() => {});
-    api.getTasks().then(setTasks).catch(() => {});
   };
-  useEffect(load, [filterStatus, page]);
+  useEffect(load, [filterStatus, todayOnly, mineOnly, page]);
   useEffect(() => setPageInput(String(page)), [page]);
 
   // Tops up Master with any due occurrences for schedule-driven tasks once
@@ -70,7 +84,7 @@ export default function Master() {
   const generateNow = async () => {
     setGenerating(true);
     try {
-      const res = await api.generateUpcoming();
+      const res = await api.generateUpcoming(true);
       if (res.horizonMissing) {
         toast("Set a Schedule Horizon in Settings first — recurring tasks need to know how far ahead to generate", "bad");
       } else {
@@ -110,22 +124,20 @@ export default function Master() {
     }
   };
 
-  // Changing the filter should always jump back to page 1, so the numbering
-  // and the "Page X of Y" count stay in sync with the new result set.
+  // Changing any filter should always jump back to page 1, so the
+  // numbering and the "Page X of Y" count stay in sync with the new
+  // result set.
   const changeFilter = (value) => {
     setFilterStatus(value);
     setPage(1);
   };
-
-  const submitReminder = async (e) => {
-    e.preventDefault();
-    try {
-      await api.createMaster({ ...reminderForm, planned: new Date(reminderForm.planned).toISOString() });
-      setReminderForm(emptyReminder);
-      load();
-    } catch (err) {
-      setError(err.message);
-    }
+  const toggleToday = () => {
+    setTodayOnly((v) => !v);
+    setPage(1);
+  };
+  const toggleMine = () => {
+    setMineOnly((v) => !v);
+    setPage(1);
   };
 
   // Creates the task AND starts its recurring schedule in one step — Task
@@ -201,25 +213,6 @@ export default function Master() {
         </>
       )}
 
-      {isAdmin && (
-        <>
-          <form className="inline-form" onSubmit={submitReminder}>
-            <select required value={reminderForm.doer} onChange={(e) => setReminderForm({ ...reminderForm, doer: e.target.value })}>
-              <option value="">Select Doer</option>
-              {doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
-            </select>
-            <select required value={reminderForm.task} onChange={(e) => setReminderForm({ ...reminderForm, task: e.target.value })}>
-              <option value="">Select Task</option>
-              {tasks.map((t) => <option key={t._id} value={t._id}>{t.taskName}</option>)}
-            </select>
-            <input required type="datetime-local" value={reminderForm.planned}
-              onChange={(e) => setReminderForm({ ...reminderForm, planned: e.target.value })} />
-            <button type="submit">Add One-Off Reminder</button>
-          </form>
-          <p className="form-hint">For a single reminder that isn't part of a recurring schedule — pick an existing task and one date/time.</p>
-        </>
-      )}
-
       <div className="filter-row">
         <label>Filter status: </label>
         <select value={filterStatus} onChange={(e) => changeFilter(e.target.value)}>
@@ -228,6 +221,24 @@ export default function Master() {
           <option value="Delayed">Delayed</option>
           <option value="Pending">Pending</option>
         </select>
+        <button
+          type="button"
+          className={"link-btn generate-btn" + (todayOnly ? " filter-pill-active" : "")}
+          onClick={toggleToday}
+          title="Show only tasks planned for today"
+        >
+          📅 {todayOnly ? "Showing Today's Tasks" : "Today's Tasks"}
+        </button>
+        {myDoer && (
+          <button
+            type="button"
+            className={"link-btn generate-btn" + (mineOnly ? " filter-pill-active" : "")}
+            onClick={toggleMine}
+            title="Show only tasks assigned to me"
+          >
+            🙋 {mineOnly ? "Showing My Tasks" : "My Tasks"}
+          </button>
+        )}
         <button type="button" className="link-btn generate-btn" disabled={generating} onClick={generateNow}
           title="Check schedule-driven tasks and add any occurrences that are due">
           {generating ? "Checking…" : "↻ Generate Upcoming"}

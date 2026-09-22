@@ -3,20 +3,27 @@ import Doer from "../models/Doer.js";
 import TaskInstance from "../models/TaskInstance.js";
 import { sendMail } from "../utils/mailer.js";
 import { requireAdmin } from "../middleware/auth.js";
+import { cached, cacheDel } from "../utils/cache.js";
 
 const router = express.Router();
 
-// GET all doers (Doer List sheet)
-router.get("/", async (req, res) => {
-  const doers = await Doer.find().sort({ department: 1, name: 1 }).lean();
-  res.json(doers);
-});
+// GET all doers (Doer List sheet). Every page that shows a doer's name —
+// Master, Task List, Dashboard — fetches this list, so with many people
+// using the app at once it's one of the most-repeated queries. Cached for
+// 5 minutes (no-op without REDIS_URL) and invalidated immediately below
+// whenever a doer is created, edited, or deleted, so the cache is never
+// more than 5 minutes stale even on a cache-storage failure.
+router.get(
+  "/",
+  cached("doers:all", 300, () => Doer.find().sort({ department: 1, name: 1 }).lean())
+);
 
 // CREATE doer — structural/setup data (who exists, their department, their
 // buddy chain), so admin-only, not "day-to-day work".
 router.post("/", requireAdmin, async (req, res) => {
   try {
     const doer = await Doer.create(req.body);
+    await cacheDel("doers:all");
     res.status(201).json(doer);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -30,6 +37,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
       new: true,
       runValidators: true,
     });
+    await cacheDel("doers:all");
     res.json(doer);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -40,6 +48,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
 router.delete("/:id", requireAdmin, async (req, res) => {
   const deleted = await Doer.findByIdAndDelete(req.params.id);
   if (!deleted) return res.status(404).json({ error: "Doer not found" });
+  await cacheDel("doers:all");
   res.json({ ok: true });
 });
 

@@ -41,8 +41,12 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  // Lets Account.jsx reflect a saved name/Slack ID immediately after
+  // PUT /auth/me succeeds, without a full page reload or re-fetching /me.
+  const updateProfile = (patch) => setUser((u) => (u ? { ...u, ...patch } : u));
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, isAdmin: user?.role === "admin" }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile, isAdmin: user?.role === "admin" }}>
       {children}
     </AuthContext.Provider>
   );

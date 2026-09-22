@@ -12,6 +12,32 @@ const MAX_PER_TASK = 1000;
 // before giving up, in case every remaining day is somehow a holiday.
 const MAX_BACKSHIFT_DAYS = 30;
 
+// A single global scheduleHorizon (Settings) could be months or years out.
+// Generating every occurrence up to that horizon in one call is fine for
+// a Quarterly or Yearly task (a handful of rows) but floods a Daily task
+// with dozens of rows at once (e.g. a year-out horizon = ~87 Daily rows
+// created in one shot). Instead, each frequency only tops up a short
+// rolling window ahead of *today*, capped by the admin's scheduleHorizon
+// when that's sooner. Because generation resumes from task.nextAnchor and
+// this function is called again on every Master page load (subject to the
+// 60s cooldown) and via the manual "Generate Upcoming" button, the window
+// keeps rolling forward on its own — it never needs to "catch up" all at
+// once. Y (Yearly) isn't listed here: it's handled as a one-time burst
+// below and never consults this table.
+const ROLLING_WINDOW_DAYS = {
+  D: 7, // Daily — next 7 days only
+  W: 28, // Weekly — about a month of occurrences at a time
+  F: 28, // Fortnightly — about two occurrences at a time
+  M: 60, // Monthly — next 2 months
+  Q: 190, // Quarterly — comfortably covers the next occurrence
+  E1st: 60,
+  E2nd: 60,
+  E3rd: 60,
+  E4th: 60,
+  ELast: 60,
+};
+const DEFAULT_ROLLING_WINDOW_DAYS = 30;
+
 function dateKey(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
 }
@@ -140,7 +166,14 @@ export async function generateOccurrencesForTask(task, settings, holidaySet) {
     }
 
     if (!settings.scheduleHorizon) return { created: 0, horizonMissing: true };
-    const horizon = new Date(settings.scheduleHorizon);
+    const globalHorizon = new Date(settings.scheduleHorizon);
+    // Effective horizon for this call = the sooner of the admin's overall
+    // schedule horizon and today + this frequency's rolling window — so a
+    // Daily task only ever tops up ~7 days ahead, a Monthly one ~2 months,
+    // etc., no matter how far out scheduleHorizon is set.
+    const windowDays = ROLLING_WINDOW_DAYS[claimed.frequency] ?? DEFAULT_ROLLING_WINDOW_DAYS;
+    const rollingHorizon = addDays(new Date(), windowDays);
+    const horizon = rollingHorizon < globalHorizon ? rollingHorizon : globalHorizon;
     const skipSundays = settings.skipSundays;
 
     let anchor = claimed.nextAnchor ? new Date(claimed.nextAnchor) : new Date(claimed.startDate);

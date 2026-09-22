@@ -3,6 +3,7 @@ import TaskInstance from "../models/TaskInstance.js";
 import { generateAllUpcoming, dedupeTaskInstances } from "../utils/generateOccurrences.js";
 import { sendCsv } from "../utils/csv.js";
 import { requireAdmin } from "../middleware/auth.js";
+import { claimCooldown } from "../utils/cache.js";
 
 const router = express.Router();
 
@@ -56,8 +57,23 @@ router.get("/export.csv", async (req, res) => {
 // Called automatically whenever the Master page loads, and available as a
 // manual "Generate Upcoming" button too — safe to call repeatedly, it only
 // ever adds rows that don't already exist.
+//
+// With many people using the app, that "on every page load" call used to
+// mean every single person opening Master fired the full scan-every-task
+// routine at once — redundant work piling up under load, since nothing
+// changes between one person's load and the next person's a second later.
+// The automatic call now shares one 60-second cooldown (via Redis — a
+// no-op without REDIS_URL, so this degrades to the old always-run
+// behavior if caching isn't configured): only the first load in that
+// window does the work, everyone else's load just uses what's already
+// there. The manual "Generate Upcoming" button passes ?force=1 to bypass
+// the cooldown, since a deliberate click should always run.
 router.post("/generate-upcoming", async (req, res) => {
   try {
+    if (req.query.force !== "1") {
+      const claimed = await claimCooldown("generate:upcoming:cooldown", 60);
+      if (!claimed) return res.json({ created: 0, tasksChecked: 0, horizonMissing: false, skipped: true });
+    }
     const result = await generateAllUpcoming();
     res.json(result);
   } catch (err) {
@@ -91,6 +107,15 @@ router.get("/", async (req, res) => {
   const filter = {};
   if (req.query.doer) filter.doer = req.query.doer;
   if (req.query.status) filter.status = req.query.status;
+  // "Today's Tasks" quick filter — everything planned for the current
+  // calendar day (server's local time), regardless of status.
+  if (req.query.today === "1") {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1);
+    filter.planned = { $gte: start, $lt: end };
+  }
 
   const [rows, total] = await Promise.all([
     TaskInstance.find(filter)

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import compression from "compression";
 import mongoose from "mongoose";
 import cron from "node-cron";
 
@@ -34,6 +35,11 @@ app.use(
   })
 );
 app.use(express.json());
+// Gzip every response — the Master and Submission Log pages return
+// hundreds-to-thousands of JSON rows and the CSV exports are much larger
+// still; compressing those cuts transfer time noticeably, especially for
+// people on slower connections.
+app.use(compression());
 
 app.use("/api/auth", authRoutes);
 app.get("/api/health", (req, res) => res.json({ ok: true }));

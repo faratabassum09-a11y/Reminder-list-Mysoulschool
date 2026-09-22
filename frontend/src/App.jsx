@@ -4,7 +4,6 @@ import Dashboard from "./pages/Dashboard.jsx";
 import DoerList from "./pages/DoerList.jsx";
 import TaskList from "./pages/TaskList.jsx";
 import Master from "./pages/Master.jsx";
-import Consolidated from "./pages/Consolidated.jsx";
 import SubmissionLog from "./pages/SubmissionLog.jsx";
 import Settings from "./pages/Settings.jsx";
 import Users from "./pages/Users.jsx";
@@ -20,7 +19,6 @@ const icons = {
   master: <path d="M4 4h16v4H4V4Zm0 6h10v10H4V10Zm12 0h4v4h-4v-4Zm0 6h4v4h-4v-4Z" />,
   tasks: <path d="M9 11.2 6.8 9l-1.4 1.4L9 14l7-7-1.4-1.4L9 11.2ZM4 20h16v2H4v-2Z" />,
   doers: <path d="M12 12a4.8 4.8 0 1 0 0-9.6 4.8 4.8 0 0 0 0 9.6Zm0 2.4c-3.6 0-9.6 1.8-9.6 5.4V22h19.2v-2.2c0-3.6-6-5.4-9.6-5.4Z" />,
-  consolidated: <path d="M5 3h6l6 6v12H5V3Zm6 0v6h6M8 13h8M8 17h8" />,
   submissions: <path d="M4 6h16M4 12h10M4 18h13" />,
   settings: <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 13a7.4 7.4 0 0 0 .1-1 7.4 7.4 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1l-.4-2.5H9.1l-.4 2.5a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2L2.6 15l2 3.4 2.4-1a7.6 7.6 0 0 0 1.7 1l.4 2.5h5.8l.4-2.5a7.6 7.6 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6Z" />,
   users: <path d="M9 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3 0-8 1.5-8 4.5V21h16v-2.5c0-3-5-4.5-8-4.5Zm8.5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 2c-.6 0-1.5.08-2.4.3 1.5 1 2.4 2.4 2.4 4.2V21h5v-2.5c0-2.6-3-4.5-5-4.5Z" />,
@@ -31,7 +29,6 @@ const baseLinks = [
   { to: "/master", label: "Master", icon: "master" },
   { to: "/tasks", label: "Task List", icon: "tasks" },
   { to: "/doers", label: "Doer List", icon: "doers" },
-  { to: "/consolidated", label: "Consolidated", icon: "consolidated" },
   { to: "/submissions", label: "Submission Log", icon: "submissions" },
 ];
 const adminLinks = [
@@ -140,10 +137,10 @@ export default function App() {
       <main className="content">
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/consolidated" element={<Navigate to="/" replace />} />
           <Route path="/master" element={<Master />} />
           <Route path="/tasks" element={<TaskList />} />
           <Route path="/doers" element={<DoerList />} />
-          <Route path="/consolidated" element={<Consolidated />} />
           <Route path="/submissions" element={<SubmissionLog />} />
           <Route path="/account" element={<Account />} />
           <Route path="/settings" element={<AdminRoute isAdmin={isAdmin}><Settings /></AdminRoute>} />

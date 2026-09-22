@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, slackId } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: "Name, email, and password required" });
     if (password.length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
 
@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
       email: email.toLowerCase().trim(),
       passwordHash,
       role: role === "admin" ? "admin" : "member",
+      slackId: slackId?.trim() || "",
     });
     const { passwordHash: _, ...safe } = user.toObject();
     res.status(201).json(safe);
@@ -36,11 +37,12 @@ router.post("/", async (req, res) => {
 // field.
 router.put("/:id", async (req, res) => {
   try {
-    const { name, role, active, password } = req.body;
+    const { name, role, active, password, slackId } = req.body;
     const updates = {};
     if (name !== undefined) updates.name = name;
     if (role !== undefined) updates.role = role === "admin" ? "admin" : "member";
     if (active !== undefined) updates.active = active;
+    if (slackId !== undefined) updates.slackId = slackId.trim();
     if (password) {
       if (password.length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
       updates.passwordHash = await hashPassword(password);

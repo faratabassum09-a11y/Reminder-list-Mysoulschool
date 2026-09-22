@@ -8,7 +8,7 @@ import ConfirmDeleteButton from "../components/ConfirmDeleteButton.jsx";
 import { useToast } from "../components/Toast.jsx";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
 
-const empty = { name: "", email: "", password: "", role: "member" };
+const empty = { name: "", email: "", password: "", role: "member", slackId: "" };
 
 export default function Users() {
   const { user: currentUser } = useAuth();
@@ -18,6 +18,9 @@ export default function Users() {
   const [busyId, setBusyId] = useState(null);
   const [resetId, setResetId] = useState(null);
   const [resetPassword, setResetPassword] = useState("");
+  const [slackEditId, setSlackEditId] = useState(null);
+  const [slackEditValue, setSlackEditValue] = useState("");
+  const [slackSaving, setSlackSaving] = useState(false);
   const toast = useToast();
 
   const load = () => api.getUsers().then(setUsers).catch((e) => setError(e.message));
@@ -87,6 +90,25 @@ export default function Users() {
     }
   };
 
+  const startSlackEdit = (u) => {
+    setSlackEditId(u._id);
+    setSlackEditValue(u.slackId || "");
+  };
+
+  const saveSlackId = async (id) => {
+    setSlackSaving(true);
+    try {
+      const updated = await api.updateUser(id, { slackId: slackEditValue });
+      setUsers((prev) => prev.map((x) => (x._id === id ? updated : x)));
+      setSlackEditId(null);
+      toast("Slack ID saved", "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setSlackSaving(false);
+    }
+  };
+
   return (
     <div className="page">
       <PageHeader
@@ -104,20 +126,22 @@ export default function Users() {
           <option value="member">Member</option>
           <option value="admin">Admin</option>
         </select>
+        <input placeholder="Slack ID (optional)" value={form.slackId} onChange={(e) => setForm({ ...form, slackId: e.target.value })} />
         <button type="submit">Add User</button>
       </form>
       <p className="form-hint">
         <strong>Admins</strong> can delete data, manage Settings, and manage other accounts. <strong>Members</strong> can
-        do day-to-day work — add, edit, complete, export — but not delete anything or reach Settings/Users.
+        do day-to-day work — add, edit, complete, export — but not delete anything or reach Settings/Users. Slack ID is
+        optional; people can also set their own from the Account page.
       </p>
 
       <div className="table-wrap">
         <table className="table">
           <thead>
-            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>
+            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>Slack ID</th><th>Status</th><th></th></tr>
           </thead>
           <tbody>
-            {!users && <TableSkeleton columns={6} rows={5} />}
+            {!users && <TableSkeleton columns={7} rows={5} />}
             {users?.map((u, i) => (
               <tr key={u._id} className={u.active === false ? "row-inactive" : ""}>
                 <td>{i + 1}</td>
@@ -133,6 +157,22 @@ export default function Users() {
                     disabled={busyId === u._id} onClick={() => toggleRole(u)} title="Click to change role">
                     {u.role === "admin" ? "Admin" : "Member"}
                   </button>
+                </td>
+                <td>
+                  {slackEditId === u._id ? (
+                    <div className="row-actions">
+                      <input className="cell-edit-input" placeholder="Slack ID" value={slackEditValue}
+                        onChange={(e) => setSlackEditValue(e.target.value)} style={{ width: 120 }} />
+                      <button type="button" className="link-btn" disabled={slackSaving} onClick={() => saveSlackId(u._id)}>
+                        {slackSaving ? "Saving…" : "Save"}
+                      </button>
+                      <button type="button" className="link-btn" disabled={slackSaving} onClick={() => setSlackEditId(null)}>Cancel</button>
+                    </div>
+                  ) : (
+                    <button type="button" className="link-btn" onClick={() => startSlackEdit(u)}>
+                      {u.slackId || <span className="muted">— add —</span>}
+                    </button>
+                  )}
                 </td>
                 <td>
                   <div className="status-cell">

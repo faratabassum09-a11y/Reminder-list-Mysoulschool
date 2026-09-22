@@ -43,6 +43,7 @@ export const api = {
   // Auth
   login: (email, password) => request("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   me: () => request("/auth/me"),
+  updateProfile: (data) => request("/auth/me", { method: "PUT", body: JSON.stringify(data) }),
   changePassword: (currentPassword, newPassword) =>
     request("/auth/change-password", { method: "POST", body: JSON.stringify({ currentPassword, newPassword }) }),
 
@@ -72,12 +73,14 @@ export const api = {
   completeMaster: (id, actual) =>
     request(`/master/${id}/complete`, { method: "PATCH", body: JSON.stringify({ actual }) }),
   removeMaster: (id) => request(`/master/${id}`, { method: "DELETE" }),
-  generateUpcoming: () => request("/master/generate-upcoming", { method: "POST" }),
+  generateUpcoming: (force) => request(`/master/generate-upcoming${force ? "?force=1" : ""}`, { method: "POST" }),
   dedupeMaster: () => request("/master/dedupe", { method: "POST" }),
 
-  // Consolidated (computed rollup)
-  getConsolidated: () => request("/consolidated"),
-  getSummary: () => request("/consolidated/summary"),
+  // Consolidated (computed rollup) — now surfaced on the Dashboard page,
+  // with an optional date-range pill (see Dashboard.jsx's RANGES list).
+  getConsolidated: (range) => request(`/consolidated${range ? `?range=${range}` : ""}`),
+  getSummary: (range) => request(`/consolidated/summary${range ? `?range=${range}` : ""}`),
+  getMyPerformance: (range) => request(`/consolidated/me${range ? `?range=${range}` : ""}`),
   archiveDashboard: (label) => request("/consolidated/archive", { method: "POST", body: JSON.stringify({ label }) }),
   getArchives: () => request("/consolidated/archive"),
   removeArchive: (id) => request(`/consolidated/archive/${id}`, { method: "DELETE" }),

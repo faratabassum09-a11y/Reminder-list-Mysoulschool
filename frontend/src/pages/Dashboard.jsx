@@ -1,31 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
+import SortableTh from "../components/SortableTh.jsx";
+import TableScrollControls from "../components/TableScrollControls.jsx";
+import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
 import { useToast } from "../components/Toast.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { sortRows, toggleSort } from "../utils/sortRows.js";
+import { chipStyleFromString } from "../utils/colorFromString.js";
+import { downloadCsv } from "../utils/csv.js";
+import { RANGES } from "../utils/dateRanges.js";
 
 export default function Dashboard() {
   const { isAdmin } = useAuth();
+  const [range, setRange] = useState("");
   const [summary, setSummary] = useState(null);
+  const [people, setPeople] = useState(null);
   const [archives, setArchives] = useState(null);
   const [archiving, setArchiving] = useState(false);
   const [error, setError] = useState("");
+  const [peopleError, setPeopleError] = useState("");
+  const [sort, setSort] = useState({ key: null, dir: 1 });
   const toast = useToast();
+  const peopleTableRef = useRef(null);
+  useTableHotkeys(peopleTableRef);
 
   const loadArchives = () => api.getArchives().then(setArchives).catch(() => {});
 
+  // Cards and the per-person table both re-fetch whenever the selected
+  // date range changes — the range applies to both together, since they're
+  // two views of the same underlying rollup.
   useEffect(() => {
-    api.getSummary().then(setSummary).catch((e) => setError(e.message));
+    setSummary(null);
+    setPeople(null);
+    api.getSummary(range).then(setSummary).catch((e) => setError(e.message));
+    api.getConsolidated(range).then(setPeople).catch((e) => setPeopleError(e.message));
+  }, [range]);
+
+  useEffect(() => {
     loadArchives();
   }, []);
 
   const pct = summary?.total ? Math.round((summary.onTime / summary.total) * 100) : 0;
+  const sortedPeople = useMemo(() => sortRows(people, sort), [people, sort]);
+
+  const exportPeopleCsv = () => {
+    downloadCsv(
+      "consolidated.csv",
+      ["Name", "Department", "Total", "On Time", "Delayed", "Pending", "On-Time %"],
+      sortedPeople.map((r) => [r.name, r.department, r.total, r.onTime, r.delayed, r.pending, `${Math.round(r.onTimePercent)}%`])
+    );
+  };
 
   // Logs the current totals as a dated snapshot — the equivalent of the
   // original's weekly "archive" button. Unlike the original, this never
   // resets the live numbers; Master is one continuous dataset here, not a
   // sheet that gets wiped each week, so archiving is just a history log.
+  // Always logs the all-time totals (see routes/consolidated.js), so a
+  // snapshot means the same thing regardless of which range pill happens
+  // to be selected when the button is clicked.
   const archiveNow = async () => {
     setArchiving(true);
     try {
@@ -56,13 +90,27 @@ export default function Dashboard() {
         meta={
           isAdmin && (
             <button type="button" className="link-btn generate-btn" disabled={archiving} onClick={archiveNow}
-              title="Log today's totals to the Archive below">
+              title="Log today's all-time totals to the Archive below">
               {archiving ? "Saving…" : "📸 Archive Snapshot"}
             </button>
           )
         }
       />
       {error && <p className="error">{error}</p>}
+
+      <div className="range-pills" role="group" aria-label="Date range">
+        {RANGES.map((r) => (
+          <button
+            key={r.value || "all"}
+            type="button"
+            className={"range-pill" + (range === r.value ? " range-pill-active" : "")}
+            aria-pressed={range === r.value}
+            onClick={() => setRange(r.value)}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
 
       <div className="cards">
         {[
@@ -95,6 +143,9 @@ export default function Dashboard() {
           </thead>
           <tbody>
             {!summary && <TableSkeleton columns={5} rows={5} />}
+            {summary?.byDepartment.length === 0 && (
+              <tr><td colSpan={5} className="empty-state">No task activity in this range.</td></tr>
+            )}
             {summary?.byDepartment.map((d) => (
               <tr key={d._id}>
                 <td>{d._id}</td>
@@ -108,8 +159,61 @@ export default function Dashboard() {
         </table>
       </div>
 
+      <PageHeader
+        title="Per-Person Breakdown"
+        subtitle="Consolidated rollup by doer, computed live from Master — no duplicate data entry"
+        meta={people && (
+          <>
+            <span className="chip"><strong>{people.length}</strong> doers</span>
+            {people.length > 0 && (
+              <button type="button" className="link-btn generate-btn" onClick={exportPeopleCsv} style={{ marginLeft: 8 }}>
+                ⬇ Export CSV
+              </button>
+            )}
+          </>
+        )}
+      />
+      {peopleError && <p className="error">{peopleError}</p>}
+      <div className="table-panel">
+        <div className="table-wrap" ref={peopleTableRef}>
+          <table className="table">
+            <thead>
+              <tr>
+                <th className="col-sno">S.No</th>
+                <SortableTh label="Name" sortKey="name" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="Department" sortKey="department" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="Total" sortKey="total" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="On Time" sortKey="onTime" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="Delayed" sortKey="delayed" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="Pending" sortKey="pending" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+                <SortableTh label="On-Time %" sortKey="onTimePercent" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
+              </tr>
+            </thead>
+            <tbody>
+              {!people && <TableSkeleton columns={8} rows={8} />}
+              {people && people.length === 0 && (
+                <tr><td colSpan={8} className="empty-state">No task activity in this range.</td></tr>
+              )}
+              {sortedPeople?.map((r, i) => (
+                <tr key={r._id}>
+                  <td>{i + 1}</td>
+                  <td>{r.name}</td>
+                  <td><span className="dept-chip" style={chipStyleFromString(r.department)}>{r.department}</span></td>
+                  <td>{r.total.toLocaleString()}</td>
+                  <td>{r.onTime.toLocaleString()}</td>
+                  <td>{r.delayed.toLocaleString()}</td>
+                  <td>{r.pending.toLocaleString()}</td>
+                  <td>{Math.round(r.onTimePercent)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {people && people.length > 8 && <TableScrollControls targetRef={peopleTableRef} />}
+      </div>
+
       <h2>Archive</h2>
-      <p className="form-hint">Point-in-time snapshots of the totals above — nothing here affects the live numbers.</p>
+      <p className="form-hint">Point-in-time snapshots of the all-time totals — nothing here affects the live numbers or changes with the date range above.</p>
       <div className="table-wrap">
         <table className="table">
           <thead>
