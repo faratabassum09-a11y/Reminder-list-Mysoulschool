@@ -72,6 +72,10 @@ export const api = {
   createMaster: (data) => request("/master", { method: "POST", body: JSON.stringify(data) }),
   completeMaster: (id, actual) =>
     request(`/master/${id}/complete`, { method: "PATCH", body: JSON.stringify({ actual }) }),
+  submitDone: (id, data) => request(`/master/${id}/submit-done`, { method: "POST", body: JSON.stringify(data) }),
+  getProof: (id) => request(`/master/${id}/proof`),
+  rejectMaster: (id, reason) => request(`/master/${id}/reject`, { method: "PATCH", body: JSON.stringify({ reason }) }),
+  getReviewCount: () => request("/master/review-count"),
   removeMaster: (id) => request(`/master/${id}`, { method: "DELETE" }),
   generateUpcoming: (force) => request(`/master/generate-upcoming${force ? "?force=1" : ""}`, { method: "POST" }),
   dedupeMaster: () => request("/master/dedupe", { method: "POST" }),

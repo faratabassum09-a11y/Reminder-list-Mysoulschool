@@ -13,6 +13,23 @@ const taskInstanceSchema = new mongoose.Schema(
       enum: ["Pending", "On Time", "Delayed"],
       default: "Pending",
     },
+    // "My task is done" request from the doer, with proof. It does NOT
+    // complete the task — an admin reviews the proof and clicks Mark
+    // Complete (which sets `actual`), or rejects it back to the doer.
+    submission: {
+      // "approved" is set once an admin reviews a "submitted" proof and
+      // clicks Mark Complete/Approve — it's a permanent record of the
+      // outcome (kept on the row forever, never deleted) so both the admin
+      // and the doer can see "Approved" vs "Rejected" at a glance, not just
+      // infer it from whether `actual` happens to be set.
+      state: { type: String, enum: ["none", "submitted", "approved", "rejected"], default: "none" },
+      at: { type: Date, default: null },
+      by: { type: String, default: "" },
+      note: { type: String, default: "", maxlength: 2000 },
+      link: { type: String, default: "", maxlength: 1000 },
+      image: { type: String, default: "" }, // resized JPEG/PNG data URL
+      rejectReason: { type: String, default: "", maxlength: 500 },
+    },
   },
   { timestamps: true }
 );
@@ -34,11 +51,5 @@ taskInstanceSchema.pre("save", function (next) {
 taskInstanceSchema.index({ planned: -1 });
 taskInstanceSchema.index({ doer: 1, planned: -1 });
 taskInstanceSchema.index({ status: 1, planned: -1 });
-// Performance/rollup queries (Dashboard, Consolidated, Account) now match
-// on `actual` as well as `planned` (an early-completed task should count
-// even if its planned date is still ahead) — index it so that branch of
-// the query stays index-backed instead of a collection scan as Master
-// grows past 59k+ rows.
-taskInstanceSchema.index({ actual: -1 });
 
 export default mongoose.model("TaskInstance", taskInstanceSchema);

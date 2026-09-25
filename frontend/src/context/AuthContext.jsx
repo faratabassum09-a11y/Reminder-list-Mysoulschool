@@ -6,6 +6,14 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // True once the very first /auth/me is taking noticeably longer than a
+  // warm request should — almost always a free-tier backend (Render, etc.)
+  // spinning back up after going idle, which can take 30-50s. There's
+  // nothing the frontend can do to make that faster, but telling the
+  // person what's happening turns "is this broken?" into "oh, it's just
+  // waking up" — see the slow-start note in Login.jsx for the real fix
+  // (a keep-alive ping) if this happens often.
+  const [slow, setSlow] = useState(false);
 
   // On first load, if a token is already stored (from a previous visit),
   // confirm it's still valid and fetch who's signed in — otherwise the
@@ -16,11 +24,16 @@ export function AuthProvider({ children }) {
       setLoading(false);
       return;
     }
+    const slowTimer = setTimeout(() => setSlow(true), 3500);
     api
       .me()
       .then((res) => setUser(res.user))
       .catch(() => {})
-      .finally(() => setLoading(false));
+      .finally(() => {
+        clearTimeout(slowTimer);
+        setLoading(false);
+      });
+    return () => clearTimeout(slowTimer);
   }, []);
 
   // Registered once — any API call anywhere that comes back 401 (expired
@@ -46,7 +59,7 @@ export function AuthProvider({ children }) {
   const updateProfile = (patch) => setUser((u) => (u ? { ...u, ...patch } : u));
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile, isAdmin: user?.role === "admin" }}>
+    <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin" }}>
       {children}
     </AuthContext.Provider>
   );

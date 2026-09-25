@@ -1,3 +1,4 @@
+import { usePolling } from "../hooks/usePolling.js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
@@ -37,6 +38,12 @@ export default function Dashboard() {
     api.getSummary(range).then(setSummary).catch((e) => setError(e.message));
     api.getConsolidated(range).then(setPeople).catch((e) => setPeopleError(e.message));
   }, [range]);
+
+  // Keep the numbers live when admins approve tasks elsewhere.
+  usePolling(() => {
+    api.getSummary(range).then(setSummary).catch(() => {});
+    api.getConsolidated(range).then(setPeople).catch(() => {});
+  }, 20000);
 
   useEffect(() => {
     loadArchives();
@@ -197,7 +204,14 @@ export default function Dashboard() {
               {sortedPeople?.map((r, i) => (
                 <tr key={r._id}>
                   <td>{i + 1}</td>
-                  <td>{r.name}</td>
+                  <td>
+                    {r.total > 0 && r.rank <= 3 && (
+                      <span className="rank-medal" title={`#${r.rank} on-time rate`}>
+                        {r.rank === 1 ? "🥇" : r.rank === 2 ? "🥈" : "🥉"}
+                      </span>
+                    )}
+                    {r.name}
+                  </td>
                   <td><span className="dept-chip" style={chipStyleFromString(r.department)}>{r.department}</span></td>
                   <td>{r.total.toLocaleString()}</td>
                   <td>{r.onTime.toLocaleString()}</td>

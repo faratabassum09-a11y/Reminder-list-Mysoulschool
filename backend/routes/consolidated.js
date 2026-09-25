@@ -58,30 +58,6 @@ function getDateRange(key) {
   }
 }
 
-// Recurring tasks are pre-generated for months ahead, so an unbounded "all
-// time" query counting every generated row would count hundreds of
-// not-yet-due occurrences as part of the denominator — someone can look bad
-// purely because the system already created next quarter's reminders for
-// them, not because they've actually missed anything. So a task only
-// "counts" toward the score once it's either (a) actually due — planned
-// date has passed (or falls inside the requested range) — or (b) already
-// completed, even if that happened ahead of its planned date (a doer who
-// knocks out next week's task today shouldn't have it sit invisible until
-// the due date arrives before it shows as On Time). A range entirely in
-// the future (e.g. "Next Week") with nothing completed early then still
-// correctly yields no scored tasks rather than a misleading 0%.
-function scoreMatch(rangeKey) {
-  const range = getDateRange(rangeKey);
-  const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
-  const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
-  const plannedFilter = { $lt: end };
-  if (range) plannedFilter.$gte = range.start;
-  // Within a bounded range, an early/late completion only counts if it
-  // actually happened inside that range; "all time" has no such bound.
-  const actualFilter = range ? { $ne: null, $gte: range.start, $lt: range.end } : { $ne: null };
-  return { $or: [{ planned: plannedFilter }, { actual: actualFilter }] };
-}
-
 // Both routes below used to $lookup + $unwind the ~59k-row Master collection
 // against Doers on every request — that expands into ~59k joined documents
 // before it can even start grouping, which is the main reason Consolidated
@@ -89,11 +65,25 @@ function scoreMatch(rangeKey) {
 // group Master by doer id first (cheap, uses the doer_1_planned_-1 index)
 // and then join names/departments from an in-memory map instead — same
 // result, one pass over Master instead of a full join.
+//
+// scoreMode: recurring tasks are pre-generated for months ahead, so an
+// unbounded "all time" query counts hundreds of not-yet-due occurrences as
+// part of the denominator — someone can look bad purely because the system
+// already created next quarter's reminders for them, not because they've
+// actually missed anything. When scoreMode is true, the upper bound of
+// whatever range was requested (or "no range" = unbounded) is capped at
+// the end of today, so only tasks that have actually come due are counted.
+// A range entirely in the future (e.g. "Next Week") then correctly yields
+// no scored tasks rather than a misleading 0%.
 async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
   const range = getDateRange(rangeKey);
   let matchStage = [];
   if (scoreMode) {
-    matchStage = [{ $match: scoreMatch(rangeKey) }];
+    const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
+    const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
+    const plannedFilter = { $lt: end };
+    if (range) plannedFilter.$gte = range.start;
+    matchStage = [{ $match: { planned: plannedFilter } }];
   } else if (range) {
     matchStage = [{ $match: { planned: { $gte: range.start, $lt: range.end } } }];
   }
@@ -120,7 +110,8 @@ async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
 
 // Consolidated (per-person) rollup, merged into the Dashboard page — not a
 // duplicated sheet, computed live. Optional ?range= narrows it to one of
-// the Dashboard's date-range pills; omit for all-time.
+// the Dashboard's date-range pills; omit for all-time. scoreMode is always
+// on here since every row carries an onTimePercent (see rollupByDoer).
 router.get("/", async (req, res) => {
   const { doerMap, statusCounts } = await rollupByDoer(req.query.range, { scoreMode: true });
 
@@ -143,6 +134,14 @@ router.get("/", async (req, res) => {
     .filter(Boolean)
     .sort((a, b) => b.onTimePercent - a.onTimePercent);
 
+  // Rank is assigned after sorting, and ties share a rank (standard
+  // competition ranking: 1, 2, 2, 4 — not 1, 2, 2, 3) so two people with
+  // an identical on-time rate are both shown in 1st rather than one being
+  // arbitrarily bumped down by sort order alone.
+  rows.forEach((r, i) => {
+    r.rank = i > 0 && rows[i - 1].onTimePercent === r.onTimePercent ? rows[i - 1].rank : i + 1;
+  });
+
   res.json(rows);
 });
 
@@ -150,7 +149,8 @@ router.get("/", async (req, res) => {
 // scoped to just the signed-in user's Doer record (matched by email, same
 // convention as requireOwnDoerOrAdmin in routes/master.js). Powers the
 // "Your Performance" section on the Account page. Same ?range= support as
-// every other Consolidated endpoint.
+// every other Consolidated endpoint. Always scored against tasks due up to
+// today only — see rollupByDoer's scoreMode for why.
 router.get("/me", async (req, res) => {
   const doer = await Doer.findOne({ email: req.user.email }).lean();
   if (!doer) {
@@ -159,7 +159,12 @@ router.get("/me", async (req, res) => {
     return res.json({ doer: null, total: 0, onTime: 0, delayed: 0, pending: 0, onTimePercent: 0 });
   }
 
-  const match = { doer: doer._id, ...scoreMatch(req.query.range) };
+  const range = getDateRange(req.query.range);
+  const cutoff = addDays(startOfDay(new Date()), 1);
+  const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
+  const plannedFilter = { $lt: end };
+  if (range) plannedFilter.$gte = range.start;
+  const match = { doer: doer._id, planned: plannedFilter };
 
   const [row] = await TaskInstance.aggregate([
     { $match: match },
@@ -189,7 +194,11 @@ router.get("/me", async (req, res) => {
   });
 });
 
-// Overall dashboard summary (for cards / charts). Same ?range= support.
+// Overall dashboard summary (for cards / charts). Same ?range= support,
+// same scoreMode cutoff as the per-doer rollup — otherwise the "On-Time
+// Rate" card would be diluted by every not-yet-due recurring occurrence
+// in the system, and "Pending" would mean "scheduled at all" instead of
+// "actually waiting on someone right now".
 router.get("/summary", async (req, res) => {
   const { doerMap, statusCounts } = await rollupByDoer(req.query.range, { scoreMode: true });
 
@@ -226,7 +235,7 @@ router.get("/summary", async (req, res) => {
 // is selected on the Dashboard at the moment — a snapshot is meant to be a
 // consistent running record, not affected by what someone was filtering.
 router.post("/archive", requireAdmin, async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer(undefined, { scoreMode: true });
+  const { doerMap, statusCounts } = await rollupByDoer();
   let total = 0, onTime = 0, delayed = 0, pending = 0;
   for (const row of statusCounts) {
     total += row.total;

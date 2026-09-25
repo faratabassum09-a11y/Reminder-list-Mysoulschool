@@ -31,19 +31,71 @@
   --bad-bg: #fbeae7;
   --warn: #a86b0c;
   --warn-bg: #faf1de;
+  --review: #5a3fb4;
+  --review-bg: #e9e3fb;
+  --approved: #0f7a52;
+  --approved-bg: #dcf5e9;
+
+  --check-bg: #fff7e6;
+  --check-border: #f0d49a;
+  --check-text: #7a4a06;
+  --check-accent: #e0912b;
 
   --radius: 10px;
   --radius-sm: 7px;
   --shadow-panel: 0 1px 1px rgba(23, 26, 33, 0.03), 0 1px 3px rgba(23, 26, 33, 0.04);
+
+  color-scheme: light;
 
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-feature-settings: "tnum" 1, "cv05" 1;
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---------------------------------------------------------------------
+   Dark mode
+   Same tokens, re-pointed at a dark palette — everything downstream reads
+   the variables above, so the vast majority of the UI adapts for free.
+   Toggled by adding data-theme="dark" to <html> (see ThemeContext).
+------------------------------------------------------------------------*/
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ink: #e7e9f0;
+  --paper: #10121a;
+  --panel: #191c27;
+  --panel-alt: #212433;
+  --line: #2c303f;
+  --line-strong: #3a3f52;
+  --muted: #9aa2b7;
+  --faint: #6b7286;
+
+  --accent: #6ea0e8;
+  --accent-dark: #8fb6ee;
+  --accent-light: rgba(110, 160, 232, 0.16);
+  --accent-2: #a48ae8;
+
+  --good: #3fcf8e;
+  --good-bg: rgba(63, 207, 142, 0.14);
+  --bad: #f47469;
+  --bad-bg: rgba(244, 116, 105, 0.15);
+  --warn: #e7b455;
+  --warn-bg: rgba(231, 180, 85, 0.14);
+  --review: #b6a2f7;
+  --review-bg: rgba(154, 127, 224, 0.18);
+  --approved: #46dba0;
+  --approved-bg: rgba(70, 219, 160, 0.15);
+
+  --check-bg: rgba(224, 145, 43, 0.14);
+  --check-border: rgba(224, 145, 43, 0.35);
+  --check-text: #f0c98a;
+  --check-accent: #e0912b;
+
+  --shadow-panel: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
 * { box-sizing: border-box; }
-html { color-scheme: light; }
-body { margin: 0; background: var(--paper); color: var(--ink); }
+body { margin: 0; background: var(--paper); color: var(--ink); transition: background 0.2s ease, color 0.2s ease; }
 
 a { color: var(--accent); }
 
@@ -253,8 +305,8 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
   font-weight: 500;
   width: 1%;
 }
-.table-wrap:not(.no-zebra) .table tbody tr:nth-child(even) { background: #fbfcfd; }
-.table-wrap:not(.no-zebra) .table tbody tr:nth-child(even):hover { background: var(--panel-alt); }
+.table-wrap:not(.no-zebra) .table tbody tr:nth-child(even) { background: var(--panel-alt); }
+.table-wrap:not(.no-zebra) .table tbody tr:nth-child(even):hover { background: var(--line); }
 
 /* A long task name or email list shouldn't be able to push the rest of the
    row's columns out of view — clip it with an ellipsis and let title="" on
@@ -426,6 +478,7 @@ h2 { font-size: 15px; font-weight: 700; margin: 34px 0 12px; }
 .badge-good { background: var(--good-bg); color: var(--good); }
 .badge-bad { background: var(--bad-bg); color: var(--bad); }
 .badge-neutral { background: var(--warn-bg); color: var(--warn); }
+.badge-approved { background: var(--approved-bg); color: var(--approved); font-weight: 700; }
 
 /* ---------------------------------------------------------------------
    Forms / toolbar
@@ -603,6 +656,7 @@ a.generate-btn { display: inline-block; text-decoration: none; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 18px 20px;
+  box-shadow: var(--shadow-panel);
 }
 .settings-card h3 { margin: 0 0 6px; font-size: 15px; }
 .settings-hint { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
@@ -742,6 +796,7 @@ a.generate-btn { display: inline-block; text-decoration: none; }
    Avatars & colored chips
 ------------------------------------------------------------------------*/
 .name-cell { display: flex; align-items: center; gap: 10px; }
+.rank-medal { margin-right: 6px; font-size: 15px; }
 .avatar {
   width: 26px; height: 26px;
   border-radius: 50%;
@@ -962,8 +1017,36 @@ a.generate-btn { display: inline-block; text-decoration: none; }
    Login page
 ------------------------------------------------------------------------*/
 .auth-loading {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  color: var(--muted); font-size: 14px;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px;
+  background: linear-gradient(190deg, var(--sidebar-bg-top), var(--sidebar-bg-bottom));
+  color: #e7e9ef; font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+.auth-loading-mark {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 15px; letter-spacing: -0.02em; color: #fff;
+  box-shadow: 0 8px 24px rgba(44, 90, 160, 0.35);
+}
+.auth-loading-spinner {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.18);
+  border-top-color: #fff;
+  animation: auth-spin 0.8s linear infinite;
+}
+@keyframes auth-spin { to { transform: rotate(360deg); } }
+.auth-loading-text { font-weight: 600; color: #e7e9ef; }
+.auth-loading-hint {
+  max-width: 300px; font-size: 12.5px; color: #a7adbb; line-height: 1.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-loading-spinner { animation: none; border-top-color: rgba(255,255,255,0.5); }
 }
 .login-page {
   min-height: 100vh;
@@ -1002,6 +1085,15 @@ a.generate-btn { display: inline-block; text-decoration: none; }
 .login-form button:disabled { opacity: 0.6; cursor: wait; }
 .login-error { color: var(--bad); font-size: 12.5px; margin: -4px 0 0; }
 .login-hint { margin: 18px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+.login-btn-busy { display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: 100%; }
+.btn-spinner {
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: auth-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+.login-slow-hint { margin: -6px 0 0; font-size: 11.5px; color: var(--muted); text-align: center; line-height: 1.5; }
 
 /* ---------------------------------------------------------------------
    Roles & permission hints
@@ -1030,12 +1122,334 @@ a.generate-btn { display: inline-block; text-decoration: none; }
 .stacked-form input {
   padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
   font-family: inherit; font-size: 13.5px;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.stacked-form input:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light);
 }
 .stacked-form button {
   align-self: flex-start;
   background: var(--accent); color: #fff; border: none;
   padding: 9px 18px; border-radius: var(--radius-sm);
   font-weight: 600; font-size: 13.5px; cursor: pointer;
+  transition: background 0.12s ease, transform 0.08s ease;
 }
 .stacked-form button:hover:not(:disabled) { background: var(--accent-dark); }
-.stacked-form button:disabled { opacity: 0.6; cursor: wait; }
+.stacked-form button:active:not(:disabled) { transform: translateY(1px); }
+.stacked-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ---------------------------------------------------------------------
+   Account page — hero card, tabs, and richer form styling
+------------------------------------------------------------------------*/
+.account-page { max-width: 760px; }
+
+.account-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, var(--sidebar-bg-top), var(--sidebar-bg-bottom));
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  color: #fff;
+}
+.account-hero-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(420px 200px at 8% -10%, rgba(109, 79, 192, 0.45), transparent 60%),
+    radial-gradient(360px 220px at 100% 120%, rgba(44, 90, 160, 0.5), transparent 60%);
+  pointer-events: none;
+}
+.account-hero-avatar {
+  position: relative;
+  width: 68px; height: 68px;
+  font-size: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+.account-hero-info { position: relative; min-width: 0; flex: 1; }
+.account-hero-name {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+}
+.role-pill {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 3px 9px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14); color: #dfe3ea;
+}
+.role-pill-admin { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; }
+.account-hero-email { font-size: 13px; color: #c3c8d4; margin-top: 4px; }
+.account-hero-since { font-size: 12px; color: #9aa2b1; margin-top: 6px; }
+.account-hero-grade {
+  position: relative;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  flex-shrink: 0;
+}
+.account-hero-grade-label { font-size: 10.5px; color: #9aa2b1; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.account-tabs {
+  display: flex; gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.account-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 4px;
+  margin-right: 18px;
+  border: none; background: none; cursor: pointer;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+.account-tab:hover { color: var(--ink); }
+.account-tab-active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.account-panel { max-width: 460px; animation: account-panel-in 0.15s ease; }
+.account-panel-wide { max-width: 640px; }
+@keyframes account-panel-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.account-form label { position: relative; }
+.field-hint { font-size: 11.5px; color: var(--faint); font-weight: 500; margin-top: -2px; }
+.field-hint-good { color: var(--good); }
+.field-hint-bad { color: var(--faint); }
+
+.account-form-actions { display: flex; align-items: center; gap: 12px; }
+.account-unsaved {
+  font-size: 12px; color: var(--warn); font-weight: 600;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.account-unsaved::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--warn);
+}
+
+.pw-strength { display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 600; margin-top: -2px; }
+.pw-strength-bars { display: inline-flex; gap: 3px; }
+.pw-strength-bar { width: 20px; height: 4px; border-radius: 999px; transition: background 0.15s ease; }
+
+.perf-layout { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.perf-ring-block { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.progress-ring-label { font-size: 18px; font-weight: 800; fill: var(--ink); font-family: inherit; }
+.perf-ring-caption { font-size: 11.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.perf-cards { flex: 1; min-width: 240px; }
+
+@media (max-width: 640px) {
+  .account-hero { flex-wrap: wrap; }
+  .account-hero-grade { align-items: flex-start; width: 100%; }
+  .perf-layout { justify-content: center; text-align: center; }
+}
+
+.perf-note {
+  font-size: 11.5px; color: var(--muted); margin: -10px 0 14px;
+  background: var(--panel-2, rgba(44, 90, 160, 0.06)); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 8px 11px; line-height: 1.5;
+}
+.perf-cards-block { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 14px; }
+.perf-distribution { display: flex; flex-direction: column; gap: 6px; }
+.perf-distribution-bar {
+  display: flex; width: 100%; height: 10px; border-radius: 999px; overflow: hidden;
+  background: var(--line);
+}
+.perf-distribution-segment { height: 100%; transition: width 0.5s ease; }
+.perf-distribution-legend { display: flex; gap: 16px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+.perf-distribution-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.perf-distribution-legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+/* =====================================================================
+   v7 — proof-of-completion flow, logo, and UI polish
+======================================================================*/
+.logo { display: block; flex-shrink: 0; filter: drop-shadow(0 3px 10px rgba(109, 79, 192, 0.45)); }
+.auth-logo { animation: logo-pulse 1.6s ease-in-out infinite; }
+@keyframes logo-pulse { 50% { transform: scale(1.07); } }
+
+/* Status + action pills */
+.badge-review { background: var(--review-bg); color: var(--review); }
+.btn-pill {
+  border: none; cursor: pointer; font: inherit; font-size: 12.5px; font-weight: 600;
+  padding: 6px 13px; border-radius: 999px; color: #fff;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  box-shadow: 0 2px 8px rgba(76, 79, 192, 0.3);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-pill:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(76, 79, 192, 0.38); }
+.btn-pill-review { background: linear-gradient(135deg, #e0912b, #d4691f); box-shadow: 0 2px 8px rgba(212, 105, 31, 0.32); }
+.nav-count {
+  margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
+  background: #e5484d; color: #fff; font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+  animation: count-pop 0.3s ease;
+}
+@keyframes count-pop { from { transform: scale(0.4); } }
+
+/* Modal */
+.modal-scrim {
+  position: fixed; inset: 0; z-index: 100; padding: 20px;
+  background: rgba(14, 17, 27, 0.55); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  animation: fade-in 0.15s ease;
+}
+.modal {
+  width: min(520px, 100%); max-height: 90vh; overflow: auto;
+  background: var(--panel); border-radius: 16px; padding: 22px 24px 20px;
+  box-shadow: 0 24px 60px rgba(10, 12, 24, 0.35);
+  animation: modal-in 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
+.modal-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.modal-head h3 { margin: 0; font-size: 18px; }
+.modal-sub { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+.modal-x { background: none; border: none; font-size: 26px; line-height: 1; color: var(--muted); cursor: pointer; }
+.modal-field { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.modal-field textarea, .modal-field input:not([type="file"]) {
+  font: inherit; font-weight: 400; padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); resize: vertical;
+}
+.modal-field textarea:focus, .modal-field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.modal-alert { background: var(--warn-bg); color: var(--warn); padding: 9px 12px; border-radius: var(--radius-sm); font-size: 13px; }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn-ghost.danger { color: var(--bad); border-color: var(--bad); }
+.proof-img { max-width: 100%; max-height: 300px; border-radius: 10px; border: 1px solid var(--line); margin: 6px 0 10px; display: block; }
+.proof-meta { color: var(--muted); font-size: 13px; }
+.proof-note { background: var(--panel-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 12px; white-space: pre-wrap; margin-bottom: 10px; }
+
+/* Polish */
+body { background: radial-gradient(1200px 500px at 85% -10%, var(--bg-glow, #e4defa) 0%, transparent 60%), var(--paper); }
+:root[data-theme="dark"] body { --bg-glow: rgba(109, 79, 192, 0.16); }
+.card, .table-panel, .account-hero { transition: box-shadow 0.18s ease, transform 0.18s ease; }
+.table-panel { border-radius: 14px; box-shadow: 0 6px 24px rgba(23, 26, 33, 0.06); }
+.table th { position: sticky; top: 0; z-index: 1; }
+.sidebar { box-shadow: 4px 0 24px rgba(10, 12, 24, 0.18); }
+.nav-link.active { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.page > * { animation: page-in 0.3s ease both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(6px); } }
+.login-page { background: radial-gradient(900px 500px at 15% 10%, #3a2f7a 0%, transparent 60%), radial-gradient(800px 500px at 90% 90%, #1c4b8a 0%, transparent 60%), #12141d; }
+.login-card { backdrop-filter: blur(10px); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-pill):not(.mobile-menu-btn):not(.sidebar-logout):not(.account-tab):not(.table-scroll-btns button):active { transform: translateY(1px); }
+
+/* Admin "your turn to check" cues */
+.row-needs-check, .table-wrap .table tbody tr.row-needs-check { background: var(--check-bg) !important; box-shadow: inset 4px 0 0 var(--check-accent); }
+/* Persistent, permanent review-outcome cues — the row is never deleted or
+   hidden after an admin acts on it, it just picks up a lasting tint so the
+   Approved/Rejected status reads at a glance in the table too. */
+.row-rejected, .table-wrap .table tbody tr.row-rejected { background: var(--bad-bg) !important; box-shadow: inset 4px 0 0 var(--bad); }
+.row-approved, .table-wrap .table tbody tr.row-approved { box-shadow: inset 4px 0 0 var(--approved); }
+.check-banner { background: var(--check-bg); border: 1px solid var(--check-border); color: var(--check-text); padding: 10px 13px; border-radius: var(--radius-sm); font-size: 13.5px; margin-bottom: 12px; }
+.check-alert {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+  margin: 0 0 14px; padding: 12px 16px; border-radius: 12px; font: inherit; font-size: 14px;
+  background: var(--check-bg); color: var(--check-text); border: 1px solid var(--check-border);
+}
+.check-alert:hover { box-shadow: 0 6px 18px rgba(224, 145, 43, 0.22); }
+.check-alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--check-accent); animation: dot-ping 1.4s ease-out infinite; }
+@keyframes dot-ping { 0% { box-shadow: 0 0 0 0 rgba(224,145,43,.6); } 100% { box-shadow: 0 0 0 10px rgba(224,145,43,0); } }
+.check-alert-cta { margin-left: auto; font-weight: 700; color: var(--check-accent); }
+
+/* ---------------------------------------------------------------------
+   Theme toggle
+------------------------------------------------------------------------*/
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #b7bdc9;
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.theme-toggle:hover { background: rgba(255, 255, 255, 0.14); color: #fff; transform: rotate(14deg); }
+.theme-toggle svg { transition: transform 0.25s ease, opacity 0.2s ease; }
+
+/* ---------------------------------------------------------------------
+   Polish v2 — themed scrollbars, calmer empty state, and a touch more
+   life in a couple of places that were purely static before. Everything
+   here reads the same tokens as the rest of the sheet, so it follows
+   light/dark automatically, and nothing here fights the
+   prefers-reduced-motion rule near the top of the file.
+------------------------------------------------------------------------*/
+
+/* Scrollbars default to the OS chrome everywhere else in the app; give
+   the ones people actually live in (the long Master table, the page
+   body) a slim, theme-matched bar instead of a stock gray gutter. */
+.table-wrap, html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+.table-wrap::-webkit-scrollbar, ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.table-wrap::-webkit-scrollbar-track, ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-wrap::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--panel);
+}
+.table-wrap::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:hover {
+  background: var(--faint);
+}
+
+/* A quiet checkmark above the empty-state message instead of bare text —
+   reads as "you're caught up", not "something's missing". */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fade-in 0.25s ease both;
+}
+.empty-state::before {
+  content: "✓";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--panel-alt);
+  border: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 14px;
+}
+
+/* Badges already change color instantly on every poll refresh (Pending →
+   On Time, submitted → approved, etc.) — a short transition keeps that
+   from reading as a flicker. badge-review gets a slow, gentle breathing
+   glow on top, since that's the one state that's actually waiting on a
+   person to notice it. */
+.badge {
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.badge-review {
+  animation: badge-breathe 2.2s ease-in-out infinite;
+}
+@keyframes badge-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(90, 63, 180, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(90, 63, 180, 0.12); }
+}
+:root[data-theme="dark"] .badge-review { animation-name: badge-breathe-dark; }
+@keyframes badge-breathe-dark {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(182, 162, 247, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(182, 162, 247, 0.16); }
+}
+
+/* Table rows get a soft rule-in on first paint instead of just appearing —
+   matches the page-level page-in motion elsewhere without restarting on
+   every poll (only .table tbody, not .table, so header stays put). */
+.table tbody tr {
+  animation: row-in 0.25s ease both;
+}
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(3px); }
+}

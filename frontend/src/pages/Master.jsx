@@ -5,6 +5,8 @@ import TableSkeleton from "../components/TableSkeleton.jsx";
 import TableScrollControls from "../components/TableScrollControls.jsx";
 import { useToast } from "../components/Toast.jsx";
 import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
+import ProofModal from "../components/ProofModal.jsx";
+import { usePolling } from "../hooks/usePolling.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const emptyTask = { taskName: "", department: "", frequency: "D", defaultAssignee: "", startDate: "" };
@@ -14,6 +16,19 @@ const freqLabels = {
   E1st: "1st same weekday/mo", E2nd: "2nd same weekday/mo", E3rd: "3rd same weekday/mo",
   E4th: "4th same weekday/mo", ELast: "Last same weekday/mo",
 };
+
+// "Awaiting Review" is shown instead of Pending/Delayed while a doer's proof
+// is waiting on an admin; the underlying On Time / Delayed status is only
+// decided once the admin marks it complete. Once reviewed, the row keeps a
+// permanent, explicit Approved / Rejected badge (never just deleted or left
+// to be inferred) — visible the same way to the admin and to the doer whose
+// task it is.
+function rowStatus(e) {
+  if (!e.actual && e.submission?.state === "submitted") return { label: "Marked done · needs check", cls: "badge badge-review" };
+  if (!e.actual && e.submission?.state === "rejected") return { label: "✖ Rejected · redo", cls: "badge badge-bad" };
+  if (e.submission?.state === "approved") return { label: `✔ Approved · ${e.status}`, cls: "badge badge-approved" };
+  return { label: e.status, cls: statusClass(e.status) };
+}
 
 function statusClass(s) {
   if (s === "On Time") return "badge badge-good";
@@ -34,6 +49,8 @@ export default function Master() {
   const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [error, setError] = useState("");
+  const [reviewCount, setReviewCount] = useState(0);
+  const [modal, setModal] = useState(null); // { mode, row }
   const [generating, setGenerating] = useState(false);
   const [deduping, setDeduping] = useState(false);
   const toast = useToast();
@@ -60,9 +77,14 @@ export default function Master() {
     if (filterStatus) params.set("status", filterStatus);
     if (todayOnly) params.set("today", "1");
     if (mineOnly && myDoer) params.set("doer", myDoer._id);
+    if (filterStatus === "Awaiting Review") { params.delete("status"); params.set("review", "1"); }
     api.getMaster(`?${params.toString()}`).then(setData).catch((e) => setError(e.message));
   };
   useEffect(load, [filterStatus, todayOnly, mineOnly, page]);
+  // Everyone sees approvals / submissions within seconds, no refresh needed.
+  usePolling(load, 15000);
+  const loadCount = () => { if (isAdmin) api.getReviewCount().then((r) => setReviewCount(r.count)).catch(() => {}); };
+  useEffect(loadCount, [isAdmin, data]);
   useEffect(() => setPageInput(String(page)), [page]);
 
   // Tops up Master with any due occurrences for schedule-driven tasks once
@@ -161,11 +183,6 @@ export default function Master() {
     }
   };
 
-  const complete = async (id) => {
-    await api.completeMaster(id);
-    load();
-  };
-
   const remove = async (id) => {
     await api.removeMaster(id);
     load();
@@ -181,10 +198,18 @@ export default function Master() {
     <div className="page">
       <PageHeader
         title="Master"
-        subtitle="Every reminder occurrence — Planned vs Actual, with live status"
-        meta={data.rows && <span className="chip"><strong>{data.total.toLocaleString()}</strong> rows</span>}
+        subtitle={isAdmin ? "Every reminder occurrence — Planned vs Actual, with live status" : "Your reminder occurrences — Planned vs Actual, with live status"}
+        meta={data.rows && <span className="chip"><strong>{data.total.toLocaleString()}</strong> {isAdmin ? "rows" : "of your tasks"}</span>}
       />
       {error && <p className="error">{error}</p>}
+
+      {isAdmin && reviewCount > 0 && (
+        <button type="button" className="check-alert" onClick={() => changeFilter("Awaiting Review")}>
+          <span className="check-alert-dot" />
+          <span><strong>{reviewCount}</strong> task{reviewCount === 1 ? " was" : "s were"} marked as done by the team — your turn to check.</span>
+          <span className="check-alert-cta">Show them</span>
+        </button>
+      )}
 
       {isAdmin && (
         <>
@@ -220,6 +245,7 @@ export default function Master() {
           <option value="On Time">On Time</option>
           <option value="Delayed">Delayed</option>
           <option value="Pending">Pending</option>
+          <option value="Awaiting Review">Awaiting Review</option>
         </select>
         <button
           type="button"
@@ -229,7 +255,7 @@ export default function Master() {
         >
           📅 {todayOnly ? "Showing Today's Tasks" : "Today's Tasks"}
         </button>
-        {myDoer && (
+        {isAdmin && myDoer && (
           <button
             type="button"
             className={"link-btn generate-btn" + (mineOnly ? " filter-pill-active" : "")}
@@ -274,21 +300,42 @@ export default function Master() {
               )}
               {data.rows?.map((e, i) => {
                 const canEdit = isAdmin || e.doer?.email === user?.email;
+                const rowCls =
+                  isAdmin && !e.actual && e.submission?.state === "submitted"
+                    ? "row-needs-check"
+                    : !e.actual && e.submission?.state === "rejected"
+                    ? "row-rejected"
+                    : e.submission?.state === "approved"
+                    ? "row-approved"
+                    : undefined;
                 return (
-                  <tr key={e._id}>
+                  <tr key={e._id} className={rowCls}>
                     <td>{(data.page - 1) * limit + i + 1}</td>
                     <td>{e.doer?.name}</td>
                     <td className="col-task truncate-cell" title={e.task?.taskName}>{e.task?.taskName}</td>
                     <td>{e.doer?.department}</td>
                     <td>{new Date(e.planned).toLocaleString()}</td>
                     <td>{e.actual ? new Date(e.actual).toLocaleString() : "-"}</td>
-                    <td><span className={statusClass(e.status)}>{e.status}</span></td>
+                    <td><span className={rowStatus(e).cls}>{rowStatus(e).label}</span></td>
                     <td>
                       {!e.actual && (
-                        canEdit ? (
-                          <button className="link-btn" onClick={() => complete(e._id)}>Mark Complete</button>
+                        isAdmin ? (
+                          e.submission?.state === "submitted" ? (
+                            <button className="btn-pill btn-pill-review" onClick={() => setModal({ mode: "review", row: e })}>🔍 Check · {e.doer?.name?.split(" ")[0]} marked done</button>
+                          ) : (
+                            <button className="link-btn" onClick={async () => { await api.completeMaster(e._id); load(); toast("Marked complete", "good"); }}
+                              title="Not submitted by the doer — complete it yourself">Mark Complete</button>
+                          )
+                        ) : canEdit ? (
+                          e.submission?.state === "submitted" ? (
+                            <span className="admin-only-hint" title="Waiting for an admin to check">⏳ Waiting for admin check</span>
+                          ) : (
+                            <button className="btn-pill" onClick={() => setModal({ mode: "submit", row: e })}>
+                              ✔ {e.submission?.state === "rejected" ? "Mark as done again" : "Mark as done"}
+                            </button>
+                          )
                         ) : (
-                          <span className="admin-only-hint" title="Only the assigned doer or an admin can mark this complete">🔒</span>
+                          <span className="admin-only-hint" title="Only the assigned doer or an admin can update this">🔒</span>
                         )
                       )}
                       {" "}
@@ -328,6 +375,7 @@ export default function Master() {
         </button>
         <button disabled={page >= data.pages} onClick={() => setPage(data.pages)} title="Last page">Last »</button>
       </div>
+      {modal && <ProofModal mode={modal.mode} row={modal.row} onClose={() => setModal(null)} onChanged={load} />}
     </div>
   );
 }

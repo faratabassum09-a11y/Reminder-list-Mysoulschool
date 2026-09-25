@@ -10,8 +10,12 @@ import Users from "./pages/Users.jsx";
 import Account from "./pages/Account.jsx";
 import Login from "./pages/Login.jsx";
 import ShortcutsHelp from "./components/ShortcutsHelp.jsx";
+import Logo from "./components/Logo.jsx";
+import { usePolling } from "./hooks/usePolling.js";
+import { api } from "./api.js";
 import { useSlashToFocusSearch } from "./hooks/useSlashToFocusSearch.js";
 import { useAuth } from "./context/AuthContext.jsx";
+import { useTheme } from "./context/ThemeContext.jsx";
 import { avatarStyleFromString, initials } from "./utils/colorFromString.js";
 
 const icons = {
@@ -44,8 +48,24 @@ function AdminRoute({ isAdmin, children }) {
   return isAdmin ? children : <Navigate to="/" replace />;
 }
 
+function AuthLoadingScreen({ slow }) {
+  return (
+    <div className="auth-loading">
+      <Logo size={56} className="auth-logo" />
+      <div className="auth-loading-spinner" aria-hidden="true" />
+      <div className="auth-loading-text">{slow ? "Waking up the server…" : "Loading…"}</div>
+      {slow && (
+        <div className="auth-loading-hint">
+          First load after a while can take up to a minute on a free-tier server. It'll be quick from here on.
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
-  const { user, loading, logout, isAdmin } = useAuth();
+  const { user, loading, slow, logout, isAdmin } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [collapsed, setCollapsed] = useState(
     () => localStorage.getItem("sidebar-collapsed") === "1"
   );
@@ -57,7 +77,13 @@ export default function App() {
 
   useSlashToFocusSearch();
 
-  if (loading) return <div className="auth-loading">Loading…</div>;
+  // Admin-only: how many "my task is done" requests are waiting.
+  const [reviewCount, setReviewCount] = useState(0);
+  const fetchCount = () => { if (isAdmin) api.getReviewCount().then((r) => setReviewCount(r.count)).catch(() => {}); };
+  useEffect(fetchCount, [isAdmin, user]);
+  usePolling(fetchCount, 15000);
+
+  if (loading) return <AuthLoadingScreen slow={slow} />;
   if (!user) return <Login />;
 
   const links = isAdmin ? [...baseLinks, ...adminLinks] : baseLinks;
@@ -78,7 +104,7 @@ export default function App() {
       <aside className={"sidebar" + (mobileOpen ? " mobile-open" : "")}>
         <div className="sidebar-top">
           <div className="brand">
-            <div className="brand-mark">RL</div>
+            <Logo size={36} />
             {!collapsed && (
               <div className="brand-text">
                 <div className="brand-title">Reminder List</div>
@@ -86,17 +112,37 @@ export default function App() {
               </div>
             )}
           </div>
-          <button
-            type="button"
-            className="collapse-btn"
-            onClick={() => setCollapsed((v) => !v)}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <svg viewBox="0 0 24 24" width="16" height="16" style={{ transform: collapsed ? "rotate(180deg)" : "none" }}>
-              <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </svg>
-          </button>
+          <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {theme === "dark" ? (
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="4.2" />
+                  <path d="M12 2.5v2.2M12 19.3v2.2M4.4 4.4l1.55 1.55M18.05 18.05l1.55 1.55M2.5 12h2.2M19.3 12h2.2M4.4 19.6l1.55-1.55M18.05 5.95l1.55-1.55" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+                </svg>
+              )}
+            </button>
+            <button
+              type="button"
+              className="collapse-btn"
+              onClick={() => setCollapsed((v) => !v)}
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" style={{ transform: collapsed ? "rotate(180deg)" : "none" }}>
+                <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
+            </button>
+          </div>
         </div>
         <nav>
           {links.map((l) => (
@@ -112,6 +158,7 @@ export default function App() {
                 {icons[l.icon]}
               </svg>
               {!collapsed && <span>{l.label}</span>}
+              {l.to === "/master" && isAdmin && reviewCount > 0 && <span className="nav-count" title="Tasks awaiting your review">{reviewCount}</span>}
             </NavLink>
           ))}
         </nav>

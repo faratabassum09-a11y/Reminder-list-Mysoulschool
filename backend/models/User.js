@@ -3,12 +3,13 @@ import mongoose from "mongoose";
 // Two roles:
 // - "admin": everything — delete data, manage the Doer/Task catalog,
 //   Settings, and other user accounts.
-// - "member": can view all data (Dashboard, Master, Doers, Tasks,
-//   Consolidated, Submissions — needed for team-wide visibility in a buddy
-//   system), and can mark complete / edit only Master task-instance rows
-//   assigned to their own Doer record (matched by email). Cannot add/edit
-//   Doers or Tasks (that's catalog/setup data), cannot delete anything,
-//   and cannot reach Settings or Users.
+// - "member": can view Dashboard, Doers, Tasks, Consolidated and
+//   Submissions team-wide, but Master (the reminder occurrence list) is
+//   scoped to just their own Doer record's rows (matched by email) — a
+//   member never sees another member's task instances there. They can
+//   mark complete / edit only Master rows assigned to their own Doer
+//   record. Cannot add/edit Doers or Tasks (that's catalog/setup data),
+//   cannot delete anything, and cannot reach Settings or Users.
 // Enforced in the route middleware, not just hidden in the UI — see
 // middleware/auth.js and the per-route checks in routes/master.js,
 // routes/doers.js, routes/tasks.js.

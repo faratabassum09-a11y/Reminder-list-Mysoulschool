@@ -10,10 +10,9 @@ const router = express.Router();
 // GET all doers (Doer List sheet). Every page that shows a doer's name —
 // Master, Task List, Dashboard — fetches this list, so with many people
 // using the app at once it's one of the most-repeated queries. Cached for
-// 5 minutes (in-process if REDIS_URL isn't set, shared via Redis if it is)
-// and invalidated immediately below whenever a doer is created, edited, or
-// deleted, so the cache is never more than 5 minutes stale even on a
-// cache-storage failure.
+// 5 minutes (no-op without REDIS_URL) and invalidated immediately below
+// whenever a doer is created, edited, or deleted, so the cache is never
+// more than 5 minutes stale even on a cache-storage failure.
 router.get(
   "/",
   cached("doers:all", 300, () => Doer.find().sort({ department: 1, name: 1 }).lean())

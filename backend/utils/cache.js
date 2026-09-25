@@ -1,19 +1,25 @@
 import Redis from "ioredis";
 
 // Thin cache-aside layer used to keep the app fast with many people hitting
-// it at once. Prefers Redis when REDIS_URL is set (shared across every
-// server instance, needed once you're running more than one). Without it,
-// every function below now falls back to a small in-process Map instead of
-// doing nothing — a single server instance still only pays for the
-// expensive queries (Doers, Tasks, Settings, the Master
-// "generate-upcoming" scan) once per TTL, no matter how many of the
-// hundreds of people using the app hit it in the same window. A Redis
-// that's down or unreachable falls back the same way, so a caching problem
-// can never turn into an outage.
+// it at once. Entirely optional: with no REDIS_URL set, every function
+// below is a safe no-op and the app behaves exactly as it did before —
+// same for a Redis that's down or unreachable, so a caching problem can
+// never turn into an outage.
 //
-// Set REDIS_URL to upgrade to the shared version (see .env.example) — e.g.
-// a free Redis on Upstash/Render both work fine for this. Nothing else in
-// the app needs to change either way.
+// Set REDIS_URL to enable it (see .env.example) — e.g. a free Redis on
+// Upstash/Render both work fine for this.
+
+// Throttles the "Redis error" console line to once every 60s instead of
+// once per failed command — a misconfigured/unreachable REDIS_URL used to
+// print one line per request, which is what showed up as a wall of
+// "Redis cache error" noise even though the app kept working fine.
+let lastErrorLoggedAt = 0;
+function logErrorThrottled(err) {
+  const now = Date.now();
+  if (now - lastErrorLoggedAt < 60_000) return;
+  lastErrorLoggedAt = now;
+  console.error("[cache] Redis unavailable, continuing without cache:", err.message);
+}
 
 let client;
 function getClient() {
@@ -24,52 +30,38 @@ function getClient() {
   }
   client = new Redis(process.env.REDIS_URL, {
     maxRetriesPerRequest: 1,
-    connectTimeout: 3000,
+    connectTimeout: 1500,
+    commandTimeout: 1500,
+    // Without this, a command issued while disconnected sits in an
+    // in-memory queue waiting for a (re)connect that may never succeed
+    // instead of failing right away — that queueing is what turned a bad
+    // REDIS_URL into requests hanging for seconds at a time rather than
+    // just skipping the cache. Failing fast keeps a cache problem from
+    // ever becoming a request-latency problem.
+    enableOfflineQueue: false,
     retryStrategy: (times) => (times > 3 ? null : Math.min(times * 200, 1000)),
   });
-  client.on("error", (err) => console.error("[cache] Redis error (continuing without cache):", err.message));
+  client.on("error", logErrorThrottled);
   client.on("connect", () => console.log("[cache] Redis connected"));
   return client;
 }
 
-// ---------------------------------------------------------------------
-// In-process fallback store — used whenever Redis isn't configured (or
-// errors out). Same TTL semantics as Redis (EX seconds), just local to
-// this one server process instead of shared. The app only ever caches a
-// handful of distinct keys (doers:all, tasks:all, settings:*, the
-// generate-upcoming cooldown), so this never grows large enough to need
-// its own eviction beyond "expired entries get skipped on read".
-// ---------------------------------------------------------------------
-const memoryStore = new Map(); // key -> { value, expiresAt }
-
-function memoryGet(key) {
-  const entry = memoryStore.get(key);
-  if (!entry) return undefined;
-  if (entry.expiresAt <= Date.now()) {
-    memoryStore.delete(key);
-    return undefined;
-  }
-  return entry.value;
-}
-function memorySet(key, value, ttlSeconds) {
-  memoryStore.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
-}
-function memoryDel(pattern) {
-  if (!pattern.includes("*")) {
-    memoryStore.delete(pattern);
-    return;
-  }
-  const prefix = pattern.slice(0, pattern.indexOf("*"));
-  for (const key of memoryStore.keys()) {
-    if (key.startsWith(prefix)) memoryStore.delete(key);
-  }
+// Every exported function below already fails safe on a Redis error, but
+// "fails safe" only helps if it fails *fast* — wraps any call in a hard
+// timeout so a hung connection can never make a request wait longer than
+// this, regardless of what the client's own timeouts are doing.
+function withTimeout(promise, ms, fallback) {
+  return Promise.race([
+    promise,
+    new Promise((resolve) => setTimeout(() => resolve(fallback), ms)),
+  ]);
 }
 
 export async function cacheGet(key) {
   const c = getClient();
-  if (!c) return memoryGet(key) ?? null;
+  if (!c) return null;
   try {
-    const v = await c.get(key);
+    const v = await withTimeout(c.get(key), 1500, null);
     return v ? JSON.parse(v) : null;
   } catch {
     return null;
@@ -78,9 +70,9 @@ export async function cacheGet(key) {
 
 export async function cacheSet(key, value, ttlSeconds) {
   const c = getClient();
-  if (!c) return memorySet(key, value, ttlSeconds);
+  if (!c) return;
   try {
-    await c.set(key, JSON.stringify(value), "EX", ttlSeconds);
+    await withTimeout(c.set(key, JSON.stringify(value), "EX", ttlSeconds), 1500, null);
   } catch {
     // caching is best-effort — a write failure here should never break the request
   }
@@ -89,7 +81,7 @@ export async function cacheSet(key, value, ttlSeconds) {
 // Deletes one exact key, or every key matching a "prefix:*" pattern.
 export async function cacheDel(pattern) {
   const c = getClient();
-  if (!c) return memoryDel(pattern);
+  if (!c) return;
   try {
     if (!pattern.includes("*")) {
       await c.del(pattern);
@@ -119,22 +111,15 @@ export function cached(key, ttlSeconds, loader) {
   };
 }
 
-// Simple cooldown: returns true the first time a given key is claimed
-// within `ttlSeconds`, false on every call after that until the TTL
-// expires. Shared across every server instance via Redis when configured;
-// falls back to the in-process store otherwise (see memoryStore above) —
-// either way, hundreds of people loading Master at the same moment only
-// trigger one real "generate upcoming" scan per cooldown window instead of
-// one each.
+// Simple distributed cooldown: returns true the first time a given key is
+// claimed within `ttlSeconds`, false on every call after that until the
+// TTL expires. With Redis unavailable, always returns true (unlimited —
+// matches the pre-Redis behavior of running every time).
 export async function claimCooldown(key, ttlSeconds) {
   const c = getClient();
-  if (!c) {
-    if (memoryGet(key) !== undefined) return false;
-    memorySet(key, "1", ttlSeconds);
-    return true;
-  }
+  if (!c) return true;
   try {
-    const res = await c.set(key, "1", "NX", "EX", ttlSeconds);
+    const res = await withTimeout(c.set(key, "1", "NX", "EX", ttlSeconds), 1500, "OK");
     return res === "OK";
   } catch {
     return true;

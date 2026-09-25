@@ -1,11 +1,24 @@
 import express from "express";
 import TaskInstance from "../models/TaskInstance.js";
+import Doer from "../models/Doer.js";
 import { generateAllUpcoming, dedupeTaskInstances } from "../utils/generateOccurrences.js";
 import { sendCsv } from "../utils/csv.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { claimCooldown } from "../utils/cache.js";
 
 const router = express.Router();
+
+// A member only ever sees rows assigned to their own Doer record (matched
+// by email, same pairing used everywhere else in this file). Admins see
+// everything. Returns a Mongo filter fragment to merge into the route's
+// query — { doer: <their id> } for a member, {} for an admin, and an
+// impossible match if a member is signed in but has no matching Doer
+// record yet, so they see an empty list instead of everyone else's rows.
+async function scopeToOwnDoer(req) {
+  if (req.user.role === "admin") return {};
+  const doer = await Doer.findOne({ email: req.user.email }).select("_id").lean();
+  return { doer: doer ? doer._id : "000000000000000000000000" };
+}
 
 // A member may mark complete / edit only occurrences assigned to their own
 // Doer record (matched by email — Users and Doers share the same email
@@ -31,7 +44,7 @@ async function requireOwnDoerOrAdmin(req, res, next) {
 // the current page — a plain download link, not a fetch call, so the
 // browser handles the file itself. Capped at 20k rows as a sanity limit.
 router.get("/export.csv", async (req, res) => {
-  const filter = {};
+  const filter = { ...(await scopeToOwnDoer(req)) };
   if (req.query.status) filter.status = req.query.status;
   const rows = await TaskInstance.find(filter)
     .populate("doer")
@@ -62,14 +75,11 @@ router.get("/export.csv", async (req, res) => {
 // mean every single person opening Master fired the full scan-every-task
 // routine at once — redundant work piling up under load, since nothing
 // changes between one person's load and the next person's a second later.
-// The automatic call now shares one 60-second cooldown (via Redis if
-// REDIS_URL is set, shared across every server instance; otherwise an
-// in-process cooldown that still protects a single instance — see
-// utils/cache.js): only the first load in that window does the work,
-// everyone else's load just uses what's already there. With hundreds of
-// people opening Master, that's the difference between one full scan a
-// minute and one per page load. The manual "Generate Upcoming" button
-// passes ?force=1 to bypass
+// The automatic call now shares one 60-second cooldown (via Redis — a
+// no-op without REDIS_URL, so this degrades to the old always-run
+// behavior if caching isn't configured): only the first load in that
+// window does the work, everyone else's load just uses what's already
+// there. The manual "Generate Upcoming" button passes ?force=1 to bypass
 // the cooldown, since a deliberate click should always run.
 router.post("/generate-upcoming", async (req, res) => {
   try {
@@ -107,9 +117,15 @@ router.post("/dedupe", requireAdmin, async (req, res) => {
 router.get("/", async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const limit = Math.min(Math.max(parseInt(req.query.limit) || 100, 1), 500);
-  const filter = {};
-  if (req.query.doer) filter.doer = req.query.doer;
+  const filter = { ...(await scopeToOwnDoer(req)) };
+  // Members are already locked to their own doer above; admins may still
+  // narrow further with ?doer= (e.g. picking a specific person to review).
+  if (req.query.doer && req.user.role === "admin") filter.doer = req.query.doer;
   if (req.query.status) filter.status = req.query.status;
+  if (req.query.review === "1") {
+    filter["submission.state"] = "submitted";
+    filter.actual = null;
+  }
   // "Today's Tasks" quick filter — everything planned for the current
   // calendar day (server's local time), regardless of status.
   if (req.query.today === "1") {
@@ -122,6 +138,7 @@ router.get("/", async (req, res) => {
 
   const [rows, total] = await Promise.all([
     TaskInstance.find(filter)
+      .select("-submission.image")
       .populate("doer")
       .populate("task")
       .sort({ planned: -1 })
@@ -147,24 +164,102 @@ router.post("/", requireAdmin, async (req, res) => {
   }
 });
 
-// MARK COMPLETE (sets actual = now, status auto-computed on save)
-router.patch("/:id/complete", requireOwnDoerOrAdmin, async (req, res) => {
+// Number of "my task is done" requests waiting for an admin (sidebar badge).
+router.get("/review-count", requireAdmin, async (req, res) => {
+  const count = await TaskInstance.countDocuments({ "submission.state": "submitted", actual: null });
+  res.json({ count });
+});
+
+// Full proof (including the image, which the list endpoint leaves out).
+router.get("/:id/proof", async (req, res) => {
+  const entry = await TaskInstance.findById(req.params.id).select("submission").lean();
+  if (!entry) return res.status(404).json({ error: "Not found" });
+  res.json(entry.submission || { state: "none" });
+});
+
+// DOER: "My task is done" — attaches proof and queues it for admin review.
+// Deliberately does not set `actual`; only an admin's Mark Complete does.
+router.post("/:id/submit-done", requireOwnDoerOrAdmin, async (req, res) => {
   try {
-    const entry = req._entry;
-    entry.actual = req.body.actual ? new Date(req.body.actual) : new Date();
+    const entry = req._entry || (await TaskInstance.findById(req.params.id));
+    if (!entry) return res.status(404).json({ error: "Not found" });
+    if (entry.actual) return res.status(400).json({ error: "This task is already complete" });
+    const note = String(req.body.note || "").trim();
+    const link = String(req.body.link || "").trim();
+    const image = String(req.body.image || "");
+    // Note, link and screenshot are all optional — a bare "I'm done" is valid.
+    if (link && !/^https?:\/\//i.test(link)) return res.status(400).json({ error: "Proof link must start with http:// or https://" });
+    if (image && !/^data:image\/(png|jpe?g|webp);base64,/.test(image)) return res.status(400).json({ error: "Proof image must be a PNG, JPG or WebP" });
+    if (image.length > 2_000_000) return res.status(400).json({ error: "Proof image is too large" });
+    entry.submission = { state: "submitted", at: new Date(), by: req.user.name, note, link, image, rejectReason: "" };
     await entry.save();
     const populated = await entry.populate(["doer", "task"]);
-    res.json(populated);
+    const out = populated.toObject();
+    delete out.submission.image;
+    res.json(out);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-// UPDATE (edit planned/actual manually)
+// ADMIN: MARK COMPLETE / APPROVE. If the doer submitted proof, the
+// completion time is when they said they finished (not when the admin got
+// round to reviewing), so On Time / Delayed stays fair to the doer.
+router.patch("/:id/complete", requireAdmin, async (req, res) => {
+  try {
+    const entry = await TaskInstance.findById(req.params.id);
+    if (!entry) return res.status(404).json({ error: "Not found" });
+    entry.actual = req.body.actual
+      ? new Date(req.body.actual)
+      : entry.submission?.state === "submitted" && entry.submission.at
+      ? entry.submission.at
+      : new Date();
+    // Record the approval permanently on the row itself — this never
+    // deletes or replaces the task instance, it just flips a status flag
+    // so the doer (and the admin, looking back later) can see it was
+    // reviewed and approved, not merely that it happens to have an
+    // `actual` timestamp.
+    if (entry.submission?.state === "submitted") {
+      entry.submission.state = "approved";
+      entry.submission.rejectReason = "";
+    }
+    await entry.save();
+    const populated = await entry.populate(["doer", "task"]);
+    const out = populated.toObject();
+    if (out.submission) delete out.submission.image;
+    res.json(out);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// ADMIN: send a submission back to the doer with a reason.
+router.patch("/:id/reject", requireAdmin, async (req, res) => {
+  try {
+    const entry = await TaskInstance.findById(req.params.id);
+    if (!entry) return res.status(404).json({ error: "Not found" });
+    entry.submission.state = "rejected";
+    entry.submission.rejectReason = String(req.body.reason || "").slice(0, 500);
+    await entry.save();
+    const populated = await entry.populate(["doer", "task"]);
+    const out = populated.toObject();
+    delete out.submission.image;
+    res.json(out);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// UPDATE (edit planned/actual manually). Members can't touch completion
+// fields here — that would bypass the proof + admin review flow.
 router.put("/:id", requireOwnDoerOrAdmin, async (req, res) => {
   try {
     const entry = req._entry;
-    Object.assign(entry, req.body);
+    const body = { ...req.body };
+    if (req.user.role !== "admin") {
+      delete body.actual; delete body.status; delete body.submission; delete body.doer; delete body.task;
+    }
+    Object.assign(entry, body);
     await entry.save();
     const populated = await entry.populate(["doer", "task"]);
     res.json(populated);

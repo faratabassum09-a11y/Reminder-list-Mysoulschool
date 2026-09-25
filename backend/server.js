@@ -17,6 +17,27 @@ import userRoutes from "./routes/users.js";
 import { getSettings } from "./models/Settings.js";
 import { sendDailyReminders } from "./utils/sendDailyReminders.js";
 import { requireAuth, requireAdmin } from "./middleware/auth.js";
+import TaskInstance from "./models/TaskInstance.js";
+
+// TaskInstance.status is computed once, on save (see the model's pre-save
+// hook) — a row created weeks ago with nobody having touched it since
+// stays "Pending" in the database forever, even once its due date is long
+// past, because nothing re-saves it to trigger the recompute. Left alone,
+// that means the Delayed/Pending breakdown (and anything that filters by
+// status) slowly drifts out of sync with reality. This sweeps the whole
+// collection for exactly that case — due, not done, still marked
+// Pending — and flips it to Delayed directly with an update, without
+// loading each document into memory. Cheap (one indexed query) and safe to
+// run as often as we like since it's a no-op once everything's caught up.
+async function refreshOverdueStatuses() {
+  const result = await TaskInstance.updateMany(
+    { status: "Pending", actual: null, planned: { $lt: new Date() } },
+    { $set: { status: "Delayed" } }
+  );
+  if (result.modifiedCount > 0) {
+    console.log(`[status-sweep] Marked ${result.modifiedCount} overdue task(s) as Delayed`);
+  }
+}
 
 const app = express();
 
@@ -34,7 +55,8 @@ app.use(
     origin: allowedOrigins || true,
   })
 );
-app.use(express.json());
+// Proof screenshots arrive as (client-resized) data URLs, so allow more than the 100kb default.
+app.use(express.json({ limit: "3mb" }));
 // Gzip every response — the Master and Submission Log pages return
 // hundreds-to-thousands of JSON rows and the CSV exports are much larger
 // still; compressing those cuts transfer time noticeably, especially for
@@ -91,10 +113,25 @@ cron.schedule("0 * * * *", async () => {
   }
 });
 
+// Runs on the same hourly tick as the reminder check above — keeps the
+// Delayed/Pending breakdown accurate throughout the day without needing
+// its own separate schedule.
+cron.schedule("0 * * * *", () => {
+  refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
+});
+
 mongoose
-  .connect(MONGO_URI)
+  .connect(MONGO_URI, {
+    // Default is 30s — on a slow/cold DB (e.g. a paused Atlas free-tier
+    // cluster) that meant the very first request after a while could sit
+    // for half a minute before even failing. 10s still comfortably covers
+    // a normal connect, and fails fast enough to show a real error instead
+    // of the frontend just spinning.
+    serverSelectionTimeoutMS: 10_000,
+  })
   .then(() => {
     console.log("MongoDB connected");
+    refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
