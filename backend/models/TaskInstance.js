@@ -34,5 +34,11 @@ taskInstanceSchema.pre("save", function (next) {
 taskInstanceSchema.index({ planned: -1 });
 taskInstanceSchema.index({ doer: 1, planned: -1 });
 taskInstanceSchema.index({ status: 1, planned: -1 });
+// Performance/rollup queries (Dashboard, Consolidated, Account) now match
+// on `actual` as well as `planned` (an early-completed task should count
+// even if its planned date is still ahead) — index it so that branch of
+// the query stays index-backed instead of a collection scan as Master
+// grows past 59k+ rows.
+taskInstanceSchema.index({ actual: -1 });
 
 export default mongoose.model("TaskInstance", taskInstanceSchema);

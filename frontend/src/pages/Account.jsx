@@ -141,6 +141,9 @@ export default function Account() {
         <p className="form-hint" style={{ margin: "2px 0 14px" }}>
           Your on-time record on Master, computed live — pick a range to see how you're tracking.
         </p>
+        <p className="form-hint" style={{ margin: "-8px 0 14px" }}>
+          Counts tasks that are due, plus any you've already completed early — anything still scheduled for later and not yet done is left out rather than counted against you.
+        </p>
         {perfError && <p className="error">{perfError}</p>}
 
         <div className="range-pills" role="group" aria-label="Performance range">

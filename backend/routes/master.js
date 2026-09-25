@@ -62,11 +62,14 @@ router.get("/export.csv", async (req, res) => {
 // mean every single person opening Master fired the full scan-every-task
 // routine at once — redundant work piling up under load, since nothing
 // changes between one person's load and the next person's a second later.
-// The automatic call now shares one 60-second cooldown (via Redis — a
-// no-op without REDIS_URL, so this degrades to the old always-run
-// behavior if caching isn't configured): only the first load in that
-// window does the work, everyone else's load just uses what's already
-// there. The manual "Generate Upcoming" button passes ?force=1 to bypass
+// The automatic call now shares one 60-second cooldown (via Redis if
+// REDIS_URL is set, shared across every server instance; otherwise an
+// in-process cooldown that still protects a single instance — see
+// utils/cache.js): only the first load in that window does the work,
+// everyone else's load just uses what's already there. With hundreds of
+// people opening Master, that's the difference between one full scan a
+// minute and one per page load. The manual "Generate Upcoming" button
+// passes ?force=1 to bypass
 // the cooldown, since a deliberate click should always run.
 router.post("/generate-upcoming", async (req, res) => {
   try {

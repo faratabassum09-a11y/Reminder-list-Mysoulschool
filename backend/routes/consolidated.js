@@ -58,6 +58,30 @@ function getDateRange(key) {
   }
 }
 
+// Recurring tasks are pre-generated for months ahead, so an unbounded "all
+// time" query counting every generated row would count hundreds of
+// not-yet-due occurrences as part of the denominator — someone can look bad
+// purely because the system already created next quarter's reminders for
+// them, not because they've actually missed anything. So a task only
+// "counts" toward the score once it's either (a) actually due — planned
+// date has passed (or falls inside the requested range) — or (b) already
+// completed, even if that happened ahead of its planned date (a doer who
+// knocks out next week's task today shouldn't have it sit invisible until
+// the due date arrives before it shows as On Time). A range entirely in
+// the future (e.g. "Next Week") with nothing completed early then still
+// correctly yields no scored tasks rather than a misleading 0%.
+function scoreMatch(rangeKey) {
+  const range = getDateRange(rangeKey);
+  const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
+  const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
+  const plannedFilter = { $lt: end };
+  if (range) plannedFilter.$gte = range.start;
+  // Within a bounded range, an early/late completion only counts if it
+  // actually happened inside that range; "all time" has no such bound.
+  const actualFilter = range ? { $ne: null, $gte: range.start, $lt: range.end } : { $ne: null };
+  return { $or: [{ planned: plannedFilter }, { actual: actualFilter }] };
+}
+
 // Both routes below used to $lookup + $unwind the ~59k-row Master collection
 // against Doers on every request — that expands into ~59k joined documents
 // before it can even start grouping, which is the main reason Consolidated
@@ -65,9 +89,14 @@ function getDateRange(key) {
 // group Master by doer id first (cheap, uses the doer_1_planned_-1 index)
 // and then join names/departments from an in-memory map instead — same
 // result, one pass over Master instead of a full join.
-async function rollupByDoer(rangeKey) {
+async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
   const range = getDateRange(rangeKey);
-  const matchStage = range ? [{ $match: { planned: { $gte: range.start, $lt: range.end } } }] : [];
+  let matchStage = [];
+  if (scoreMode) {
+    matchStage = [{ $match: scoreMatch(rangeKey) }];
+  } else if (range) {
+    matchStage = [{ $match: { planned: { $gte: range.start, $lt: range.end } } }];
+  }
 
   const [doers, statusCounts] = await Promise.all([
     Doer.find().select("name department").lean(),
@@ -93,7 +122,7 @@ async function rollupByDoer(rangeKey) {
 // duplicated sheet, computed live. Optional ?range= narrows it to one of
 // the Dashboard's date-range pills; omit for all-time.
 router.get("/", async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer(req.query.range);
+  const { doerMap, statusCounts } = await rollupByDoer(req.query.range, { scoreMode: true });
 
   const rows = statusCounts
     .map((row) => {
@@ -130,8 +159,7 @@ router.get("/me", async (req, res) => {
     return res.json({ doer: null, total: 0, onTime: 0, delayed: 0, pending: 0, onTimePercent: 0 });
   }
 
-  const range = getDateRange(req.query.range);
-  const match = { doer: doer._id, ...(range ? { planned: { $gte: range.start, $lt: range.end } } : {}) };
+  const match = { doer: doer._id, ...scoreMatch(req.query.range) };
 
   const [row] = await TaskInstance.aggregate([
     { $match: match },
@@ -163,7 +191,7 @@ router.get("/me", async (req, res) => {
 
 // Overall dashboard summary (for cards / charts). Same ?range= support.
 router.get("/summary", async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer(req.query.range);
+  const { doerMap, statusCounts } = await rollupByDoer(req.query.range, { scoreMode: true });
 
   let total = 0, onTime = 0, delayed = 0, pending = 0;
   const byDeptMap = new Map();
@@ -198,7 +226,7 @@ router.get("/summary", async (req, res) => {
 // is selected on the Dashboard at the moment — a snapshot is meant to be a
 // consistent running record, not affected by what someone was filtering.
 router.post("/archive", requireAdmin, async (req, res) => {
-  const { doerMap, statusCounts } = await rollupByDoer();
+  const { doerMap, statusCounts } = await rollupByDoer(undefined, { scoreMode: true });
   let total = 0, onTime = 0, delayed = 0, pending = 0;
   for (const row of statusCounts) {
     total += row.total;
