@@ -45,9 +45,15 @@ router.put("/:id", requireAdmin, async (req, res) => {
 });
 
 // DELETE (permanent) doer
+// Removing a doer also removes their Master task history — leaving those
+// rows behind pointing at a deleted doer would just show up as broken
+// blank-name rows in Master/Consolidated/Dashboard from then on, and a
+// removed person's old reminders aren't useful to keep around once they're
+// gone.
 router.delete("/:id", requireAdmin, async (req, res) => {
   const deleted = await Doer.findByIdAndDelete(req.params.id);
   if (!deleted) return res.status(404).json({ error: "Doer not found" });
+  await TaskInstance.deleteMany({ doer: deleted._id });
   await cacheDel("doers:all");
   res.json({ ok: true });
 });

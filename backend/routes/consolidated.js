@@ -70,20 +70,29 @@ function getDateRange(key) {
 // unbounded "all time" query counts hundreds of not-yet-due occurrences as
 // part of the denominator — someone can look bad purely because the system
 // already created next quarter's reminders for them, not because they've
-// actually missed anything. When scoreMode is true, the upper bound of
-// whatever range was requested (or "no range" = unbounded) is capped at
-// the end of today, so only tasks that have actually come due are counted.
-// A range entirely in the future (e.g. "Next Week") then correctly yields
-// no scored tasks rather than a misleading 0%.
+// actually missed anything. A task only "counts" once it's either (a)
+// actually due — planned date has passed (or falls inside the requested
+// range) — or (b) already completed, even if that happened ahead of its
+// planned date (a doer who knocks out next week's task today shouldn't
+// have it sit invisible until the due date arrives before it shows as On
+// Time). A range entirely in the future (e.g. "Next Week") with nothing
+// completed early then still correctly yields no scored tasks rather than
+// a misleading 0%.
+function scoreMatch(rangeKey) {
+  const range = getDateRange(rangeKey);
+  const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
+  const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
+  const plannedFilter = { $lt: end };
+  if (range) plannedFilter.$gte = range.start;
+  const actualFilter = range ? { $ne: null, $gte: range.start, $lt: range.end } : { $ne: null };
+  return { $or: [{ planned: plannedFilter }, { actual: actualFilter }] };
+}
+
 async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
   const range = getDateRange(rangeKey);
   let matchStage = [];
   if (scoreMode) {
-    const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
-    const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
-    const plannedFilter = { $lt: end };
-    if (range) plannedFilter.$gte = range.start;
-    matchStage = [{ $match: { planned: plannedFilter } }];
+    matchStage = [{ $match: scoreMatch(rangeKey) }];
   } else if (range) {
     matchStage = [{ $match: { planned: { $gte: range.start, $lt: range.end } } }];
   }
@@ -159,12 +168,7 @@ router.get("/me", async (req, res) => {
     return res.json({ doer: null, total: 0, onTime: 0, delayed: 0, pending: 0, onTimePercent: 0 });
   }
 
-  const range = getDateRange(req.query.range);
-  const cutoff = addDays(startOfDay(new Date()), 1);
-  const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
-  const plannedFilter = { $lt: end };
-  if (range) plannedFilter.$gte = range.start;
-  const match = { doer: doer._id, planned: plannedFilter };
+  const match = { doer: doer._id, ...scoreMatch(req.query.range) };
 
   const [row] = await TaskInstance.aggregate([
     { $match: match },

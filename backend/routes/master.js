@@ -1,12 +1,33 @@
 import express from "express";
 import TaskInstance from "../models/TaskInstance.js";
 import Doer from "../models/Doer.js";
+import Task from "../models/Task.js";
+import User from "../models/User.js";
 import { generateAllUpcoming, dedupeTaskInstances } from "../utils/generateOccurrences.js";
 import { sendCsv } from "../utils/csv.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { claimCooldown } from "../utils/cache.js";
+import { sendMail } from "../utils/mailer.js";
 
 const router = express.Router();
+
+// Fire-and-forget email to every active admin when a member marks a task
+// done — replaces the old "submitted, waiting on an admin to approve"
+// step entirely. Never awaited by the route handler: a slow/misconfigured
+// mailer must never make the doer's "mark as done" click feel slow, and a
+// failure here must never turn into a failed completion.
+async function notifyAdminsTaskCompleted(entry) {
+  const admins = await User.find({ role: "admin", active: true }).select("email").lean();
+  if (!admins.length) return;
+  const subject = `${entry.doer?.name || "Someone"} marked "${entry.task?.taskName || "a task"}" done`;
+  const statusLine = entry.status === "Delayed" ? "Delayed" : "On Time";
+  const text =
+    `${entry.doer?.name || "A team member"} just marked "${entry.task?.taskName || "a task"}" as done ` +
+    `(${statusLine}, completed ${new Date(entry.actual).toLocaleString()}).` +
+    (entry.submission?.note ? `\n\nNote: ${entry.submission.note}` : "") +
+    (entry.submission?.link ? `\nLink: ${entry.submission.link}` : "");
+  await Promise.all(admins.map((a) => sendMail({ to: a.email, subject, text }).catch(() => {})));
+}
 
 // A member only ever sees rows assigned to their own Doer record (matched
 // by email, same pairing used everywhere else in this file). Admins see
@@ -122,9 +143,13 @@ router.get("/", async (req, res) => {
   // narrow further with ?doer= (e.g. picking a specific person to review).
   if (req.query.doer && req.user.role === "admin") filter.doer = req.query.doer;
   if (req.query.status) filter.status = req.query.status;
-  if (req.query.review === "1") {
-    filter["submission.state"] = "submitted";
-    filter.actual = null;
+  // "Recently completed" quick view (admin banner click) — everything
+  // finished in the last 24 hours, most recent first. Overrides the normal
+  // planned-date sort below since "when it was done" is what matters here,
+  // not "when it was due".
+  const recentView = req.query.recent === "1";
+  if (recentView) {
+    filter.actual = { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) };
   }
   // "Today's Tasks" quick filter — everything planned for the current
   // calendar day (server's local time), regardless of status.
@@ -135,13 +160,30 @@ router.get("/", async (req, res) => {
     end.setDate(end.getDate() + 1);
     filter.planned = { $gte: start, $lt: end };
   }
+  // Free-text search across doer name/department/email and task
+  // name/department — Doers and Tasks are both small catalogs, so
+  // resolving matching ids from them first (fast) and then filtering
+  // TaskInstance by those ids is much cheaper than a full collection scan
+  // over ~78k rows with a regex on populated fields (which Mongo can't do
+  // directly anyway, since doer/task are references, not embedded text).
+  const search = String(req.query.search || "").trim();
+  if (search) {
+    const rx = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+    const [matchingDoers, matchingTasks] = await Promise.all([
+      Doer.find({ $or: [{ name: rx }, { department: rx }, { email: rx }] }).select("_id").lean(),
+      Task.find({ $or: [{ taskName: rx }, { department: rx }] }).select("_id").lean(),
+    ]);
+    const doerIds = matchingDoers.map((d) => d._id);
+    const taskIds = matchingTasks.map((t) => t._id);
+    filter.$or = [{ doer: { $in: doerIds } }, { task: { $in: taskIds } }];
+  }
 
   const [rows, total] = await Promise.all([
     TaskInstance.find(filter)
       .select("-submission.image")
       .populate("doer")
       .populate("task")
-      .sort({ planned: -1 })
+      .sort(recentView ? { actual: -1 } : { planned: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .lean(), // plain objects, not full Mongoose documents — faster to serialize for read-only list views
@@ -164,10 +206,22 @@ router.post("/", requireAdmin, async (req, res) => {
   }
 });
 
-// Number of "my task is done" requests waiting for an admin (sidebar badge).
+// Tasks completed since this admin last dismissed the banner (capped to
+// the last 24h so it can never grow unbounded for someone who hasn't
+// looked in a while).
 router.get("/review-count", requireAdmin, async (req, res) => {
-  const count = await TaskInstance.countDocuments({ "submission.state": "submitted", actual: null });
+  const dayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const since = req.user.lastSeenCompletionsAt && req.user.lastSeenCompletionsAt > dayAgo ? req.user.lastSeenCompletionsAt : dayAgo;
+  const count = await TaskInstance.countDocuments({ actual: { $gte: since } });
   res.json({ count });
+});
+
+// Dismisses the "recently completed" banner for this admin — clicking
+// "Show them" calls this so the count doesn't just show the same tasks
+// again on the next page load.
+router.post("/recent-completions-seen", requireAdmin, async (req, res) => {
+  await User.findByIdAndUpdate(req.user._id, { lastSeenCompletionsAt: new Date() });
+  res.json({ ok: true });
 });
 
 // Full proof (including the image, which the list endpoint leaves out).
@@ -177,8 +231,12 @@ router.get("/:id/proof", async (req, res) => {
   res.json(entry.submission || { state: "none" });
 });
 
-// DOER: "My task is done" — attaches proof and queues it for admin review.
-// Deliberately does not set `actual`; only an admin's Mark Complete does.
+// DOER: "Mark as done" — completes the task immediately, no admin approval
+// step. Sets `actual` to right now (the moment they clicked it), which is
+// what the pre-save hook below uses to compute On Time / Delayed, then
+// emails every admin that it happened. Proof (note/link/screenshot) is
+// still optional and kept for the record, but is no longer a gate — a
+// bare "I'm done" completes the task on its own.
 router.post("/:id/submit-done", requireOwnDoerOrAdmin, async (req, res) => {
   try {
     const entry = req._entry || (await TaskInstance.findById(req.params.id));
@@ -187,16 +245,19 @@ router.post("/:id/submit-done", requireOwnDoerOrAdmin, async (req, res) => {
     const note = String(req.body.note || "").trim();
     const link = String(req.body.link || "").trim();
     const image = String(req.body.image || "");
-    // Note, link and screenshot are all optional — a bare "I'm done" is valid.
     if (link && !/^https?:\/\//i.test(link)) return res.status(400).json({ error: "Proof link must start with http:// or https://" });
     if (image && !/^data:image\/(png|jpe?g|webp);base64,/.test(image)) return res.status(400).json({ error: "Proof image must be a PNG, JPG or WebP" });
     if (image.length > 2_000_000) return res.status(400).json({ error: "Proof image is too large" });
-    entry.submission = { state: "submitted", at: new Date(), by: req.user.name, note, link, image, rejectReason: "" };
+    entry.actual = new Date();
+    entry.submission = { state: "approved", at: entry.actual, by: req.user.name, note, link, image, rejectReason: "" };
     await entry.save();
     const populated = await entry.populate(["doer", "task"]);
     const out = populated.toObject();
     delete out.submission.image;
     res.json(out);
+    // Runs after the response is already sent — a slow or misconfigured
+    // mailer must never delay the doer's "mark as done" click.
+    notifyAdminsTaskCompleted(populated).catch((err) => console.error("[master] admin notify failed:", err.message));
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

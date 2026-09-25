@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
     // tooling (e.g. a future "notify on Slack" reminder). Just a plain
     // member ID/handle string, not validated against Slack's API.
     slackId: { type: String, trim: true, default: "" },
+    // When this admin last dismissed the "recently completed" banner on
+    // Master — only completions after this point count toward their badge
+    // going forward, so it doesn't just refill with the same tasks they
+    // already looked at.
+    lastSeenCompletionsAt: { type: Date, default: null },
   },
   { timestamps: true }
 );

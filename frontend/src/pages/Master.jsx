@@ -3,8 +3,10 @@ import { api, API_BASE } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
 import TableScrollControls from "../components/TableScrollControls.jsx";
+import SearchInput from "../components/SearchInput.jsx";
 import { useToast } from "../components/Toast.jsx";
 import { useTableHotkeys } from "../hooks/useTableHotkeys.js";
+import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import ProofModal from "../components/ProofModal.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -17,16 +19,12 @@ const freqLabels = {
   E4th: "4th same weekday/mo", ELast: "Last same weekday/mo",
 };
 
-// "Awaiting Review" is shown instead of Pending/Delayed while a doer's proof
-// is waiting on an admin; the underlying On Time / Delayed status is only
-// decided once the admin marks it complete. Once reviewed, the row keeps a
-// permanent, explicit Approved / Rejected badge (never just deleted or left
-// to be inferred) — visible the same way to the admin and to the doer whose
-// task it is.
+// Marking a task done completes it immediately (see backend/routes/master.js
+// submit-done) — there's no admin approval gate anymore, so a row is either
+// still open (Pending/Delayed, shown plainly) or done, in which case its
+// permanent status is shown with a checkmark.
 function rowStatus(e) {
-  if (!e.actual && e.submission?.state === "submitted") return { label: "Marked done · needs check", cls: "badge badge-review" };
-  if (!e.actual && e.submission?.state === "rejected") return { label: "✖ Rejected · redo", cls: "badge badge-bad" };
-  if (e.submission?.state === "approved") return { label: `✔ Approved · ${e.status}`, cls: "badge badge-approved" };
+  if (e.actual) return { label: `✔ ${e.status}`, cls: statusClass(e.status) };
   return { label: e.status, cls: statusClass(e.status) };
 }
 
@@ -46,6 +44,9 @@ export default function Master() {
   const [filterStatus, setFilterStatus] = useState("");
   const [todayOnly, setTodayOnly] = useState(false);
   const [mineOnly, setMineOnly] = useState(false);
+  const [recentOnly, setRecentOnly] = useState(false);
+  const [q, setQ] = useState("");
+  const debouncedQ = useDebouncedValue(q, 250);
   const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [error, setError] = useState("");
@@ -74,18 +75,32 @@ export default function Master() {
 
   const load = () => {
     const params = new URLSearchParams({ page, limit });
-    if (filterStatus) params.set("status", filterStatus);
-    if (todayOnly) params.set("today", "1");
-    if (mineOnly && myDoer) params.set("doer", myDoer._id);
-    if (filterStatus === "Awaiting Review") { params.delete("status"); params.set("review", "1"); }
+    if (recentOnly) {
+      params.set("recent", "1");
+    } else {
+      if (filterStatus) params.set("status", filterStatus);
+      if (todayOnly) params.set("today", "1");
+      if (mineOnly && myDoer) params.set("doer", myDoer._id);
+    }
+    if (debouncedQ.trim()) params.set("search", debouncedQ.trim());
     api.getMaster(`?${params.toString()}`).then(setData).catch((e) => setError(e.message));
   };
-  useEffect(load, [filterStatus, todayOnly, mineOnly, page]);
-  // Everyone sees approvals / submissions within seconds, no refresh needed.
+  useEffect(load, [filterStatus, todayOnly, mineOnly, recentOnly, debouncedQ, page]);
+  useEffect(() => setPage(1), [debouncedQ]);
+  // Everyone sees completions within seconds, no refresh needed.
   usePolling(load, 15000);
   const loadCount = () => { if (isAdmin) api.getReviewCount().then((r) => setReviewCount(r.count)).catch(() => {}); };
   useEffect(loadCount, [isAdmin, data]);
   useEffect(() => setPageInput(String(page)), [page]);
+  // Clicking "Show them" both opens the recent-completions view and marks
+  // it seen — the banner (and the sidebar's red count) won't show the same
+  // completions again once this admin has looked.
+  const showRecent = () => {
+    setRecentOnly(true);
+    setPage(1);
+    api.markCompletionsSeen().then(() => setReviewCount(0)).catch(() => {});
+  };
+  const clearRecent = () => { setRecentOnly(false); setPage(1); };
 
   // Tops up Master with any due occurrences for schedule-driven tasks once
   // when the page first loads, so recurring reminders keep appearing on
@@ -203,11 +218,18 @@ export default function Master() {
       />
       {error && <p className="error">{error}</p>}
 
-      {isAdmin && reviewCount > 0 && (
-        <button type="button" className="check-alert" onClick={() => changeFilter("Awaiting Review")}>
+      {isAdmin && reviewCount > 0 && !recentOnly && (
+        <button type="button" className="check-alert" onClick={showRecent}>
           <span className="check-alert-dot" />
-          <span><strong>{reviewCount}</strong> task{reviewCount === 1 ? " was" : "s were"} marked as done by the team — your turn to check.</span>
+          <span><strong>{reviewCount}</strong> task{reviewCount === 1 ? " was" : "s were"} marked done in the last 24 hours.</span>
           <span className="check-alert-cta">Show them</span>
+        </button>
+      )}
+      {recentOnly && (
+        <button type="button" className="check-alert" onClick={clearRecent}>
+          <span className="check-alert-dot" />
+          <span>Showing tasks completed in the last 24 hours.</span>
+          <span className="check-alert-cta">✕ Back to all tasks</span>
         </button>
       )}
 
@@ -239,13 +261,13 @@ export default function Master() {
       )}
 
       <div className="filter-row">
+        <SearchInput value={q} onChange={setQ} placeholder="Search by doer, task, or department… (press /)" />
         <label>Filter status: </label>
         <select value={filterStatus} onChange={(e) => changeFilter(e.target.value)}>
           <option value="">All</option>
           <option value="On Time">On Time</option>
           <option value="Delayed">Delayed</option>
           <option value="Pending">Pending</option>
-          <option value="Awaiting Review">Awaiting Review</option>
         </select>
         <button
           type="button"
@@ -299,15 +321,8 @@ export default function Master() {
                 <tr><td colSpan={8} className="empty-state">No reminders match this filter.</td></tr>
               )}
               {data.rows?.map((e, i) => {
-                const canEdit = isAdmin || e.doer?.email === user?.email;
-                const rowCls =
-                  isAdmin && !e.actual && e.submission?.state === "submitted"
-                    ? "row-needs-check"
-                    : !e.actual && e.submission?.state === "rejected"
-                    ? "row-rejected"
-                    : e.submission?.state === "approved"
-                    ? "row-approved"
-                    : undefined;
+                const canMarkDone = !isAdmin && e.doer?.email === user?.email;
+                const rowCls = e.actual ? "row-approved" : undefined;
                 return (
                   <tr key={e._id} className={rowCls}>
                     <td>{(data.page - 1) * limit + i + 1}</td>
@@ -319,24 +334,13 @@ export default function Master() {
                     <td><span className={rowStatus(e).cls}>{rowStatus(e).label}</span></td>
                     <td>
                       {!e.actual && (
-                        isAdmin ? (
-                          e.submission?.state === "submitted" ? (
-                            <button className="btn-pill btn-pill-review" onClick={() => setModal({ mode: "review", row: e })}>🔍 Check · {e.doer?.name?.split(" ")[0]} marked done</button>
-                          ) : (
-                            <button className="link-btn" onClick={async () => { await api.completeMaster(e._id); load(); toast("Marked complete", "good"); }}
-                              title="Not submitted by the doer — complete it yourself">Mark Complete</button>
-                          )
-                        ) : canEdit ? (
-                          e.submission?.state === "submitted" ? (
-                            <span className="admin-only-hint" title="Waiting for an admin to check">⏳ Waiting for admin check</span>
-                          ) : (
-                            <button className="btn-pill" onClick={() => setModal({ mode: "submit", row: e })}>
-                              ✔ {e.submission?.state === "rejected" ? "Mark as done again" : "Mark as done"}
-                            </button>
-                          )
-                        ) : (
-                          <span className="admin-only-hint" title="Only the assigned doer or an admin can update this">🔒</span>
-                        )
+                        canMarkDone ? (
+                          <button className="btn-pill" onClick={() => setModal({ mode: "submit", row: e })}>
+                            ✔ Mark as done
+                          </button>
+                        ) : !isAdmin ? (
+                          <span className="admin-only-hint" title="Only the assigned doer can mark this done">🔒</span>
+                        ) : null
                       )}
                       {" "}
                       <button className="link-btn danger" disabled={!isAdmin} onClick={() => remove(e._id)}
