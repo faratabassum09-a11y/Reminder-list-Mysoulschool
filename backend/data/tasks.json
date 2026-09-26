@@ -1,0 +1,4417 @@
+[
+  {
+    "taskId": 1,
+    "taskName": "UTW - Update & Create Groups, Meetings & Links for Next Launch",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2024-12-15T22:00:00"
+  },
+  {
+    "taskId": 2,
+    "taskName": "UTW - Publish & Verify Launch Shift",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-16T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 3,
+    "taskName": "UTW - Update Day 1 Attendee Sheet",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-16T22:00:00",
+    "nextAnchor": "2025-01-14T22:00:00"
+  },
+  {
+    "taskId": 4,
+    "taskName": "UTW - Assign Leads to Sales team",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-18T22:00:00",
+    "nextAnchor": "2025-01-16T22:00:00"
+  },
+  {
+    "taskId": 5,
+    "taskName": "UTW - Update Timer on Sales Page for Post Webinar Sales (Flexifunnels)",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-18T22:00:00",
+    "nextAnchor": "2025-01-16T22:00:00"
+  },
+  {
+    "taskId": 6,
+    "taskName": "UTW - Check Flow of Lead + Submit Daily End Report",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2025-07-04T22:00:00"
+  },
+  {
+    "taskId": 7,
+    "taskName": "UTW - Day 1 - Manage Launch via Zoom",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-16T22:00:00",
+    "nextAnchor": "2025-03-25T22:00:00"
+  },
+  {
+    "taskId": 8,
+    "taskName": "UTW - Day 2 - Manage Launch via Zoom",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-17T22:00:00",
+    "nextAnchor": "2025-03-12T22:00:00"
+  },
+  {
+    "taskId": 9,
+    "taskName": "UTW - Day 3 - Manage Launch via Zoom",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-18T22:00:00",
+    "nextAnchor": "2025-03-27T22:00:00"
+  },
+  {
+    "taskId": 10,
+    "taskName": "UTW - Day 1 - Aisensy Queries",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-16T22:00:00",
+    "nextAnchor": "2025-03-25T22:00:00"
+  },
+  {
+    "taskId": 11,
+    "taskName": "UTW - Day 2 - Aisensy Queries",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-17T22:00:00",
+    "nextAnchor": "2025-03-12T22:00:00"
+  },
+  {
+    "taskId": 12,
+    "taskName": "UTW - Day 3 - Aisensy Queries",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-18T22:00:00",
+    "nextAnchor": "2025-03-27T22:00:00"
+  },
+  {
+    "taskId": 13,
+    "taskName": "SUPER - Upload Power Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-17T22:00:00",
+    "nextAnchor": "2025-06-04T22:00:00"
+  },
+  {
+    "taskId": 14,
+    "taskName": "REIKI - Upload Reiki L1 L2 Class",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-06-01T22:00:00"
+  },
+  {
+    "taskId": 15,
+    "taskName": "SUPER - Upload Leadership Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-20T22:00:00",
+    "nextAnchor": "2025-06-28T22:00:00"
+  },
+  {
+    "taskId": 16,
+    "taskName": "TAROT - Upload Inner Circle Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-06-01T22:00:00"
+  },
+  {
+    "taskId": 17,
+    "taskName": "SUPER - Upload Business Coaching Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-06-01T22:00:00"
+  },
+  {
+    "taskId": 18,
+    "taskName": "SUPER - Manage Leadership Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2025-07-04T22:00:00"
+  },
+  {
+    "taskId": 19,
+    "taskName": "SUPER - Watch BCC Replay",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-03-23T22:00:00"
+  },
+  {
+    "taskId": 20,
+    "taskName": "SUPER - Create & Post - Homework Draft for Weekly Classes & Share in groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-06-01T22:00:00"
+  },
+  {
+    "taskId": 21,
+    "taskName": "Testimonials - Edit & Upload in Sales Objection sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-03-23T22:00:00"
+  },
+  {
+    "taskId": 22,
+    "taskName": "Testimonials - Note the timeline & Feedback details in Testimonials Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-29T22:00:00",
+    "nextAnchor": "2025-06-29T22:00:00"
+  },
+  {
+    "taskId": 23,
+    "taskName": "SUPPORT - Morning Huddle with CREs",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-16T12:30:00",
+    "nextAnchor": "2025-01-03T12:30:00"
+  },
+  {
+    "taskId": 24,
+    "taskName": "SUPPORT - Evening Huddle with CREs",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-14T17:30:00",
+    "nextAnchor": "2025-09-09T22:00:00"
+  },
+  {
+    "taskId": 25,
+    "taskName": "SUPER/RGM EMI Follow-up Calls",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-08T22:00:00",
+    "nextAnchor": "2025-09-09T22:00:00"
+  },
+  {
+    "taskId": 26,
+    "taskName": "UTW Giveaway",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 27,
+    "taskName": "Submit IG Post Plan for Next Week",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-06-01T22:00:00"
+  },
+  {
+    "taskId": 28,
+    "taskName": "Approve Facebook Post & Members",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2025-10-09T22:00:00"
+  },
+  {
+    "taskId": 29,
+    "taskName": "Telegram Post",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2025-10-28T22:00:00"
+  },
+  {
+    "taskId": 30,
+    "taskName": "Revert to Instagram Dm's (Morning)",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 31,
+    "taskName": "Revert to Instagram Dm's (Evening)",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 32,
+    "taskName": "Instagram Follower Count",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-14T22:00:00",
+    "nextAnchor": "2025-06-03T22:00:00"
+  },
+  {
+    "taskId": 33,
+    "taskName": "Read & Share Testimonials in Sales team",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-17T22:00:00",
+    "nextAnchor": "2025-06-04T22:00:00"
+  },
+  {
+    "taskId": 34,
+    "taskName": "Upload Reiki L4 L5 live Recording in Tagmango & Youtube",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-26T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 35,
+    "taskName": "Create Monthly Calendar in Calendar Sheet",
+    "department": "Customer Support",
+    "frequency": "E3rd",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-20T22:00:00",
+    "nextAnchor": "2026-12-19T22:00:00"
+  },
+  {
+    "taskId": 36,
+    "taskName": "Create Weekly Calls in membership area",
+    "department": "Customer Support",
+    "frequency": "E3rd",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-20T22:00:00",
+    "nextAnchor": "2026-12-19T22:00:00"
+  },
+  {
+    "taskId": 37,
+    "taskName": "Promote UTW",
+    "department": "Social Media",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-02T22:00:00",
+    "nextAnchor": "2026-07-07T22:00:00"
+  },
+  {
+    "taskId": 38,
+    "taskName": "Content Calendar",
+    "department": "Social Media",
+    "frequency": "E3rd",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2024-12-23T22:00:00",
+    "nextAnchor": "2025-05-20T22:00:00"
+  },
+  {
+    "taskId": 39,
+    "taskName": "UTW - Assign Leads for Invitation Calls",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2024-12-21T22:00:00",
+    "nextAnchor": "2025-01-19T22:00:00"
+  },
+  {
+    "taskId": 40,
+    "taskName": "Acknowledge all WhatsApp Chats - 12PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T12:00:00",
+    "nextAnchor": "2025-08-26T22:00:00"
+  },
+  {
+    "taskId": 41,
+    "taskName": "Resolve all Email Tickets - 12PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T12:00:00",
+    "nextAnchor": "2025-03-28T12:00:00"
+  },
+  {
+    "taskId": 42,
+    "taskName": "Do Daily Morning Huddle and Submit MOM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T12:30:00",
+    "nextAnchor": "2025-03-28T12:30:00"
+  },
+  {
+    "taskId": 43,
+    "taskName": "Monitor - New Order FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 44,
+    "taskName": "Monitor - New Lead FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2025-06-27T22:00:00"
+  },
+  {
+    "taskId": 45,
+    "taskName": "Resolve - Help Ticket",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 46,
+    "taskName": "Monitor - Aisensy",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 47,
+    "taskName": "Monitor - Helpdesk",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 48,
+    "taskName": "Monitor - Student Record Sheet Data",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 49,
+    "taskName": "Monitor - Customer Support Sheet Data",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2025-04-06T22:00:00"
+  },
+  {
+    "taskId": 50,
+    "taskName": "Monitor - Team Checklist from PC Dashboard",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 51,
+    "taskName": "Check Huddle timings in Support-Daily- Huddle Channel",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2026-07-05T22:00:00"
+  },
+  {
+    "taskId": 52,
+    "taskName": "Send Report - O2D",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-23T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 53,
+    "taskName": "Send Report - UTW Invitation Calls Status",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-23T22:00:00",
+    "nextAnchor": "2025-02-11T22:00:00"
+  },
+  {
+    "taskId": 54,
+    "taskName": "Send Report - UTW - Day 1 Attendee Calls Status Report",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-24T22:00:00",
+    "nextAnchor": "2025-02-12T22:00:00"
+  },
+  {
+    "taskId": 55,
+    "taskName": "Acknowledge all WhatsApp Chats - 6PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T18:00:00",
+    "nextAnchor": "2025-03-28T18:00:00"
+  },
+  {
+    "taskId": 56,
+    "taskName": "Resolve all Email Tickets - 6PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T18:00:00",
+    "nextAnchor": "2025-03-28T18:00:00"
+  },
+  {
+    "taskId": 57,
+    "taskName": "Do Daily Evening Huddle and Submit MOM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T18:00:00",
+    "nextAnchor": "2025-03-28T18:00:00"
+  },
+  {
+    "taskId": 58,
+    "taskName": "Assign Query Tag to all Unresolved Chats - 12PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T12:00:00",
+    "nextAnchor": "2025-03-28T12:00:00"
+  },
+  {
+    "taskId": 59,
+    "taskName": "Assign Query Tag to all Unresolved Chats - 6PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2024-12-20T18:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 60,
+    "taskName": "Monitor - Weekly Live Class FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 61,
+    "taskName": "Send Daily EOD Report",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-24T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 62,
+    "taskName": "Send Report - UTW Day 1 - Attendees Invitation Calls Sheet",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-30T22:00:00",
+    "nextAnchor": "2025-02-11T22:00:00"
+  },
+  {
+    "taskId": 63,
+    "taskName": "Send Report - UTW Day 2 - Attendee Reminder Calls Sheet",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2024-12-24T22:00:00",
+    "nextAnchor": "2025-02-12T22:00:00"
+  },
+  {
+    "taskId": 64,
+    "taskName": "Take the registration Numbers of every launch 15 minutes prior to the launch starts from Zoom",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-28T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 65,
+    "taskName": "Share Zoom link with SUPER Students (Sept) for BCC inside WhatsApp & Telegram Community",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-27T22:00:00",
+    "nextAnchor": "2025-03-29T22:00:00"
+  },
+  {
+    "taskId": 66,
+    "taskName": "Share Zoom link with SUPER Students (Dec) for BCC",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2024-12-31T22:00:00",
+    "nextAnchor": "2025-03-05T22:00:00"
+  },
+  {
+    "taskId": 67,
+    "taskName": "Post UTW Day 1 - Responsibilities",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-06T22:00:00",
+    "nextAnchor": "2025-04-01T22:00:00"
+  },
+  {
+    "taskId": 68,
+    "taskName": "Post UTW Day 2 - Responsibilities",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-07T22:00:00",
+    "nextAnchor": "2025-03-26T22:00:00"
+  },
+  {
+    "taskId": 69,
+    "taskName": "Post UTW Day 3 - Responsibilities",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-08T22:00:00",
+    "nextAnchor": "2025-03-27T22:00:00"
+  },
+  {
+    "taskId": 70,
+    "taskName": "Send reminder to Mentors for Calendar schedule",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-15T22:00:00",
+    "nextAnchor": "2026-12-16T22:00:00"
+  },
+  {
+    "taskId": 71,
+    "taskName": "Tarot - Manage Inner Circle Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-01-03T22:00:00",
+    "nextAnchor": "2025-04-05T22:00:00"
+  },
+  {
+    "taskId": 72,
+    "taskName": "Send Payment Reminders to Super (Dec) Students in the Group",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-04T22:00:00",
+    "nextAnchor": "2025-06-06T22:00:00"
+  },
+  {
+    "taskId": 73,
+    "taskName": "Send Payment Reminders to Super (Sept) Students in the Group",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-10T22:00:00",
+    "nextAnchor": "2025-06-11T22:00:00"
+  },
+  {
+    "taskId": 74,
+    "taskName": "Super (Sept) EMI Follow-up Calls",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-13T22:00:00",
+    "nextAnchor": "2025-06-14T22:00:00"
+  },
+  {
+    "taskId": 75,
+    "taskName": "Share Super (Dec) homework in the Group",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-15T22:00:00",
+    "nextAnchor": "2025-03-13T22:00:00"
+  },
+  {
+    "taskId": 76,
+    "taskName": "Super (Dec) EMI Follow-up Calls",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-08T22:00:00",
+    "nextAnchor": "2025-09-09T22:00:00"
+  },
+  {
+    "taskId": 77,
+    "taskName": "Schedule ICP Roles & Responsibilities for tomorrow's Launch",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-01-17T22:00:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 78,
+    "taskName": "Keep a check over the Whatapp - Wati & AIsensy Number Quality",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-01-28T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 79,
+    "taskName": "Post Gratitude Challenge in Instagram & Telegram Group",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-01-29T22:00:00",
+    "nextAnchor": "2025-02-23T22:00:00"
+  },
+  {
+    "taskId": 80,
+    "taskName": "Share Thursday Full Day Class Recording with students by Saturday Max",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-02-01T22:00:00",
+    "nextAnchor": "2025-09-14T22:00:00"
+  },
+  {
+    "taskId": 81,
+    "taskName": "Inform Aravind to share number of Leads to be assigned to each Intern or Sales Team",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-02-01T22:00:00",
+    "nextAnchor": "2025-03-29T22:00:00"
+  },
+  {
+    "taskId": 82,
+    "taskName": "Assign the Leads based on updates received from Tanvi & Aakansha and update in Channel",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-02-01T22:00:00",
+    "nextAnchor": "2025-06-10T22:00:00"
+  },
+  {
+    "taskId": 83,
+    "taskName": "Monitor - System creation FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-02-04T22:00:00",
+    "nextAnchor": "2025-02-16T22:00:00"
+  },
+  {
+    "taskId": 84,
+    "taskName": "Daily  audit any one team members task",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-02-17T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 85,
+    "taskName": "Monitor Super PMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-02-17T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 86,
+    "taskName": "Get Whatsapp Group Links from Mehakleen mam",
+    "department": "Operations",
+    "frequency": "M",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-03-01T22:00:00",
+    "nextAnchor": "2025-07-03T22:00:00"
+  },
+  {
+    "taskId": 87,
+    "taskName": "Acknowledge All Whatsapp Messages & Calls in the Morning",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-21T22:00:00",
+    "nextAnchor": "2025-03-28T22:00:00"
+  },
+  {
+    "taskId": 88,
+    "taskName": "Address Transferred Payment Queries on Aisensy",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-21T22:00:00",
+    "nextAnchor": "2025-03-28T22:00:00"
+  },
+  {
+    "taskId": 89,
+    "taskName": "Follow Onboarding FMS",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-21T22:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 90,
+    "taskName": "Follow Due Payment FMS",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-21T22:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 91,
+    "taskName": "Submit MOM After Evening Huddle",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-21T22:00:00",
+    "nextAnchor": "2025-09-11T22:00:00"
+  },
+  {
+    "taskId": 92,
+    "taskName": "UTW Invitation Calls - Weekly on Monday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-24T22:00:00",
+    "nextAnchor": "2025-07-01T22:00:00"
+  },
+  {
+    "taskId": 93,
+    "taskName": "Follow Old Due Payments FMS",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-02-27T22:00:00",
+    "nextAnchor": "2025-10-03T22:00:00"
+  },
+  {
+    "taskId": 94,
+    "taskName": "Update UTW Invitation Calls",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-02-28T22:00:00",
+    "nextAnchor": "2026-07-21T22:00:00"
+  },
+  {
+    "taskId": 95,
+    "taskName": "Share class photo in Tag Mango after every weekly class / Full day class tagging mastery programs",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-02-27T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 96,
+    "taskName": "Fill UTW Performance Sheet",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-02-26T22:00:00",
+    "nextAnchor": "2025-07-04T22:00:00"
+  },
+  {
+    "taskId": 97,
+    "taskName": "Send Reminder to Mentors to fill the Calendar for the Classes",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-13T22:00:00",
+    "nextAnchor": "2026-12-13T22:00:00"
+  },
+  {
+    "taskId": 98,
+    "taskName": "Create Monthly Classes in Tagmango/Zoom",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-19T22:00:00",
+    "nextAnchor": "2026-12-20T22:00:00"
+  },
+  {
+    "taskId": 99,
+    "taskName": "Update Full Day Event Calendar and share in groups",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-01T22:00:00",
+    "nextAnchor": "2026-12-06T22:00:00"
+  },
+  {
+    "taskId": 100,
+    "taskName": "Remove previous day duplicates from Student Dashboard",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-10T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 101,
+    "taskName": "Clear Duplicate Entries in Tarot - Dashboard",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-03T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 102,
+    "taskName": "Resolve Technical Queries raised via Help - Ticket",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-03T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 103,
+    "taskName": "Attend Ops - Daily Huddle at 1pm",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-03T22:00:00",
+    "nextAnchor": "2026-05-08T22:00:00"
+  },
+  {
+    "taskId": 104,
+    "taskName": "Update Day 1 Attendee Calls",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-04T22:00:00",
+    "nextAnchor": "2026-07-22T22:00:00"
+  },
+  {
+    "taskId": 105,
+    "taskName": "Update Day 2 Attendee calls",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-05T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 106,
+    "taskName": "Update due payment for RGM & SUPER",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-07T22:00:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 107,
+    "taskName": "Monitor - Refund FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-06T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 108,
+    "taskName": "Monitor - Query Management FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-06T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 109,
+    "taskName": "Update Monday / Thursday File",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-06T22:00:00",
+    "nextAnchor": "2025-06-03T22:00:00"
+  },
+  {
+    "taskId": 110,
+    "taskName": "Update due payments Status from Student Dashboard Sheet",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-03-06T17:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 111,
+    "taskName": "Give access to all students Giveaway winning students.",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-13T22:00:00",
+    "nextAnchor": "2025-03-14T22:00:00"
+  },
+  {
+    "taskId": 112,
+    "taskName": "Schedule a reminder messages for the due payments for Thursday- put in your checklist as a Daily Task",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-03-12T22:00:00",
+    "nextAnchor": "2025-04-19T22:00:00"
+  },
+  {
+    "taskId": 113,
+    "taskName": "Send UTW Whatsapp Community Messages",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-03-13T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 114,
+    "taskName": "Send Weekly Class Reminder (Only if Needed)",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-13T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 115,
+    "taskName": "Send ICP Community msgs",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-14T22:00:00",
+    "nextAnchor": "2025-06-29T22:00:00"
+  },
+  {
+    "taskId": 116,
+    "taskName": "Start & Attend Business Coaching Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-14T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 117,
+    "taskName": "Start & Attend Leadership Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-13T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 118,
+    "taskName": "SUPER Dec Batch Accountability Calls",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-18T22:00:00",
+    "nextAnchor": "2025-06-11T22:00:00"
+  },
+  {
+    "taskId": 119,
+    "taskName": "SUPER May Batch Accountability Calls",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-06-17T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 120,
+    "taskName": "SUPER March Batch Accountability Calls",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-14T22:00:00",
+    "nextAnchor": "2025-09-20T22:00:00"
+  },
+  {
+    "taskId": 121,
+    "taskName": "Share Super May Homwork in groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-15T22:00:00",
+    "nextAnchor": "2025-06-29T22:00:00"
+  },
+  {
+    "taskId": 122,
+    "taskName": "Share Super March Homework in Groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-19T22:00:00",
+    "nextAnchor": "2026-04-17T22:00:00"
+  },
+  {
+    "taskId": 123,
+    "taskName": "Share Super/PRO Full Day Class Replay in Groups (If Needed)",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-14T22:00:00",
+    "nextAnchor": "2026-04-25T22:00:00"
+  },
+  {
+    "taskId": 124,
+    "taskName": "Post EMI Reminder in SUPER May Whatsapp Group",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2025-06-06T22:00:00"
+  },
+  {
+    "taskId": 125,
+    "taskName": "Post EMI Reminder in SUPER March Batch",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2025-06-06T22:00:00"
+  },
+  {
+    "taskId": 126,
+    "taskName": "Post RGM EMI Reminder in RGM April Batch",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2025-06-06T22:00:00"
+  },
+  {
+    "taskId": 127,
+    "taskName": "Take SUPER May Batch EMI Followups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-08T22:00:00",
+    "nextAnchor": "2025-06-08T22:00:00"
+  },
+  {
+    "taskId": 128,
+    "taskName": "Take SUPER March Batch EMI Followups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-08T22:00:00",
+    "nextAnchor": "2026-12-09T22:00:00"
+  },
+  {
+    "taskId": 129,
+    "taskName": "Take RGM EMI Followups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-08T22:00:00",
+    "nextAnchor": "2026-12-09T22:00:00"
+  },
+  {
+    "taskId": 130,
+    "taskName": "Give access to all students Giveaway winning students.",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-20T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 131,
+    "taskName": "Take 2nd EMI Followups from SUPER/RGM Students - Monthly Every 15th & share Report by EOD",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-15T22:00:00",
+    "nextAnchor": "2026-12-16T22:00:00"
+  },
+  {
+    "taskId": 132,
+    "taskName": "Confirm that sales leads have been assigned to the sales team",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-20T10:00:00",
+    "nextAnchor": "2025-05-16T10:00:00"
+  },
+  {
+    "taskId": 133,
+    "taskName": "Confirm that sales leads have been assigned to the sales team",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-22T10:00:00",
+    "nextAnchor": "2025-09-09T22:00:00"
+  },
+  {
+    "taskId": 134,
+    "taskName": "Update RGM and SUPER payments",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-20T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 135,
+    "taskName": "Resolve all PRO/SUPER Queries on Aisensy/Helpdesk ( Resolve over Call & then respond to query by mentioning the Solution as discussed over Call)",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-19T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 136,
+    "taskName": "Fill the PMS workshop form before every WAM for the next 15 days",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-03-24T12:30:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 137,
+    "taskName": "Submit a report upon queries received last week and on repetitive queries",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-03-22T16:00:00",
+    "nextAnchor": "2025-12-14T22:00:00"
+  },
+  {
+    "taskId": 138,
+    "taskName": "Update Testimonials Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-22T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 139,
+    "taskName": "Do Morning Huddle at 12PM with CRE's & resolve the Query Forms",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-03-20T16:00:00",
+    "nextAnchor": "2025-07-05T22:00:00"
+  },
+  {
+    "taskId": 140,
+    "taskName": "Do Evening Huddle at 4:30 with CRE's & resolve Query Forms",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-03-20T16:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 141,
+    "taskName": "Share Daily Report by EOD of all the Tasks done for the Day with Tanvi",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-20T22:00:00",
+    "nextAnchor": "2026-04-18T22:00:00"
+  },
+  {
+    "taskId": 142,
+    "taskName": "Share SUPER Homework in WhatsApp Groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-03-29T14:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 143,
+    "taskName": "Morning huddle with interns",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-05-11T19:00:00"
+  },
+  {
+    "taskId": 144,
+    "taskName": "Morning huddle with interns",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-12T19:00:00",
+    "nextAnchor": "2025-07-04T19:00:00"
+  },
+  {
+    "taskId": 145,
+    "taskName": "Send good morning message with the sheet link in intern channel",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-08-08T22:00:00"
+  },
+  {
+    "taskId": 146,
+    "taskName": "Send daily call status google at 12pm , 3 pm and 6:30 pm in interns channel and create report of this",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-08-01T22:00:00"
+  },
+  {
+    "taskId": 147,
+    "taskName": "Send daily call status google form at 12pm , 3pm and 6 pm in sales channel and create report for this",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-08-01T22:00:00"
+  },
+  {
+    "taskId": 148,
+    "taskName": "Hot leads report Of sales team  at 12 pm on Wednesday and Thursday",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-04-02T19:00:00",
+    "nextAnchor": "2025-05-09T19:00:00"
+  },
+  {
+    "taskId": 149,
+    "taskName": "Inform Aravind and Tanvi about the interns available for next day",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-08-08T22:00:00"
+  },
+  {
+    "taskId": 150,
+    "taskName": "Send EOD report of sales team to Nitin sir  if there is less then 50 calls",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2025-05-09T19:00:00"
+  },
+  {
+    "taskId": 151,
+    "taskName": "Monitor  Event Reschedule & Cancellation FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 152,
+    "taskName": "Monitor Leave FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 153,
+    "taskName": "Share all recharge and top up details With Namita for the next week",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-03-31T19:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 154,
+    "taskName": "Share Daily Report by EOD of all the Tasks done for the Day in Super Channel",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-02T22:00:00",
+    "nextAnchor": "2025-06-27T22:00:00"
+  },
+  {
+    "taskId": 155,
+    "taskName": "Send EMI Reminder in Super - March in Whatsapp Groups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2026-12-06T22:00:00"
+  },
+  {
+    "taskId": 156,
+    "taskName": "Send EMI Reminder in Super - May Batch in Whatsapp Groups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2025-06-06T22:00:00"
+  },
+  {
+    "taskId": 157,
+    "taskName": "Take daily EMI Followups from all RGM/SUPER for the next 10 days and share a proper report",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-11T22:00:00",
+    "nextAnchor": "2026-12-12T22:00:00"
+  },
+  {
+    "taskId": 158,
+    "taskName": "Send EMI Reminder in RGM - April Batch Whatsapp Group starting from May",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-05T22:00:00",
+    "nextAnchor": "2026-12-06T22:00:00"
+  },
+  {
+    "taskId": 159,
+    "taskName": "share hot leads with sales team",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-04-03T11:00:00",
+    "nextAnchor": "2025-07-04T11:00:00"
+  },
+  {
+    "taskId": 160,
+    "taskName": "Submit Lead Quality Report on every Thursday",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-04-10T19:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 161,
+    "taskName": "Share upcoming week Launch Calendar",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-04-05T19:00:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 162,
+    "taskName": "Take SUPER March & May EMI Followups via Call & take a timeline from them",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-04-08T22:00:00",
+    "nextAnchor": "2025-06-08T22:00:00"
+  },
+  {
+    "taskId": 163,
+    "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+    "department": "Admin",
+    "frequency": "M",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-01T19:00:00",
+    "nextAnchor": "2025-05-02T19:00:00"
+  },
+  {
+    "taskId": 164,
+    "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-05-01T19:00:00",
+    "nextAnchor": "2026-12-02T19:00:00"
+  },
+  {
+    "taskId": 165,
+    "taskName": "Update Interns Calls Report Sheet before 10 am",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-04-15T11:00:00",
+    "nextAnchor": "2025-05-11T11:00:00"
+  },
+  {
+    "taskId": 166,
+    "taskName": "Update Interns Calls Report Sheet before 10 am",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2025-07-04T19:00:00"
+  },
+  {
+    "taskId": 167,
+    "taskName": "Submit a list of tasks for Today with Mehakleen Mam - Daily at 9:30AM",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-04-16T10:00:00",
+    "nextAnchor": "2025-06-03T10:00:00"
+  },
+  {
+    "taskId": 168,
+    "taskName": "Submit status of tasks done Today with Mehakleen Mam - Daily at 6PM",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-04-16T19:00:00",
+    "nextAnchor": "2025-06-03T19:00:00"
+  },
+  {
+    "taskId": 169,
+    "taskName": "UTW Payment Reminder for Current Launch in AiSensy - Schedule for Thurday 4PM",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-04-23T22:00:00",
+    "nextAnchor": "2025-07-03T22:00:00"
+  },
+  {
+    "taskId": 170,
+    "taskName": "UTW Payment Reminder for Current Launch in AiSensy - Schedule for Friday 11AM & 3PM",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-04-25T19:00:00",
+    "nextAnchor": "2025-06-28T19:00:00"
+  },
+  {
+    "taskId": 171,
+    "taskName": "Share Reiki L4/L5 \"Monthly Healers Meet\" Class Reminder in RGM (Nov) WA  Community",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-05-06T19:00:00",
+    "nextAnchor": "2026-04-02T19:00:00"
+  },
+  {
+    "taskId": 172,
+    "taskName": "Share Reiki L1/L2/L3 Attunement Class Reminder in all the Relevant WA Groups",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-05-05T19:00:00",
+    "nextAnchor": "2025-08-06T19:00:00"
+  },
+  {
+    "taskId": 173,
+    "taskName": "Resolve Aisensy Queries",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-05-06T19:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 174,
+    "taskName": "Resolve Email Queries",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-05-06T19:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 175,
+    "taskName": "Fill & Follow New Lead FMS",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-06T19:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 176,
+    "taskName": "Discuss pending queries in Evening Huddle with Senior",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-06T19:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 177,
+    "taskName": "Maintain Account Locked sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-05-12T19:00:00",
+    "nextAnchor": "2026-02-17T22:00:00"
+  },
+  {
+    "taskId": 178,
+    "taskName": "Share Reiki L4/L5 - Monthly Healers Meet Class Reminder in RGM (Nov Group)",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-06-03T19:00:00",
+    "nextAnchor": "2026-04-05T19:00:00"
+  },
+  {
+    "taskId": 179,
+    "taskName": "Ask to the interns for planning any leave in up coming week",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-14T19:00:00",
+    "nextAnchor": "2025-08-07T19:00:00"
+  },
+  {
+    "taskId": 180,
+    "taskName": "Ask to the interns for planning any leave in up coming week",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-06-25T19:00:00",
+    "nextAnchor": "2026-12-31T19:00:00"
+  },
+  {
+    "taskId": 181,
+    "taskName": "Send good morning message with the sheet link in intern channel",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2026-07-23T22:00:00"
+  },
+  {
+    "taskId": 182,
+    "taskName": "Send daily call status google at 12pm , 3 pm and 6:30 pm in interns channel and create report of this",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2025-07-30T22:00:00"
+  },
+  {
+    "taskId": 183,
+    "taskName": "Send daily call status google form at 12pm , 3pm and 6 pm in sales channel and create report for this",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2025-07-30T22:00:00"
+  },
+  {
+    "taskId": 184,
+    "taskName": "Inform Aravind and Tanvi about the interns available for next day",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2025-08-24T22:00:00"
+  },
+  {
+    "taskId": 185,
+    "taskName": "Send EOD report of sales team to Nitin sir  if there is less then 50 calls",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-09T19:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 186,
+    "taskName": "Hot leads report Of sales team  at 12 pm on Wednesday and Thursday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-14T19:00:00",
+    "nextAnchor": "2025-09-12T22:00:00"
+  },
+  {
+    "taskId": 187,
+    "taskName": "Schedule   Morning Draft And Google Forms in Interns channel  for  Sunday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-10T19:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 188,
+    "taskName": "Check MySoulSchool Giveaway (Responses) Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-15T19:00:00",
+    "nextAnchor": "2025-08-22T22:00:00"
+  },
+  {
+    "taskId": 189,
+    "taskName": "Update UTW Sales Analytic Sheet",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-05-14T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 190,
+    "taskName": "Review all tools and inform EA about the recharge for the current week.",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-05-19T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 191,
+    "taskName": "Empty all task - Quick Note",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T10:00:00",
+    "nextAnchor": "2025-10-09T22:00:00"
+  },
+  {
+    "taskId": 192,
+    "taskName": "Send Daily Tasks on WhatsApp - Review Google Calendar",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T10:00:00",
+    "nextAnchor": "2025-07-25T22:00:00"
+  },
+  {
+    "taskId": 193,
+    "taskName": "Morning Huddle with Mehakleen Ma'am",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T10:00:00",
+    "nextAnchor": "2026-05-09T12:00:00"
+  },
+  {
+    "taskId": 194,
+    "taskName": "Check Emails",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T11:30:00",
+    "nextAnchor": "2025-06-28T11:30:00"
+  },
+  {
+    "taskId": 195,
+    "taskName": "Check Emails",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-06-30T16:00:00",
+    "nextAnchor": "2025-10-07T16:00:00"
+  },
+  {
+    "taskId": 196,
+    "taskName": "Update Team Attendance Sheet",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T12:00:00",
+    "nextAnchor": "2026-05-09T19:00:00"
+  },
+  {
+    "taskId": 197,
+    "taskName": "Send EOD Report",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2026-05-09T22:00:00"
+  },
+  {
+    "taskId": 198,
+    "taskName": "Assign New Leads queries to Paridhi",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2025-09-12T22:00:00"
+  },
+  {
+    "taskId": 199,
+    "taskName": "Evening Huddle with Mehakleen Ma'am",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2025-06-28T19:00:00"
+  },
+  {
+    "taskId": 200,
+    "taskName": "Candidate shortlisting",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2026-05-09T22:00:00"
+  },
+  {
+    "taskId": 201,
+    "taskName": "Update Suruchi's Attendance",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2026-05-05T22:00:00"
+  },
+  {
+    "taskId": 202,
+    "taskName": "Update Suruchi's Attendance",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-05-17T19:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 203,
+    "taskName": "Monitor - Student Access Update FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-20T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 204,
+    "taskName": "Monitor  - Certificate Issuance & Update FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-20T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 205,
+    "taskName": "Monitor - Student Information Update FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-20T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 206,
+    "taskName": "Do Interns Meeting Every Wednesday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-05-21T19:00:00",
+    "nextAnchor": "2025-09-11T22:00:00"
+  },
+  {
+    "taskId": 207,
+    "taskName": "Create Invitation Calls Plan For Interns and Share With Aravind & Deesha",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-05-22T19:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 208,
+    "taskName": "Monitor -  New Order FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-21T19:00:00",
+    "nextAnchor": "2025-09-12T22:00:00"
+  },
+  {
+    "taskId": 209,
+    "taskName": "Update Sales  Performance sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-26T19:00:00",
+    "nextAnchor": "2025-09-09T22:00:00"
+  },
+  {
+    "taskId": 210,
+    "taskName": "Share Mehakleen\u2019s calendar tasks and meetings list",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-24T19:00:00",
+    "nextAnchor": "2026-05-09T18:00:00"
+  },
+  {
+    "taskId": 211,
+    "taskName": "Check Youtube & Instagram Post",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-24T19:00:00",
+    "nextAnchor": "2026-05-09T22:00:00"
+  },
+  {
+    "taskId": 212,
+    "taskName": "Ask Organic Growth to share New Topics",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-05-28T19:00:00",
+    "nextAnchor": "2025-08-16T22:00:00"
+  },
+  {
+    "taskId": 213,
+    "taskName": "Check Student Access Update FMS",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-05-24T11:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 214,
+    "taskName": "Resolve Aisensy Queries & help students in Joining during ICC",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-30T19:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 215,
+    "taskName": "Monitor - Content Creation FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-26T19:00:00",
+    "nextAnchor": "2025-09-06T19:00:00"
+  },
+  {
+    "taskId": 216,
+    "taskName": "Monitor -  RGM PMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-05-26T19:00:00",
+    "nextAnchor": "2027-01-01T19:00:00"
+  },
+  {
+    "taskId": 217,
+    "taskName": "Extract & upload Testimonials of weekly Classes on YT & update the link in Testimonial Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-05-28T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 218,
+    "taskName": "Share 1 Student Testimonial in Sales Channel for Motivation",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-05-27T15:00:00",
+    "nextAnchor": "2025-09-10T22:00:00"
+  },
+  {
+    "taskId": 219,
+    "taskName": "Spot Check Sales Team - Green & Red",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-05-29T20:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 220,
+    "taskName": "Approve or Reject Sales - Match Closing Screenshot & Proof of Sale",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-06-02T20:00:00",
+    "nextAnchor": "2026-12-25T19:00:00"
+  },
+  {
+    "taskId": 221,
+    "taskName": "Send EMI notification",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-05-31T19:00:00",
+    "nextAnchor": "2026-12-02T19:00:00"
+  },
+  {
+    "taskId": 222,
+    "taskName": "Fill Weekly FMS",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-03T19:00:00",
+    "nextAnchor": "2025-10-28T22:00:00"
+  },
+  {
+    "taskId": 223,
+    "taskName": "5 Scripts of IG",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-07T19:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 224,
+    "taskName": "4 Carousel Scripts + Evening Meeting",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-03T19:00:00",
+    "nextAnchor": "2026-07-22T22:00:00"
+  },
+  {
+    "taskId": 225,
+    "taskName": "10 Captions for IG",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-04T19:00:00",
+    "nextAnchor": "2026-07-23T22:00:00"
+  },
+  {
+    "taskId": 226,
+    "taskName": "4 Carousel Design + Editing",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-05T19:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 227,
+    "taskName": "YT script + Topic shortlist",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-06T19:00:00",
+    "nextAnchor": "2026-07-25T22:00:00"
+  },
+  {
+    "taskId": 228,
+    "taskName": "Promote UTW",
+    "department": "Social Media",
+    "frequency": "E3rd",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-16T19:00:00",
+    "nextAnchor": "2026-07-21T22:00:00"
+  },
+  {
+    "taskId": 229,
+    "taskName": "Update Tuesday File",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-10T19:00:00",
+    "nextAnchor": "2025-08-13T19:00:00"
+  },
+  {
+    "taskId": 230,
+    "taskName": "Check Student Information Update FMS",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-06-04T19:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 231,
+    "taskName": "Update & Share Weekly Live Class & Webinar Schedule with all the Mentors",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-06-09T20:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 232,
+    "taskName": "Monitor UTW reminders in all the groups.",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-05T20:00:00",
+    "nextAnchor": "2027-01-01T20:00:00"
+  },
+  {
+    "taskId": 233,
+    "taskName": "Share Weekly Class Calendar with Respective Mentors",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-06-09T20:00:00",
+    "nextAnchor": "2025-09-09T20:00:00"
+  },
+  {
+    "taskId": 234,
+    "taskName": "Post Manifestation Magic Poll in SUPER Groups",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-06-06T16:00:00",
+    "nextAnchor": "2025-07-15T16:00:00"
+  },
+  {
+    "taskId": 235,
+    "taskName": "Mark Attendance of SUPER Students if they have attended the Class or not",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-06-06T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 236,
+    "taskName": "Discuss important mails with seniors and escalate them if needed",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-06-06T19:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 237,
+    "taskName": "Check UTW MSG in Comunity gruops",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-09T19:00:00",
+    "nextAnchor": "2025-06-15T19:00:00"
+  },
+  {
+    "taskId": 238,
+    "taskName": "share hot leads with sales team",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-07-09T22:00:00",
+    "nextAnchor": "2025-09-11T22:00:00"
+  },
+  {
+    "taskId": 239,
+    "taskName": "Check Weekly Live Class FMS",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-06-12T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 240,
+    "taskName": "Submit Daily End Report",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-07-04T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 241,
+    "taskName": "Assign ICP attendee leads to Sales Team",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-07-05T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 242,
+    "taskName": "UTW - Fill Performance Sheet",
+    "department": "Operations",
+    "frequency": "D",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-06-12T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 243,
+    "taskName": "Monitor - Aisensy",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2025-09-14T22:00:00"
+  },
+  {
+    "taskId": 244,
+    "taskName": "Monitor - Helpdesk",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2025-09-14T22:00:00"
+  },
+  {
+    "taskId": 245,
+    "taskName": "SUPER August Batch Accountability Calls",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-26T22:00:00",
+    "nextAnchor": "2026-04-18T22:00:00"
+  },
+  {
+    "taskId": 246,
+    "taskName": "Share Super Dec Homwork in groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-07-05T22:00:00",
+    "nextAnchor": "2025-07-20T22:00:00"
+  },
+  {
+    "taskId": 247,
+    "taskName": "Take SUPER Dec Batch EMI Followups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-08-08T22:00:00",
+    "nextAnchor": "2026-12-09T22:00:00"
+  },
+  {
+    "taskId": 248,
+    "taskName": "Take SUPER March & Dec EMI Followups via Call & take a timeline from them",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-08-08T22:00:00",
+    "nextAnchor": "2026-12-09T22:00:00"
+  },
+  {
+    "taskId": 249,
+    "taskName": "Verify the Tarot Workshop Created on Tagmango",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-06-11T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 250,
+    "taskName": "Review & Update Master Process Sheet Of My Soul School",
+    "department": "Admin",
+    "frequency": "M",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-14T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 251,
+    "taskName": "Inform Aravind and Tanvi about the interns available for next day before 6 p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-08-25T19:00:00",
+    "nextAnchor": "2025-09-05T19:00:00"
+  },
+  {
+    "taskId": 252,
+    "taskName": "Inform about the number of UTW Leads to be assigned between Interns in UTW Channel before 6 p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-05T19:00:00",
+    "nextAnchor": "2026-07-24T19:00:00"
+  },
+  {
+    "taskId": 253,
+    "taskName": "Schedule   Morning Draft And Google Forms in Interns channel  for  Sunday",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-02T22:00:00",
+    "nextAnchor": "2025-08-03T22:00:00"
+  },
+  {
+    "taskId": 254,
+    "taskName": "Send  UTW MSG Report  to Riya",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-24T22:00:00",
+    "nextAnchor": "2025-08-13T22:00:00"
+  },
+  {
+    "taskId": 255,
+    "taskName": "Update Tuesday File on Every Monday",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-06-23T22:00:00",
+    "nextAnchor": "2025-10-07T22:00:00"
+  },
+  {
+    "taskId": 256,
+    "taskName": "Post 1 Story on IG",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-23T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 257,
+    "taskName": "Post 1 Carousel",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-25T11:00:00",
+    "nextAnchor": "2025-09-20T11:00:00"
+  },
+  {
+    "taskId": 258,
+    "taskName": "Mark Status in Content Creations FMS",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-23T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 259,
+    "taskName": "Create Live Class for 30 Days Manifestation program - for First Saturday at 10AM\n{Manifestation - Live Masterclass (July)}",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-06-28T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 260,
+    "taskName": "Send Community Messages - Ig Channel, Tg at 10:30 a.m",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-26T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 261,
+    "taskName": "Daily Huddle with Aditi at 10 a.m",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-26T22:00:00",
+    "nextAnchor": "2025-08-21T22:00:00"
+  },
+  {
+    "taskId": 262,
+    "taskName": "Query Time at 2 p.m",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-26T22:00:00",
+    "nextAnchor": "2025-10-28T22:00:00"
+  },
+  {
+    "taskId": 263,
+    "taskName": "Instagram Post + Instagram Engagment from 6 - 7 p.m",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-26T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 264,
+    "taskName": "Mark Script Done in Content Creation FMS",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-01T22:00:00",
+    "nextAnchor": "2026-07-22T22:00:00"
+  },
+  {
+    "taskId": 265,
+    "taskName": "5 Carousel Scripts",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-01T22:00:00",
+    "nextAnchor": "2025-09-24T22:00:00"
+  },
+  {
+    "taskId": 266,
+    "taskName": "YT Script + Training / Editing",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-02T22:00:00",
+    "nextAnchor": "2025-10-23T22:00:00"
+  },
+  {
+    "taskId": 267,
+    "taskName": "Idea Stacking - Reels & Carousel",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-27T22:00:00",
+    "nextAnchor": "2026-07-25T22:00:00"
+  },
+  {
+    "taskId": 268,
+    "taskName": "Fill Content Creation FMS - Topic + Caption + Reels",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-06-27T22:00:00",
+    "nextAnchor": "2026-07-25T22:00:00"
+  },
+  {
+    "taskId": 269,
+    "taskName": "Send reminder in WhatsApp Insta DM Sales Group to \u201cDelete extra contacts from manychat for Last Week\u201d and tag DM sales team member at 11 a.m",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-06-28T22:00:00",
+    "nextAnchor": "2026-02-15T22:00:00"
+  },
+  {
+    "taskId": 270,
+    "taskName": "Fill System Tickets  & Update Response Sheet",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-30T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 271,
+    "taskName": "Monitor -  System Update FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-06-30T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 272,
+    "taskName": "Update upcoming Launches in Webinar Calendar for Next Month",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-07-25T22:00:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 273,
+    "taskName": "Share Total Enrollments and Revenue Generated for Ho'ponopono & RGM with Namita",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-07-01T22:00:00",
+    "nextAnchor": "2026-11-01T22:00:00"
+  },
+  {
+    "taskId": 274,
+    "taskName": "Do evening huddle with Paridhi & Chandrika",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 275,
+    "taskName": "Review all the previous day enrollment enteries",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-07-11T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 276,
+    "taskName": "Upload call recordings of all the closing calls done by sales team in the performance sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-07-12T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 277,
+    "taskName": "Monitor - Access Revoke FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-14T22:00:00",
+    "nextAnchor": "2027-01-01T22:00:00"
+  },
+  {
+    "taskId": 278,
+    "taskName": "Monitor - Sales FMS Super and  RGM",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-14T22:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 279,
+    "taskName": "Monitor - Sales FMS Super and  RGM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 280,
+    "taskName": "Review all the testimonials on Trustpilot and Respond to all the negative testimonials",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-07-19T19:00:00",
+    "nextAnchor": "2026-02-15T19:00:00"
+  },
+  {
+    "taskId": 281,
+    "taskName": "Fill Due payment form",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-07-28T22:00:00",
+    "nextAnchor": "2026-02-17T22:00:00"
+  },
+  {
+    "taskId": 282,
+    "taskName": "5 - reel scripts",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-28T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 283,
+    "taskName": "3 -  carousels script - MK and design 1st page of all 3 carousels",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-29T22:00:00",
+    "nextAnchor": "2025-09-24T22:00:00"
+  },
+  {
+    "taskId": 284,
+    "taskName": "3 Carousels script-MSSP and design 1st page of all 3 carousels",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-30T22:00:00",
+    "nextAnchor": "2025-10-23T22:00:00"
+  },
+  {
+    "taskId": 285,
+    "taskName": "idea stacking - Reels, Carousels",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-31T22:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 286,
+    "taskName": "FREE SPACE TO CATCH & WIND THINGS UP review all 6 carousels of aditi",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-18T22:00:00",
+    "nextAnchor": "2026-07-25T22:00:00"
+  },
+  {
+    "taskId": 287,
+    "taskName": "5 Reel Scripts",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-19T22:00:00",
+    "nextAnchor": "2026-07-26T22:00:00"
+  },
+  {
+    "taskId": 288,
+    "taskName": "Add Closing Calls in Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-07-26T22:00:00",
+    "nextAnchor": "2025-08-24T22:00:00"
+  },
+  {
+    "taskId": 289,
+    "taskName": "Add Closing Calls in Google Drive",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-08-30T22:00:00",
+    "nextAnchor": "2026-07-19T22:00:00"
+  },
+  {
+    "taskId": 290,
+    "taskName": "Fill all the Live Classes forms for the upcoming week",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-07-26T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 291,
+    "taskName": "MSSP - Daily Huddle with Lead Qualification Team at 10 a.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-07-23T22:00:00",
+    "nextAnchor": "2025-09-12T22:00:00"
+  },
+  {
+    "taskId": 292,
+    "taskName": "MSSP - Daily Huddle with Lead Qualification Team at 10 a.m",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-23T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 293,
+    "taskName": "Follow MSSP Lead Qualification FMS",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-24T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 294,
+    "taskName": "Share totaled calls report in channel",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-24T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 295,
+    "taskName": "Share MOM after huddle",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-24T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 296,
+    "taskName": "Take follow up on yesterday's leads and share updates",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-24T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 297,
+    "taskName": "Take  follow up  on \" MSSP- New Consultation FMS \"   before 12pm",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-31T22:00:00",
+    "nextAnchor": "2025-08-13T22:00:00"
+  },
+  {
+    "taskId": 298,
+    "taskName": "Monitor MSSP New Lead FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-23T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 299,
+    "taskName": "Post Carousel at 12 PM - Daily Task",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-07-23T22:00:00",
+    "nextAnchor": "2025-09-13T22:00:00"
+  },
+  {
+    "taskId": 300,
+    "taskName": "MSSP - Check & Reply to all Insta DMs",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-07-23T22:00:00",
+    "nextAnchor": "2025-10-01T22:00:00"
+  },
+  {
+    "taskId": 301,
+    "taskName": "MSSP - Share the total number of Consultations for Tomorrow with Timeline in #mssp-sales-team channel",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-07-24T22:00:00",
+    "nextAnchor": "2025-08-31T22:00:00"
+  },
+  {
+    "taskId": 302,
+    "taskName": "MSSP - Share the total number of Consultations for Tomorrow with Timeline in #mssp-sales-team channel",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-09-01T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 303,
+    "taskName": "Be available on slack for UTW LIVE CLOSING",
+    "department": "Sales",
+    "frequency": "W",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-29T22:00:00",
+    "nextAnchor": "2025-09-04T22:00:00"
+  },
+  {
+    "taskId": 304,
+    "taskName": "Be available on slack for ICP LIVE CLOSING",
+    "department": "Sales",
+    "frequency": "W",
+    "defaultAssigneeName": "Varsha Choudhary",
+    "startDate": "2025-07-26T22:00:00",
+    "nextAnchor": "2025-08-31T22:00:00"
+  },
+  {
+    "taskId": 305,
+    "taskName": "Delete the DUPLICATE bookings from GHL Calendar",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-07-24T19:00:00",
+    "nextAnchor": "2025-09-12T19:00:00"
+  },
+  {
+    "taskId": 306,
+    "taskName": "Upload shorts on YT",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-07-25T19:00:00",
+    "nextAnchor": "2025-09-12T19:00:00"
+  },
+  {
+    "taskId": 307,
+    "taskName": "Monitor System Creation FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-28T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 308,
+    "taskName": "Monitor MSSP - New consultation FMS .",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-28T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 309,
+    "taskName": "Review  Program Details Sheet if any changes are required",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-04T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 310,
+    "taskName": "Meeting with Interns  Every Wednesday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-06T22:00:00",
+    "nextAnchor": "2025-09-04T22:00:00"
+  },
+  {
+    "taskId": 311,
+    "taskName": "Monitor New Lead FMS 2.0",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-31T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 312,
+    "taskName": "Monitor New Lead FMS 2.0",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-05T22:00:00",
+    "nextAnchor": "2026-12-30T16:30:00"
+  },
+  {
+    "taskId": 313,
+    "taskName": "Monitor Sales FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-07-31T22:00:00",
+    "nextAnchor": "2025-09-05T22:00:00"
+  },
+  {
+    "taskId": 314,
+    "taskName": "Monitor Sales FMS",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-05T22:00:00",
+    "nextAnchor": "2026-12-30T16:30:00"
+  },
+  {
+    "taskId": 315,
+    "taskName": "Check Tagmango Entries if any new payment rcvd for any Program & fill the New Booking before 7 p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-07-31T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 316,
+    "taskName": "Plan upcoming Webinar & delegate Tasks accordingly",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-04T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 317,
+    "taskName": "Post msg to Calling team & Verify if the UTW Invitation Calls have been started or not  by 11 a.m",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-01T12:00:00",
+    "nextAnchor": "2025-08-08T19:00:00"
+  },
+  {
+    "taskId": 318,
+    "taskName": "Post msg to Calling team & Verify if the UTW Invitation Calls have been started or not  by 11 a.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-08-08T19:00:00",
+    "nextAnchor": "2026-07-23T19:00:00"
+  },
+  {
+    "taskId": 319,
+    "taskName": "Monitor UTW Invitation Calls at 2 p.m",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-01T17:00:00",
+    "nextAnchor": "2025-08-08T19:00:00"
+  },
+  {
+    "taskId": 320,
+    "taskName": "Monitor UTW Invitation Calls at 2 p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-08-08T19:00:00",
+    "nextAnchor": "2026-07-28T19:00:00"
+  },
+  {
+    "taskId": 321,
+    "taskName": "Share updates with Tanvi on - UTW Calls by 6 p.m",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-01T19:00:00",
+    "nextAnchor": "2025-08-08T19:00:00"
+  },
+  {
+    "taskId": 322,
+    "taskName": "Share updates with Tanvi on - UTW Calls by 6 p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-08-08T19:00:00",
+    "nextAnchor": "2025-10-08T19:00:00"
+  },
+  {
+    "taskId": 323,
+    "taskName": "Update UTW Daily Performance Sheet",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-08T19:00:00",
+    "nextAnchor": "2026-07-28T19:00:00"
+  },
+  {
+    "taskId": 324,
+    "taskName": "Review Comments of Tagmango Feed Posts & delete negative comments",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-08-09T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 325,
+    "taskName": "Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-08T22:00:00",
+    "nextAnchor": "2025-09-17T22:00:00"
+  },
+  {
+    "taskId": 326,
+    "taskName": "Check with Megha if we have 2 carousels ready for next week and update Nitin Sir",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-08T16:00:00",
+    "nextAnchor": "2026-02-14T16:00:00"
+  },
+  {
+    "taskId": 327,
+    "taskName": "Update Active and Inactive Team members Sheet",
+    "department": "Admin",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-01T19:00:00",
+    "nextAnchor": "2026-05-05T19:00:00"
+  },
+  {
+    "taskId": 328,
+    "taskName": "Check is there any class schedule for upcoming week",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-08-12T22:00:00",
+    "nextAnchor": "2026-12-24T22:00:00"
+  },
+  {
+    "taskId": 329,
+    "taskName": "Join Huddle at 10 am  in MSSP- Leads- Team",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Shivangi Dixit",
+    "startDate": "2025-08-12T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 330,
+    "taskName": "Take follow ups on NC_ booked calls before 12pm",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Shivangi Dixit",
+    "startDate": "2025-08-12T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 331,
+    "taskName": "take follow ups on NC_Scheduled calls before 11am",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Shivangi Dixit",
+    "startDate": "2025-08-12T22:00:00",
+    "nextAnchor": "2025-08-14T22:00:00"
+  },
+  {
+    "taskId": 332,
+    "taskName": "take follow ups on NC_Scheduled calls before 10am",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Shivangi Dixit",
+    "startDate": "2025-08-14T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 333,
+    "taskName": "Take follow ups on MSSP New leads  after 12pm.",
+    "department": "Sales",
+    "frequency": "D",
+    "defaultAssigneeName": "Shivangi Dixit",
+    "startDate": "2025-08-12T22:00:00",
+    "nextAnchor": "2025-09-06T22:00:00"
+  },
+  {
+    "taskId": 334,
+    "taskName": "Create Weekly Schedule for next week",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-20T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 335,
+    "taskName": "Update next week's schedule on Google Calendar",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-16T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 336,
+    "taskName": "Review MSSP: GHL Heal Her 2.0 Calendar for Call Bookings",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-08-20T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 337,
+    "taskName": "Review Team Attendance response sheet",
+    "department": "Admin",
+    "frequency": "M",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-20T22:00:00",
+    "nextAnchor": "2025-10-31T22:00:00"
+  },
+  {
+    "taskId": 338,
+    "taskName": "Take SUPER EMI (Aug batch)",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-08-28T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 339,
+    "taskName": "Share RCA call calender with Tanvi",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-23T19:00:00",
+    "nextAnchor": "2025-09-07T19:00:00"
+  },
+  {
+    "taskId": 340,
+    "taskName": "Drop Reminder To Tanvi and Client before logging out",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-23T19:00:00",
+    "nextAnchor": "2025-10-01T19:00:00"
+  },
+  {
+    "taskId": 341,
+    "taskName": "Verify Tagmango Transactions of current week & see if any booking form is not filled",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-01T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 342,
+    "taskName": "Fill New Booking Forms",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-08-29T19:00:00",
+    "nextAnchor": "2026-02-20T19:00:00"
+  },
+  {
+    "taskId": 343,
+    "taskName": "Get your Doubts Clarified in the huddle with Paridhi",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-08-29T19:00:00",
+    "nextAnchor": "2026-02-20T19:00:00"
+  },
+  {
+    "taskId": 344,
+    "taskName": "Share Daily Report of Onboarding & Due Payment status with Paridhi",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-08-29T19:00:00",
+    "nextAnchor": "2026-02-20T19:00:00"
+  },
+  {
+    "taskId": 345,
+    "taskName": "Share motivation message with sales team",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-02T22:00:00",
+    "nextAnchor": "2026-07-22T22:00:00"
+  },
+  {
+    "taskId": 346,
+    "taskName": "MSSP - Upload & Share Yesterday evening SoulFit session in all client groups.",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-30T11:00:00",
+    "nextAnchor": "2025-09-07T11:00:00"
+  },
+  {
+    "taskId": 347,
+    "taskName": "Call Dietician Amisha And Understand her Schedule on Friday and Saturday",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-03T19:00:00",
+    "nextAnchor": "2025-09-11T19:00:00"
+  },
+  {
+    "taskId": 348,
+    "taskName": "Download Yoga session from zoom and Upload it on YT playlist",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-08-30T19:00:00",
+    "nextAnchor": "2025-09-07T19:00:00"
+  },
+  {
+    "taskId": 349,
+    "taskName": "Take RGM/Reiki testimonials list after every class from Sneha Mam",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-01T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 350,
+    "taskName": "Share your availability for next week with Nitin Sir",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2025-09-06T22:00:00",
+    "nextAnchor": "2025-09-07T22:00:00"
+  },
+  {
+    "taskId": 351,
+    "taskName": "Upload MSSP Weekly Healing Session recordings on YT of Sneha Mam & Share with Students",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-06T19:00:00",
+    "nextAnchor": "2025-09-07T19:00:00"
+  },
+  {
+    "taskId": 352,
+    "taskName": "Monitor Social Media Dashboard",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-01T19:00:00",
+    "nextAnchor": "2025-10-28T19:00:00"
+  },
+  {
+    "taskId": 353,
+    "taskName": "Monitor Megha's Help -ticket  , And Reminder List from PC Dashboard",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-01T19:00:00",
+    "nextAnchor": "2025-10-28T19:00:00"
+  },
+  {
+    "taskId": 354,
+    "taskName": "Update Yoga Session Attendance of MSSP Clients",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-09-04T19:00:00",
+    "nextAnchor": "2025-09-10T19:00:00"
+  },
+  {
+    "taskId": 355,
+    "taskName": "Shift one month data from sales fms to backup sales FMS",
+    "department": "Operations",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Ruchi",
+    "startDate": "2025-10-06T19:00:00",
+    "nextAnchor": "2026-12-08T19:00:00"
+  },
+  {
+    "taskId": 356,
+    "taskName": "Schedule 24 Hrs before & same day Reminders to all the Tarot Health Mastery students (Class timings are 1st Sat of every Month at 3PM - 5PM)",
+    "department": "Operations",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-10-02T19:00:00",
+    "nextAnchor": "2026-12-04T19:00:00"
+  },
+  {
+    "taskId": 357,
+    "taskName": "Schedule 24 Hrs before & same day Reminders to all the Manifestation Program students (Class timings are 1st Sat of every Month at 10AM - 12PM)",
+    "department": "Operations",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-10-02T19:00:00",
+    "nextAnchor": "2026-12-04T19:00:00"
+  },
+  {
+    "taskId": 358,
+    "taskName": "Start & Manage Inner Circle Call",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-12T22:00:00",
+    "nextAnchor": "2026-12-26T22:00:00"
+  },
+  {
+    "taskId": 359,
+    "taskName": "Update EMI Defaulter list",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 360,
+    "taskName": "Get the access Revoked of all the SUPER/RGM students if EMI is due",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-15T22:00:00",
+    "nextAnchor": "2026-12-16T22:00:00"
+  },
+  {
+    "taskId": 361,
+    "taskName": "Update SUPER/RGM Defaulter sheet & check EA Notes as well properly",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-13T19:00:00",
+    "nextAnchor": "2026-12-27T19:00:00"
+  },
+  {
+    "taskId": 362,
+    "taskName": "Monitor Aisensy & helpdesk if all the queries are being answered properly",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-12T17:00:00",
+    "nextAnchor": "2026-12-31T17:00:00"
+  },
+  {
+    "taskId": 363,
+    "taskName": "Verify if all the Tagmango Community Msgs are being answered by EOD by 7p.m",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-12T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 364,
+    "taskName": "Submit MOM After Morning & Evening Huddle",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-09-12T22:00:00",
+    "nextAnchor": "2026-02-20T22:00:00"
+  },
+  {
+    "taskId": 365,
+    "taskName": "Fill Due Payment Reminder Forms",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-15T11:00:00",
+    "nextAnchor": "2026-12-29T12:00:00"
+  },
+  {
+    "taskId": 366,
+    "taskName": "Share Support Team Draft with student's queries in Tagmango Community",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Ishika",
+    "startDate": "2025-09-13T19:00:00",
+    "nextAnchor": "2026-02-20T19:00:00"
+  },
+  {
+    "taskId": 367,
+    "taskName": "Verify if all the Tagmango Community Queries are acknowledged",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T20:00:00",
+    "nextAnchor": "2025-10-07T20:00:00"
+  },
+  {
+    "taskId": 368,
+    "taskName": "Review Program Details Sheet and update it.",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 369,
+    "taskName": "Review Canned Responses and keep them updated",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 370,
+    "taskName": "Inform about Suruchi's ICC Call Attendance to Riya",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-13T15:00:00",
+    "nextAnchor": "2026-12-27T15:00:00"
+  },
+  {
+    "taskId": 371,
+    "taskName": "Start & Manage Monthly Manifestation MasterClass at 10AM",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-04T12:00:00",
+    "nextAnchor": "2026-12-06T12:00:00"
+  },
+  {
+    "taskId": 372,
+    "taskName": "Review Upcoming Webinar Messages on every Monday",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-15T19:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 373,
+    "taskName": "Remind Mehakleen Mam in class about sharing Affiliation details in ICC Call",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-03T22:00:00",
+    "nextAnchor": "2026-12-05T22:00:00"
+  },
+  {
+    "taskId": 374,
+    "taskName": "Review the Group Messages of all the webinars and workshops",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-22T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 375,
+    "taskName": "Fill Defaulter Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2025-09-22T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 376,
+    "taskName": "Update Sales Team Performance Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-15T19:00:00",
+    "nextAnchor": "2026-07-21T19:00:00"
+  },
+  {
+    "taskId": 377,
+    "taskName": "Send all reminder At  11:30 am , 2:30 pm , 5:30 pm  ONLY",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-09-18T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 378,
+    "taskName": "Call for due payments for Manifestation and Reiki L1/L2 from Student Record Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-25T19:00:00",
+    "nextAnchor": "2026-12-25T19:00:00"
+  },
+  {
+    "taskId": 379,
+    "taskName": "Share the list of UTW which are not relevant to our workshop",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-09-20T22:00:00",
+    "nextAnchor": "2026-07-21T13:00:00"
+  },
+  {
+    "taskId": 380,
+    "taskName": "Update FMS list Sheet",
+    "department": "Admin",
+    "frequency": "W",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-09-25T19:00:00",
+    "nextAnchor": "2026-12-25T19:00:00"
+  },
+  {
+    "taskId": 381,
+    "taskName": "Post Youtube Short Video",
+    "department": "Social Media",
+    "frequency": "D",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-09-19T19:00:00",
+    "nextAnchor": "2025-10-28T19:00:00"
+  },
+  {
+    "taskId": 382,
+    "taskName": "Post Youtube Short Video",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-10-29T19:00:00",
+    "nextAnchor": "2026-07-28T19:00:00"
+  },
+  {
+    "taskId": 383,
+    "taskName": "Write 3 carousel script - Mk",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-09-30T22:00:00",
+    "nextAnchor": "2025-10-22T22:00:00"
+  },
+  {
+    "taskId": 384,
+    "taskName": "Write 3 carousel script - MSSP",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-09-30T22:00:00",
+    "nextAnchor": "2025-10-22T22:00:00"
+  },
+  {
+    "taskId": 385,
+    "taskName": "\u2060Design 3 carousel - Mk",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-10-01T22:00:00",
+    "nextAnchor": "2026-07-23T22:00:00"
+  },
+  {
+    "taskId": 386,
+    "taskName": "\u2060Design 3 carousel - MSSP",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-10-02T22:00:00",
+    "nextAnchor": "2026-07-24T22:00:00"
+  },
+  {
+    "taskId": 387,
+    "taskName": "Review Manifestation Due Payments status and Revoke Access",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-09-30T22:00:00",
+    "nextAnchor": "2026-12-31T22:00:00"
+  },
+  {
+    "taskId": 388,
+    "taskName": "Update Sales FMS Backup Sheet",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-10-29T13:00:00",
+    "nextAnchor": "2026-12-31T13:00:00"
+  },
+  {
+    "taskId": 389,
+    "taskName": "Monitor Reminderlist update FMS",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-10-04T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 390,
+    "taskName": "Update Lead Qualification FMS Backup Sheet",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-10-06T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 391,
+    "taskName": "Approve Joining & Posts Requests in Facebook Community at 12 PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-04T12:30:00",
+    "nextAnchor": "2026-12-30T12:30:00"
+  },
+  {
+    "taskId": 392,
+    "taskName": "Approve Joining & Posts Requests in Facebook Community at 6 PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-04T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 393,
+    "taskName": "Review UTW launch Sheet 2.0",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2025-10-16T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 394,
+    "taskName": "Turn on Off Hours message on Aisesny",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-10-25T22:00:00",
+    "nextAnchor": "2026-12-27T22:00:00"
+  },
+  {
+    "taskId": 395,
+    "taskName": "Share the Current Week new system that we are going to work & implement",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-10-25T12:00:00",
+    "nextAnchor": "2026-12-27T12:00:00"
+  },
+  {
+    "taskId": 396,
+    "taskName": "Share IG Analytics with EA",
+    "department": "Social Media",
+    "frequency": "W",
+    "defaultAssigneeName": "Megha Chanda",
+    "startDate": "2025-11-03T22:00:00",
+    "nextAnchor": "2026-07-28T22:00:00"
+  },
+  {
+    "taskId": 397,
+    "taskName": "Share ICP Launch Data",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-11-15T22:00:00",
+    "nextAnchor": "2026-04-19T22:00:00"
+  },
+  {
+    "taskId": 398,
+    "taskName": "Share Data of all the Saturday Launches",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-04-27T21:00:00",
+    "nextAnchor": "2026-12-29T21:00:00"
+  },
+  {
+    "taskId": 399,
+    "taskName": "Share Health Mastery Launch Data",
+    "department": "Customer Support",
+    "frequency": "Q",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-11-17T22:00:00",
+    "nextAnchor": "2026-11-18T22:00:00"
+  },
+  {
+    "taskId": 400,
+    "taskName": "Share Reiki Launch Data",
+    "department": "Customer Support",
+    "frequency": "Q",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-11-17T22:00:00",
+    "nextAnchor": "2026-11-18T22:00:00"
+  },
+  {
+    "taskId": 401,
+    "taskName": "Share Mehakleen Ma'am calendar task daily.",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-11-21T18:00:00",
+    "nextAnchor": "2026-05-09T18:00:00"
+  },
+  {
+    "taskId": 402,
+    "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-01-01T18:00:00",
+    "nextAnchor": "2026-12-08T21:00:00"
+  },
+  {
+    "taskId": 403,
+    "taskName": "Submit EOD Report in Admin Group",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2025-12-19T18:00:00",
+    "nextAnchor": "2026-05-09T18:00:00"
+  },
+  {
+    "taskId": 404,
+    "taskName": "Share Aravind's Current Week Plan for New System Creation",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2025-12-22T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 405,
+    "taskName": "Review Sales Calls and share update on this Week's Launch - Lead Quality, Pickup Ratio, Pitch Quality.",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2025-12-25T22:00:00",
+    "nextAnchor": "2026-12-25T19:00:00"
+  },
+  {
+    "taskId": 406,
+    "taskName": "Review the Affiliates of Current week and update Namita ma'am about the same.",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-02-02T22:00:00",
+    "nextAnchor": "2026-12-29T22:00:00"
+  },
+  {
+    "taskId": 407,
+    "taskName": "Follow on onboarding & due payment FMS",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-02-25T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 408,
+    "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-03-31T11:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 409,
+    "taskName": "Check TeamLogger Every Morning",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2026-03-31T12:00:00",
+    "nextAnchor": "2026-05-09T12:00:00"
+  },
+  {
+    "taskId": 410,
+    "taskName": "Share 2-3 UTW Invitation Recordings of each Intern with Tanvi Personally",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-04-02T19:00:00",
+    "nextAnchor": "2026-07-24T19:00:00"
+  },
+  {
+    "taskId": 411,
+    "taskName": "Share this week's Leadership Call Topic in SUPER Groups",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-04-06T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 412,
+    "taskName": "Share a daily report of all the Accountability calls/Support Calls (batch-wise: total calls dialed, connected, not connected, along with student names",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-04-03T21:00:00",
+    "nextAnchor": "2026-12-30T21:00:00"
+  },
+  {
+    "taskId": 413,
+    "taskName": "Share SUPER Monthly Calendar in Groups",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-04-25T21:00:00",
+    "nextAnchor": "2026-12-26T21:00:00"
+  },
+  {
+    "taskId": 414,
+    "taskName": "Share the number of Closings with Tanvi by 8pm",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-04-21T21:00:00",
+    "nextAnchor": "2026-12-30T21:00:00"
+  },
+  {
+    "taskId": 415,
+    "taskName": "Conduct RGM April Accountability",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-04-30T21:00:00",
+    "nextAnchor": "2026-12-16T21:00:00"
+  },
+  {
+    "taskId": 416,
+    "taskName": "Conduct Super Accountability",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-04-24T21:00:00",
+    "nextAnchor": "2026-12-26T21:00:00"
+  },
+  {
+    "taskId": 417,
+    "taskName": "Share BOD Report Daily in Admin Group",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2026-04-22T10:30:00",
+    "nextAnchor": "2026-05-09T10:30:00"
+  },
+  {
+    "taskId": 418,
+    "taskName": "Call Defaulter Every Monday, Thursday and Saturday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-04-25T21:00:00",
+    "nextAnchor": "2026-12-29T21:00:00"
+  },
+  {
+    "taskId": 419,
+    "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-04-27T19:30:00",
+    "nextAnchor": "2026-12-29T19:30:00"
+  },
+  {
+    "taskId": 420,
+    "taskName": "Review all FMS and dashboards to verify that all doer names and IDs are accurate and up to date",
+    "department": "Admin",
+    "frequency": "M",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2026-05-30T18:00:00",
+    "nextAnchor": "2026-12-01T18:00:00"
+  },
+  {
+    "taskId": 421,
+    "taskName": "Share this Week's FOCUS & Planning",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-06-13T21:00:00",
+    "nextAnchor": "2026-12-27T21:00:00"
+  },
+  {
+    "taskId": 422,
+    "taskName": "Share Daily Report on INVITE A FREIND & TAROT MASTERY Accountability (Referral)",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-06-09T20:30:00",
+    "nextAnchor": "2026-12-30T20:30:00"
+  },
+  {
+    "taskId": 423,
+    "taskName": "Share Homework with students in Group after every Class",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-07-04T21:00:00",
+    "nextAnchor": "2026-12-06T21:00:00"
+  },
+  {
+    "taskId": 424,
+    "taskName": "Share Due Payment Report",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-05-20T21:00:00",
+    "nextAnchor": "2026-12-29T21:00:00"
+  },
+  {
+    "taskId": 425,
+    "taskName": "Share the UTW & Webinar message report on the channel",
+    "department": "Admin",
+    "frequency": "D",
+    "defaultAssigneeName": "Dolly",
+    "startDate": "2026-05-20T21:00:00",
+    "nextAnchor": "2026-12-30T21:00:00"
+  },
+  {
+    "taskId": 426,
+    "taskName": "Share EMI Defaulters of the particular batch in SUPER Channel & tag the Mentor who is taking the class",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-05-22T21:00:00",
+    "nextAnchor": "2026-12-26T21:00:00"
+  },
+  {
+    "taskId": 427,
+    "taskName": "Share EMI Defaulters of all the students SUPER Channel & tag the Mentor who is taking the class",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-05-28T21:00:00",
+    "nextAnchor": "2026-12-25T21:00:00"
+  },
+  {
+    "taskId": 428,
+    "taskName": "Update the Due Payment Weekly Update sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-05-30T21:00:00",
+    "nextAnchor": "2026-12-27T21:00:00"
+  },
+  {
+    "taskId": 429,
+    "taskName": "Update the Invite a Friend Weekly Update sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-05-29T21:00:00",
+    "nextAnchor": "2026-12-26T21:00:00"
+  },
+  {
+    "taskId": 430,
+    "taskName": "Check ''Invite a Freind'' FMS",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-05-30T21:00:00",
+    "nextAnchor": "2026-12-27T21:00:00"
+  },
+  {
+    "taskId": 431,
+    "taskName": "Check if TMR/RME Banners needs to be created",
+    "department": "Customer Support",
+    "frequency": "Y",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-08-02T21:00:00",
+    "nextAnchor": "2030-05-03T21:00:00"
+  },
+  {
+    "taskId": 432,
+    "taskName": "Share Daily Intern Calls Report (Individually) in UTW Channel",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-06-18T21:00:00",
+    "nextAnchor": "2026-07-24T21:00:00"
+  },
+  {
+    "taskId": 433,
+    "taskName": "Check if we need to get NEW SIM for Intern Calls",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-06T21:00:00",
+    "nextAnchor": "2026-12-08T21:00:00"
+  },
+  {
+    "taskId": 434,
+    "taskName": "Fill Ad Report Form",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2025-07-03T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 435,
+    "taskName": "Check UTM Parameters",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2025-07-03T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 436,
+    "taskName": "Review Internal Meta Campaigns",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2025-07-03T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 437,
+    "taskName": "Check Ad Account Funds & Add Funds (if required)",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2025-07-03T22:00:00",
+    "nextAnchor": "2026-12-30T22:00:00"
+  },
+  {
+    "taskId": 438,
+    "taskName": "Assign Invitation Calls to Interns in the Morning by 10AM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T10:30:00",
+    "nextAnchor": "2026-12-30T10:30:00"
+  },
+  {
+    "taskId": 439,
+    "taskName": "Check Interns' Call Status form wheather submitted or not (12PM)",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-06T12:30:00",
+    "nextAnchor": "2026-12-30T12:30:00"
+  },
+  {
+    "taskId": 440,
+    "taskName": "Daily Morning Huddle with Interns by 10:30AM & align them to start with the calls",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T11:00:00",
+    "nextAnchor": "2026-12-30T11:00:00"
+  },
+  {
+    "taskId": 441,
+    "taskName": "Daily Morning Check-in for Sales Team & align them to start with the calls by 11AM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T11:30:00",
+    "nextAnchor": "2026-12-30T11:30:00"
+  },
+  {
+    "taskId": 442,
+    "taskName": "Check for new Leads on WATI if any",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T13:00:00",
+    "nextAnchor": "2026-12-29T13:00:00"
+  },
+  {
+    "taskId": 443,
+    "taskName": "Update Call Numbers & all other tabs in Interns' Performance Sheet",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 444,
+    "taskName": "Update Sales Team's Performance Tracker Sheet before Daily Meeting",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T14:00:00",
+    "nextAnchor": "2026-12-29T14:00:00"
+  },
+  {
+    "taskId": 445,
+    "taskName": "Do Tarot Accountability Calls from New Order FMS Dashboard",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T17:00:00",
+    "nextAnchor": "2026-12-30T17:00:00"
+  },
+  {
+    "taskId": 446,
+    "taskName": "Discuss pending queries in afternoon Huddle with Senior",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T16:00:00",
+    "nextAnchor": "2026-12-30T16:00:00"
+  },
+  {
+    "taskId": 447,
+    "taskName": "Check the Connectivity Ratio + Calls Status Report of Interns' Invitation Calls",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T14:00:00",
+    "nextAnchor": "2026-12-29T14:00:00"
+  },
+  {
+    "taskId": 448,
+    "taskName": "Do Evening Huddle with Interns & review Call Recordings & give Feedback around 3PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T16:00:00",
+    "nextAnchor": "2026-12-30T16:00:00"
+  },
+  {
+    "taskId": 449,
+    "taskName": "Spot Check Sales Team (Recordings/Call History/Quality of Calls during the Morning Huddle",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T16:00:00",
+    "nextAnchor": "2026-12-30T16:00:00"
+  },
+  {
+    "taskId": 450,
+    "taskName": "Share Daily Intern Calls Report (Individually) in UTW Channel & in Interns Group",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T19:00:00",
+    "nextAnchor": "2026-12-30T19:00:00"
+  },
+  {
+    "taskId": 451,
+    "taskName": "Share 2-3 Tarot/Reiki Invitation Recordings of each Intern with Tanvi Personally",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 452,
+    "taskName": "Send EOD Report of Sales team to Nitin sir if there is less then 50 calls",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 453,
+    "taskName": "Upload Call Recordings in DRIVE for Sales Team & add in the Closers Perforrmance sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-09T20:00:00",
+    "nextAnchor": "2026-12-25T20:00:00"
+  },
+  {
+    "taskId": 454,
+    "taskName": "Motivate Closers Team for the Closing",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T11:00:00",
+    "nextAnchor": "2026-12-30T11:00:00"
+  },
+  {
+    "taskId": 455,
+    "taskName": "Review/Verify Closers' Team Performance Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-10T15:00:00",
+    "nextAnchor": "2026-12-19T15:00:00"
+  },
+  {
+    "taskId": 456,
+    "taskName": "Share the Non Registrant Report from tarot Workshop which are not relevant to our workshop",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-06T12:00:00",
+    "nextAnchor": "2026-12-22T12:00:00"
+  },
+  {
+    "taskId": 457,
+    "taskName": "Message in Interns' Channel if they are planning for leave in upcoming week",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-04T11:00:00",
+    "nextAnchor": "2026-12-20T11:00:00"
+  },
+  {
+    "taskId": 458,
+    "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2026-08-03T19:00:00",
+    "nextAnchor": "2026-12-08T19:00:00"
+  },
+  {
+    "taskId": 459,
+    "taskName": "Check if we need to allot NEW SIM for Intern Calls",
+    "department": "Customer Support",
+    "frequency": "E1st",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2026-08-03T19:00:00",
+    "nextAnchor": "2026-12-08T20:00:00"
+  },
+  {
+    "taskId": 460,
+    "taskName": "Raise a Ticket for Namita to update Callyzer Subscription",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Deesha",
+    "startDate": "2026-07-07T18:00:00",
+    "nextAnchor": "2026-12-08T18:00:00"
+  },
+  {
+    "taskId": 461,
+    "taskName": "Tarot - Update Free Optin Page (MON)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-13T18:00:00",
+    "nextAnchor": "2026-12-29T18:00:00"
+  },
+  {
+    "taskId": 462,
+    "taskName": "Tarot - Update Free TY Page (MON)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-13T18:00:00",
+    "nextAnchor": "2026-12-29T18:00:00"
+  },
+  {
+    "taskId": 463,
+    "taskName": "Update date, time & timer on Reiki Landing Page. (THU)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-16T18:00:00",
+    "nextAnchor": "2026-12-18T18:00:00"
+  },
+  {
+    "taskId": 464,
+    "taskName": "Update date, time, timer & WhatsApp link (from Arvind Sir) on Reiki Thank You Page.(THU)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-16T18:00:00",
+    "nextAnchor": "2026-12-25T18:00:00"
+  },
+  {
+    "taskId": 465,
+    "taskName": "Update PABBLY \u2013 Reiki \u2013 FREE \u2013 Flexi Optin Step 5 (Webinar Date & Time).(THU)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-16T18:00:00",
+    "nextAnchor": "2026-12-25T18:00:00"
+  },
+  {
+    "taskId": 466,
+    "taskName": "Update PABBLY \u2013 Reiki \u2013 FREE \u2013 Flexi Optin Step 8 (Webinar Date, Time & WhatsApp link).(THU)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-16T18:00:00",
+    "nextAnchor": "2026-12-25T18:00:00"
+  },
+  {
+    "taskId": 467,
+    "taskName": "Register as a user and verify the complete flow. (THU)",
+    "department": "Marketing",
+    "frequency": "W",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-16T18:00:00",
+    "nextAnchor": "2026-12-25T18:00:00"
+  },
+  {
+    "taskId": 468,
+    "taskName": "Share BOD by 10:00 AM",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-11T18:00:00",
+    "nextAnchor": "2026-12-30T18:00:00"
+  },
+  {
+    "taskId": 469,
+    "taskName": "Share EOD by 06:30 PM",
+    "department": "Marketing",
+    "frequency": "D",
+    "defaultAssigneeName": "Siddhi",
+    "startDate": "2026-07-11T18:00:00",
+    "nextAnchor": "2026-12-30T18:00:00"
+  },
+  {
+    "taskId": 470,
+    "taskName": "Share Daily Report of Accountability Calls (Referral) done today",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-07-13T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 471,
+    "taskName": "Fill Webinar Showup Form",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-07-24T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 472,
+    "taskName": "Share a proper Daily Report for Onboardings (Invite a Friend) & Due Payments in Support Channel",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-08-05T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 473,
+    "taskName": "Verify if the Msgs via Automation are correct via Aisensy - timings to be updated by 2pm",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-08-06T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 474,
+    "taskName": "Share Attunement Guidelines in Reiki Whatsapp & Telegram Groups - 29th & 1st of every Month",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-09-01T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 475,
+    "taskName": "Share a confirmation message confirming that all technical aspects (Zoom link, backend setup, permissions, recordings, etc.) have been verified to ensure the webinar runs smoothly without any issues (All the Next Week Webinars) - EVERY SUNDAY",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2026-08-09T20:00:00",
+    "nextAnchor": "2026-12-28T20:00:00"
+  },
+  {
+    "taskId": 476,
+    "taskName": "Verify all the Workshops of this week - Daily by 9:30PM",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-08-08T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 477,
+    "taskName": "Schedule 2 Reminders for Reiki L1/L2 & L3 Attunement in Telegram (48 Hrs before & Same day) - 27th & 30th of every month",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-08-27T20:00:00",
+    "nextAnchor": "2026-12-27T20:00:00"
+  },
+  {
+    "taskId": 478,
+    "taskName": "Share Reiki L1/L2 & L3 Attunement Reminder in Reiki Groups - 1st of every Month",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-09-01T20:00:00",
+    "nextAnchor": "2026-12-02T20:00:00"
+  },
+  {
+    "taskId": 479,
+    "taskName": "Share an update on Last week's Due Payments - every Saturday",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-08-22T19:30:00",
+    "nextAnchor": "2026-12-27T19:30:00"
+  },
+  {
+    "taskId": 480,
+    "taskName": "Upload the IAF Call recordings of those who have not invited anyone in the IAF sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-09-05T20:00:00",
+    "nextAnchor": "2026-12-27T20:00:00"
+  },
+  {
+    "taskId": 481,
+    "taskName": "Fara - Test Task",
+    "department": "Admin",
+    "frequency": "Q",
+    "defaultAssigneeName": "Riya",
+    "startDate": "2026-09-30T20:00:00",
+    "nextAnchor": "2026-10-01T20:00:00"
+  },
+  {
+    "taskId": 482,
+    "taskName": "Upload Call Recordings on Callyzer by EOD",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Paridhi",
+    "startDate": "2026-09-15T20:00:00",
+    "nextAnchor": "2026-12-30T20:00:00"
+  },
+  {
+    "taskId": 483,
+    "taskName": "Post Group message in Channel",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2026-09-21T20:00:00",
+    "nextAnchor": "2026-12-29T20:00:00"
+  },
+  {
+    "taskId": 484,
+    "taskName": "Share Total Tarot, Reiki & Health Sales",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Tanvi Negi",
+    "startDate": "2026-09-19T21:00:00",
+    "nextAnchor": "2026-12-27T21:00:00"
+  },
+  {
+    "taskId": 485,
+    "taskName": "Send Reminder of all the classes scheduled for the week",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Chandrika Pathak",
+    "startDate": "2026-09-21T18:00:00",
+    "nextAnchor": "2026-12-29T18:00:00"
+  },
+  {
+    "taskId": 486,
+    "taskName": "Post EMI Reminder in SUPER Dec Whatsapp Group",
+    "department": "Customer Support",
+    "frequency": "M",
+    "defaultAssigneeName": "Chandrika Pathak"
+  },
+  {
+    "taskId": 487,
+    "taskName": "UTW Payment Reminder for Current Launch in AiSensy - Schedule for Friday 11AM 3PM",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind"
+  },
+  {
+    "taskId": 488,
+    "taskName": "Share UTW Whatsapp Group Messages scheduled after 8PM",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind"
+  },
+  {
+    "taskId": 489,
+    "taskName": "Check and Revert to Clients msgs in Whatsapp Groups",
+    "department": "Customer Support",
+    "frequency": "D",
+    "defaultAssigneeName": "Akankshya"
+  },
+  {
+    "taskId": 490,
+    "taskName": "Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Ishika"
+  },
+  {
+    "taskId": 491,
+    "taskName": "Share Morning Message to Interns once the leads are assigned on SUNDAY",
+    "department": "Customer Support",
+    "frequency": "W",
+    "defaultAssigneeName": "Deesha"
+  },
+  {
+    "taskId": 492,
+    "taskName": "UTW - Publish & Verify Launch Shift",
+    "department": "Operations",
+    "frequency": "W",
+    "defaultAssigneeName": "Aravind",
+    "startDate": "2025-06-16T22:00:00"
+  }
+]

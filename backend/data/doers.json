@@ -1,0 +1,180 @@
+[
+  {
+    "name": "Aravind",
+    "department": "Operations",
+    "email": "aravind@mysoulschool.in",
+    "buddyEmails": [
+      "ruchimysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Tanvi Negi",
+    "department": "Customer Support",
+    "email": "tanvi_negi@mysoulschool.in",
+    "buddyEmails": [
+      "chandrika.mysoulschool@gmail.com",
+      "aravind@mysoulschool.in"
+    ]
+  },
+  {
+    "name": "Megha Chanda",
+    "department": "Social Media",
+    "email": "megha@mysoulschool.in",
+    "buddyEmails": []
+  },
+  {
+    "name": "Chandrika Pathak",
+    "department": "Customer Support",
+    "email": "chandrika.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "tanvi_negi@mysoulschool.in",
+      "aravind@mysoulschool.in",
+      "paridhi.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Bhumika Choudhary",
+    "department": "Sales",
+    "email": "bhumika.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "rahul.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Rahul Bidlan",
+    "department": "Sales",
+    "email": "rahul.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "bhumika.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Varsha",
+    "department": "Accounts",
+    "email": "accounts@mysoulschool.in",
+    "buddyEmails": [
+      "deesha.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Deesha",
+    "department": "Customer Support",
+    "email": "deesha.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "dolly_naagar@mysoulschool.in",
+      "paridhi.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Dolly",
+    "department": "Admin",
+    "email": "dolly_naagar@mysoulschool.in",
+    "buddyEmails": [
+      "riya.mysoulschool@gmail.com",
+      "tanvi_negi@mysoulschool.in",
+      "ruchimysoulschool@gmail.com",
+      "deesha.mysoulschool@gmail.com",
+      "paridhi.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Ruchi",
+    "department": "Operations",
+    "email": "ruchimysoulschool@gmail.com",
+    "buddyEmails": [
+      "aravind@mysoulschool.in"
+    ]
+  },
+  {
+    "name": "Paridhi",
+    "department": "Customer Support",
+    "email": "paridhi.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "chandrika.mysoulschool@gmail.com",
+      "riya.mysoulschool@gmail.com",
+      "chandrika.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Riya",
+    "department": "Admin",
+    "email": "riya.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "dolly_naagar@mysoulschool.in"
+    ]
+  },
+  {
+    "name": "Sneha",
+    "department": "Customer Support",
+    "email": "sneha.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "deesha.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Varsha Choudhary",
+    "department": "Sales",
+    "email": "varshach.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "shivangi.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Shivangi Dixit",
+    "department": "Sales",
+    "email": "shivangi.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "varshach.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Muskan",
+    "department": "Customer Support",
+    "email": "muskan.mysoulschool@gmail.com",
+    "buddyEmails": []
+  },
+  {
+    "name": "Ishika",
+    "department": "Customer Support",
+    "email": "ishika.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "paridhi.mysoulschool@gmail.com",
+      "bless.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Blessy",
+    "department": "Customer Support",
+    "email": "bless.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "paridhi.mysoulschool@gmail.com",
+      "ishika.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Rithika",
+    "department": "Customer Support",
+    "email": "rithika.mysoulschool@gmail.com",
+    "buddyEmails": [
+      "riya.mysoulschool@gmail.com"
+    ]
+  },
+  {
+    "name": "Akankshya",
+    "department": "Customer Support",
+    "email": "akankshya.mysoulschool@gmail.com",
+    "buddyEmails": []
+  },
+  {
+    "name": "Siddhi",
+    "department": "Marketing",
+    "email": "siddhi.mysoulspace@gmail.com",
+    "buddyEmails": []
+  },
+  {
+    "name": "Fara",
+    "department": "Operations",
+    "email": "fara.mysoulschool.in@gmail.com",
+    "buddyEmails": []
+  }
+]
