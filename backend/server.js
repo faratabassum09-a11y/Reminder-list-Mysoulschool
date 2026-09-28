@@ -42,6 +42,22 @@ async function refreshOverdueStatuses() {
   }
 }
 
+// Free-tier hosts (Render) put the server to sleep after ~15 minutes with
+// no traffic, and the first request afterwards can take 30-50 seconds —
+// that, more than any query, is what makes the site feel slow "first thing
+// in the morning". Render sets RENDER_EXTERNAL_URL automatically; when it's
+// present the server pings its own public /api/health every 10 minutes so
+// it never idles out. Set KEEP_ALIVE=0 to turn this off (e.g. on a paid
+// always-on plan where it's not needed).
+function startKeepAlive() {
+  const url = process.env.RENDER_EXTERNAL_URL;
+  if (!url || process.env.KEEP_ALIVE === "0") return;
+  setInterval(() => {
+    fetch(`${url.replace(/\/$/, "")}/api/health`).catch(() => {});
+  }, 10 * 60 * 1000).unref();
+  console.log("[keep-alive] Self-ping enabled");
+}
+
 const app = express();
 
 // In production, Render (backend) and Vercel (frontend) live on different
@@ -64,7 +80,7 @@ app.use(express.json({ limit: "3mb" }));
 // hundreds-to-thousands of JSON rows and the CSV exports are much larger
 // still; compressing those cuts transfer time noticeably, especially for
 // people on slower connections.
-app.use(compression());
+app.use(compression({ threshold: 1024 }));
 
 app.use("/api/auth", authRoutes);
 app.get("/api/health", (req, res) => res.json({ ok: true }));
@@ -85,7 +101,7 @@ app.use("/api/reminders", requireAuth, requireAdmin, reminderRoutes);
 app.use("/api/users", requireAuth, requireAdmin, userRoutes);
 app.use("/api/notifications", requireAuth, requireAdmin, notificationRoutes);
 // Member-level, like Doers/Tasks/Master — every signed-in person can ask
-// Ozzy questions, the route itself scopes the data snapshot to their role.
+// MySoul Assistant questions, the route itself scopes the data snapshot to their role.
 app.use("/api/chatbot", requireAuth, chatbotRoutes);
 // Member-level too — anyone signed in can DM anyone else. The one
 // exception is posting a Doer-list broadcast, which the router itself
@@ -144,6 +160,7 @@ mongoose
     console.log("MongoDB connected");
     refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    startKeepAlive();
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err.message);

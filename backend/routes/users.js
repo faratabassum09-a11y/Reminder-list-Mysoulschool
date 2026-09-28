@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
 import { hashPassword } from "../utils/auth.js";
+import { clearAuthCache } from "../middleware/auth.js";
 
 const router = express.Router();
 // Every route here is mounted behind requireAuth + requireAdmin in
@@ -25,6 +26,7 @@ router.post("/", async (req, res) => {
       role: role === "admin" ? "admin" : "member",
       slackId: slackId?.trim() || "",
     });
+    clearAuthCache();
     const { passwordHash: _, ...safe } = user.toObject();
     res.status(201).json(safe);
   } catch (err) {
@@ -66,6 +68,7 @@ router.put("/:id", async (req, res) => {
 
     const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select("-passwordHash");
     if (!user) return res.status(404).json({ error: "User not found" });
+    clearAuthCache();
     res.json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -87,6 +90,7 @@ router.delete("/:id", async (req, res) => {
     if (otherActiveAdmins === 0) return res.status(400).json({ error: "Can't delete the last admin" });
   }
   await User.findByIdAndDelete(req.params.id);
+  clearAuthCache();
   res.json({ ok: true });
 });
 

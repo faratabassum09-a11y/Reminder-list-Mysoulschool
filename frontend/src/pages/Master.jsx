@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { api, API_BASE } from "../api.js";
+import { api } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import TableSkeleton from "../components/TableSkeleton.jsx";
 import TableScrollControls from "../components/TableScrollControls.jsx";
@@ -12,6 +12,9 @@ import EditTaskModal from "../components/EditTaskModal.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { FREQ_SUGGESTIONS, parseFrequencyInput } from "../utils/frequency.js";
+import { rangeToParams } from "../utils/masterRanges.js";
+import { useDateFilter } from "../hooks/useDateFilter.js";
+import { QuickRangePills, DateRangeRow } from "../components/DateFilter.jsx";
 
 const emptyTask = { taskName: "", department: "", defaultAssignee: "", startDate: "" };
 const DEFAULT_FREQ_INPUT = "Daily";
@@ -40,13 +43,15 @@ export default function Master() {
   const [taskBusy, setTaskBusy] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [filterStatus, setFilterStatus] = useState("");
-  const [todayOnly, setTodayOnly] = useState(false);
+  // Date filtering: either ONE quick pill (Today / Tomorrow / Last Week /
+  // Next Week) or a custom From–To calendar range — picking one clears the
+  // other so there's never a confusing combination.
+  const dateFilter = useDateFilter(() => setPage(1));
+  const { quick, dateFrom, dateTo } = dateFilter;
   const [mineOnly, setMineOnly] = useState(false);
   const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [error, setError] = useState("");
-  const [highlightId, setHighlightId] = useState(null);
-  const [highlightRow, setHighlightRow] = useState(null);
   const [modal, setModal] = useState(null); // { mode, row }
   const [generating, setGenerating] = useState(false);
   const [deduping, setDeduping] = useState(false);
@@ -57,18 +62,13 @@ export default function Master() {
   useTableHotkeys(tableRef);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // A notification click lands here as ?highlight=<taskInstanceId> —
-  // fetch that exact row and pin it above the table, then clear the URL
-  // so it doesn't fight with normal filtering afterwards.
-  useEffect(() => {
-    const id = searchParams.get("highlight");
-    if (id) {
-      setHighlightId(id);
-      api.getMasterOne(id).then(setHighlightRow).catch(() => setHighlightRow(null));
-      setSearchParams({}, { replace: true });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // "View task" on a notification lands here as ?highlight=<taskInstanceId>.
+  // The URL is the single source of truth for this (not one-time mount
+  // state), so it also works when you're ALREADY on Master and click
+  // another notification — and while it's set, the table shows exactly
+  // that one task instead of hoping it happens to be on page 1.
+  const focusId = searchParams.get("highlight");
+  const clearFocus = () => setSearchParams({}, { replace: true });
 
   const setColFilter = (key, value) => setColFilters((f) => ({ ...f, [key]: value }));
 
@@ -86,31 +86,77 @@ export default function Master() {
   // "My Tasks" quick filter below.
   const myDoer = useMemo(() => doers.find((d) => d.email === user?.email), [doers, user]);
 
-  const load = () => {
-    const params = new URLSearchParams({ page, limit });
+  const dateRange = { range: dateFilter.range, error: dateFilter.error };
+
+  // Only the newest response is ever applied — otherwise a slow reply for an
+  // older filter (or a background refresh) could overwrite a newer one.
+  const reqId = useRef(0);
+
+  // Builds the query string for the current filters. Shared by the list and
+  // the CSV export so the export matches what's on screen.
+  const filterParams = (extra = {}) => {
+    const params = new URLSearchParams(extra);
+    if (focusId) {
+      params.set("id", focusId);
+      return params;
+    }
     if (filterStatus) params.set("status", filterStatus);
-    if (todayOnly) params.set("today", "1");
     if (mineOnly && myDoer) params.set("doer", myDoer._id);
-    api.getMaster(`?${params.toString()}`).then(setData).catch((e) => setError(e.message));
+    if (dateRange.range) {
+      Object.entries(rangeToParams(dateRange.range)).forEach(([k, v]) => params.set(k, v));
+    }
+    return params;
   };
-  useEffect(load, [filterStatus, todayOnly, mineOnly, page]);
+
+  const load = () => {
+    if (dateRange.error) return;
+    const my = ++reqId.current;
+    const params = filterParams({ page: focusId ? 1 : page, limit });
+    api
+      .getMaster(`?${params.toString()}`)
+      .then((d) => {
+        if (my !== reqId.current) return;
+        setError("");
+        setData(d);
+      })
+      .catch((e) => {
+        if (my === reqId.current) setError(e.message);
+      });
+  };
+  // Show the skeleton (not the previous rows) when jumping to / away from a
+  // linked task, so old rows never flash under the new view.
+  useEffect(() => {
+    setData((d) => ({ ...d, rows: null }));
+  }, [focusId]);
+  useEffect(load, [filterStatus, quick, dateFrom, dateTo, mineOnly, page, focusId, myDoer?._id]);
   // Everyone sees completions within seconds, no refresh needed.
-  usePolling(load, 15000);
+  usePolling(load, 20000);
+
+  // Bring the linked task into view once it has loaded.
+  const focusedRowId = focusId ? data.rows?.[0]?._id : null;
+  useEffect(() => {
+    if (focusedRowId) document.querySelector(".row-highlighted")?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [focusedRowId]);
   useEffect(() => setPageInput(String(page)), [page]);
 
   // Tops up Master with any due occurrences for schedule-driven tasks once
   // when the page first loads, so recurring reminders keep appearing on
   // their own without anyone having to remember to add them.
+  // Runs a couple of seconds AFTER the first paint so it never competes with
+  // the list that's actually on screen.
   useEffect(() => {
-    api
-      .generateUpcoming()
-      .then((res) => {
-        if (res.created > 0) {
-          toast(`${res.created} upcoming reminder${res.created === 1 ? "" : "s"} auto-generated`, "good");
-          load();
-        }
-      })
-      .catch(() => {});
+    const t = setTimeout(() => {
+      api
+        .generateUpcoming()
+        .then((res) => {
+          if (res.created > 0) {
+            toast(`${res.created} upcoming reminder${res.created === 1 ? "" : "s"} auto-generated`, "good");
+            load();
+          }
+        })
+        .catch(() => {});
+    }, 2500);
+    return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -164,9 +210,14 @@ export default function Master() {
     setFilterStatus(value);
     setPage(1);
   };
-  const toggleToday = () => {
-    setTodayOnly((v) => !v);
-    setPage(1);
+  const exportCsv = async () => {
+    try {
+      const params = filterParams();
+      params.delete("id");
+      await api.downloadMasterCsv(params.toString() ? `?${params.toString()}` : "");
+    } catch (err) {
+      toast(err.message, "bad");
+    }
   };
   const toggleMine = () => {
     setMineOnly((v) => !v);
@@ -238,14 +289,23 @@ export default function Master() {
       />
       {error && <p className="error">{error}</p>}
 
-      {highlightRow && (
+      {focusId && (
         <div className="highlight-banner">
           <span className="highlight-banner-dot" />
           <span>
-            From your notifications: <strong>{highlightRow.doer?.name}</strong> marked{" "}
-            <strong>{highlightRow.task?.taskName}</strong> done on {highlightRow.actual ? new Date(highlightRow.actual).toLocaleString() : "-"}.
+            {!data.rows ? (
+              "Opening the task from your notification…"
+            ) : data.rows.length === 0 ? (
+              "That task no longer exists — it may have been deleted."
+            ) : (
+              <>
+                Showing the task from your notification: <strong>{data.rows[0].task?.taskName}</strong> ({data.rows[0].doer?.name}) —
+                {" "}{data.rows[0].actual ? `marked done on ${new Date(data.rows[0].actual).toLocaleString()}` : "not completed yet"}.
+              </>
+            )}
           </span>
-          <button type="button" className="highlight-banner-close" aria-label="Dismiss" onClick={() => { setHighlightId(null); setHighlightRow(null); }}>×</button>
+          <button type="button" className="link-btn" onClick={clearFocus} style={{ marginLeft: "auto" }}>Show all tasks</button>
+          <button type="button" className="highlight-banner-close" aria-label="Dismiss" onClick={clearFocus}>×</button>
         </div>
       )}
 
@@ -289,6 +349,7 @@ export default function Master() {
         </>
       )}
 
+      {!focusId && (
       <div className="filter-row">
         <label>Filter status: </label>
         <select value={filterStatus} onChange={(e) => changeFilter(e.target.value)}>
@@ -297,14 +358,7 @@ export default function Master() {
           <option value="Delayed">Delayed</option>
           <option value="Pending">Pending</option>
         </select>
-        <button
-          type="button"
-          className={"link-btn generate-btn" + (todayOnly ? " filter-pill-active" : "")}
-          onClick={toggleToday}
-          title="Show only tasks planned for today"
-        >
-          📅 {todayOnly ? "Showing Today's Tasks" : "Today's Tasks"}
-        </button>
+        <QuickRangePills filter={dateFilter} />
         {isAdmin && myDoer && (
           <button
             type="button"
@@ -325,14 +379,18 @@ export default function Master() {
             {deduping ? "Checking…" : "🧹 Remove Duplicates"}
           </button>
         )}
-        <a
+        <button
+          type="button"
           className="link-btn generate-btn"
-          href={`${API_BASE}/master/export.csv${filterStatus ? `?status=${encodeURIComponent(filterStatus)}` : ""}`}
-          title="Download every row matching the current filter as a CSV file"
+          onClick={exportCsv}
+          title="Download every row matching the current filters as a CSV file"
         >
           ⬇ Export CSV
-        </a>
+        </button>
       </div>
+      )}
+
+      {!focusId && <DateRangeRow filter={dateFilter} noun="tasks planned" />}
 
       <div className="table-panel">
         <div className="table-wrap" ref={tableRef}>
@@ -356,7 +414,7 @@ export default function Master() {
               )}
               {visibleRows.map((e, i) => {
                 const isOwnRow = e.doer?.email === user?.email;
-                const rowCls = highlightId && e._id === highlightId ? "row-highlighted" : undefined;
+                const rowCls = focusId && e._id === focusId ? "row-highlighted" : undefined;
                 return (
                   <tr key={e._id} className={rowCls}>
                     <td>{(data.page - 1) * limit + (colFiltering ? data.rows.indexOf(e) : i) + 1}</td>

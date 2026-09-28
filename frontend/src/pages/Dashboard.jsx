@@ -53,9 +53,15 @@ export default function Dashboard() {
   const sortedPeople = useMemo(() => sortRows(people, sort), [people, sort]);
 
   // Per-person on-time % coloring, visible to admins and members alike:
-  // 40 and below is flagged red, 80 and above is green, everything in
-  // between (the "remaining" band) is yellow/neutral.
-  const pctBand = (p) => (p <= 40 ? "bad" : p >= 80 ? "good" : "warn");
+  //   70% and below  -> red
+  //   71% up to 90%  -> yellow
+  //   above 90%      -> green
+  // Uses the rounded number that's actually displayed, so the colour always
+  // agrees with the figure on screen (70.4% shows as 70% and is red).
+  const pctBand = (p) => {
+    const v = Math.round(p);
+    return v <= 70 ? "bad" : v <= 90 ? "warn" : "good";
+  };
 
   const exportPeopleCsv = () => {
     downloadCsv(
@@ -186,6 +192,11 @@ export default function Dashboard() {
         )}
       />
       {peopleError && <p className="error">{peopleError}</p>}
+      <div className="pct-legend" aria-label="On-time percentage colour key">
+        <span><i className="dot-bad" /> 70% and below</span>
+        <span><i className="dot-warn" /> 71% – 90%</span>
+        <span><i className="dot-good" /> Above 90%</span>
+      </div>
       <div className="table-panel">
         <div className="table-wrap" ref={peopleTableRef}>
           <table className="table">

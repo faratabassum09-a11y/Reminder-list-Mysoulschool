@@ -3,6 +3,8 @@ import TaskInstance from "../models/TaskInstance.js";
 import Doer from "../models/Doer.js";
 import WeeklyArchive from "../models/WeeklyArchive.js";
 import { requireAdmin } from "../middleware/auth.js";
+import { memo, getDataVersion } from "../utils/cache.js";
+import { getDoerMaps } from "../utils/lookups.js";
 
 const router = express.Router();
 
@@ -75,7 +77,7 @@ function getDateRange(key) {
 // the end of today, so only tasks that have actually come due are counted.
 // A range entirely in the future (e.g. "Next Week") then correctly yields
 // no scored tasks rather than a misleading 0%.
-async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
+async function computeRollup(rangeKey, { scoreMode = false } = {}) {
   const range = getDateRange(rangeKey);
   let matchStage = [];
   if (scoreMode) {
@@ -88,8 +90,8 @@ async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
     matchStage = [{ $match: { planned: { $gte: range.start, $lt: range.end } } }];
   }
 
-  const [doers, statusCounts] = await Promise.all([
-    Doer.find().select("name department").lean(),
+  const [{ byId: doerMap }, statusCounts] = await Promise.all([
+    getDoerMaps(),
     TaskInstance.aggregate([
       ...matchStage,
       {
@@ -104,8 +106,19 @@ async function rollupByDoer(rangeKey, { scoreMode = false } = {}) {
     ]),
   ]);
 
-  const doerMap = new Map(doers.map((d) => [String(d._id), d]));
   return { doerMap, statusCounts };
+}
+
+// The Dashboard asks for the summary AND the per-person table for the same
+// range at the same moment, every 20s, from every open tab — each one a
+// full aggregation over the whole Master collection. Cache the result in
+// memory for a few seconds (shared by concurrent callers, retired
+// instantly by any write to Master via the data version, and keyed by the
+// calendar day since "up to today" moves at midnight).
+function rollupByDoer(rangeKey, opts = {}) {
+  const day = startOfDay(new Date()).getTime();
+  const key = `rollup:${getDataVersion()}:${day}:${rangeKey || "all"}:${opts.scoreMode ? 1 : 0}`;
+  return memo(key, 20_000, () => computeRollup(rangeKey, opts));
 }
 
 // Consolidated (per-person) rollup, merged into the Dashboard page — not a
@@ -152,7 +165,8 @@ router.get("/", async (req, res) => {
 // every other Consolidated endpoint. Always scored against tasks due up to
 // today only — see rollupByDoer's scoreMode for why.
 router.get("/me", async (req, res) => {
-  const doer = await Doer.findOne({ email: req.user.email }).lean();
+  const { byEmail } = await getDoerMaps();
+  const doer = byEmail.get(String(req.user.email || "").toLowerCase());
   if (!doer) {
     // Admin accounts (or any user with no matching Doer record) simply
     // have nothing to show here — not an error.

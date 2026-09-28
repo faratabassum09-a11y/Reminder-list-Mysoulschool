@@ -5,7 +5,8 @@ import TaskInstance from "../models/TaskInstance.js";
 import { getSettings } from "../models/Settings.js";
 import { generateOccurrencesForTask } from "../utils/generateOccurrences.js";
 import { requireAdmin } from "../middleware/auth.js";
-import { cacheGet, cacheSet, cacheDel } from "../utils/cache.js";
+import { cacheGet, cacheSet, cacheDel, memo, getDataVersion } from "../utils/cache.js";
+import { getDoerMaps } from "../utils/lookups.js";
 
 const router = express.Router();
 
@@ -36,6 +37,40 @@ router.get("/", async (req, res) => {
   }
   if (req.user.role === "admin") return res.json(all);
   res.json(all.filter((t) => t.defaultAssignee?.email === req.user.email));
+});
+
+// Which tasks have a reminder scheduled inside a date window — powers the
+// Task List's Today / Tomorrow / Last Week / Next Week / From–To filters.
+// GET /api/tasks/scheduled?plannedFrom=<ISO>&plannedTo=<ISO>  (to = exclusive)
+// Returns { ids: [taskId, ...] }. Open to every signed-in user; a member's
+// answer only covers reminders assigned to their own Doer record, same
+// scoping as Master.
+router.get("/scheduled", async (req, res) => {
+  try {
+    const from = req.query.plannedFrom ? new Date(String(req.query.plannedFrom)) : null;
+    const to = req.query.plannedTo ? new Date(String(req.query.plannedTo)) : null;
+    if ((from && isNaN(from)) || (to && isNaN(to))) return res.status(400).json({ error: "Invalid date range" });
+    if (!from && !to) return res.json({ ids: null });
+
+    const filter = { planned: {} };
+    if (from) filter.planned.$gte = from;
+    if (to) filter.planned.$lt = to;
+
+    let scope = "admin";
+    if (req.user.role !== "admin") {
+      const { byEmail } = await getDoerMaps();
+      const doer = byEmail.get(String(req.user.email || "").toLowerCase());
+      filter.doer = doer ? doer._id : "000000000000000000000000";
+      scope = `u:${req.user.email}`;
+    }
+
+    const key = `tasks:scheduled:${getDataVersion()}:${scope}:${from?.getTime() || ""}:${to?.getTime() || ""}`;
+    const ids = await memo(key, 15_000, async () => (await TaskInstance.distinct("task", filter)).map(String));
+    res.json({ ids });
+  } catch (err) {
+    console.error("[tasks/scheduled]", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // CREATE task — taskId is assigned automatically (one higher than the

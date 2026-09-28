@@ -25,6 +25,23 @@ mern-reminder-app/
   frontend/    React (Vite) dashboard UI
 ```
 
+## Latest changes
+
+- **Dashboard colours** — per-person on-time %: **70% and below = red**, **71–90% = yellow**, **above 90% = green** (with a small legend above the table).
+- **Master date filters** — quick toggles for **Today / Tomorrow / Last Week / Next Week** (click again to clear) plus a **From / To calendar** range. Export CSV follows whatever filter is on screen.
+- **MySoul Assistant** — the chatbot is renamed, and now understands questions like "what are my next week tasks", "what's due tomorrow", "upcoming tasks", "delayed tasks last week".
+- **Notifications** — **Clear all** and per-item **×** dismiss (page and bell). **View task** now opens Master showing exactly that task (even if you're already on Master).
+- **Speed** — see "Performance notes" below.
+
+## Performance notes
+
+- Two-layer cache (`backend/utils/cache.js`): in-memory first (no network hop), Redis second (optional, shared).
+  Master lists and Dashboard rollups are cached for a few seconds and instantly retired whenever Master changes.
+- Doers/Tasks are joined from memory instead of `populate()` on every request; the signed-in user lookup is cached for 20s.
+- The "generate upcoming" job now has an in-memory cooldown, so it no longer re-runs on every Master visit when Redis isn't set.
+- Frontend: pages are code-split and prefetched when idle, the last signed-in user is cached so the app paints before the server answers, and Doers/Tasks lists are cached client-side for 30s.
+- On Render, the server pings its own `/api/health` every 10 minutes so the free tier doesn't fall asleep (set `KEEP_ALIVE=0` to disable).
+
 ## 1. Backend setup
 
 ```bash
@@ -90,7 +107,7 @@ npm run dev                # starts Vite dev server, proxies /api to the backend
   and everyone signed in can read it. A red badge in the sidebar tracks unread DMs +
   announcements, the same way the notification bell tracks admin notifications.
 
-## Chatbot (Ozzy)
+## Chatbot (MySoul Assistant)
 
 The 🦉 widget in the corner answers most questions instantly with zero API cost — a
 rule-based matcher reads the same endpoints the pages already use (percentage, pending/
@@ -101,11 +118,11 @@ description of how the site works — so it answers from actual numbers instead 
 and can field genuinely open-ended questions about the site or the data.
 
 To turn the AI fallback on, set `GEMINI_API_KEY` in `backend/.env` (free key at
-https://aistudio.google.com/apikey). Without it, Ozzy still works — it just tells people AI
+https://aistudio.google.com/apikey). Without it, MySoul Assistant still works — it just tells people AI
 answers aren't turned on yet instead of calling out to Gemini. `GEMINI_MODEL` is optional
 and defaults to `gemini-3.8-flash`. If Google renames/retires that model again later, set
 `GEMINI_MODEL` in `backend/.env` to whatever they recommend — no code change needed.
 
-Ask Ozzy "who are you" / "who made you" and it answers "I'm Ozzy, developed by Fara" — that's
+Ask MySoul Assistant "who are you" / "who made you" and it answers "I'm MySoul Assistant, developed by Fara" — that's
 matched instantly on the frontend (no API call needed) and is also baked into the Gemini
 system prompt, so the answer is consistent whether or not the AI fallback is configured.

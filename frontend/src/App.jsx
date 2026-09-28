@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate } from "react-router-dom";
-import Dashboard from "./pages/Dashboard.jsx";
-import DoerList from "./pages/DoerList.jsx";
-import TaskList from "./pages/TaskList.jsx";
-import Master from "./pages/Master.jsx";
-import SubmissionLog from "./pages/SubmissionLog.jsx";
-import Settings from "./pages/Settings.jsx";
-import Users from "./pages/Users.jsx";
-import Notifications from "./pages/Notifications.jsx";
-import Messages from "./pages/Messages.jsx";
-import Account from "./pages/Account.jsx";
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+const DoerList = lazy(() => import("./pages/DoerList.jsx"));
+const TaskList = lazy(() => import("./pages/TaskList.jsx"));
+const Master = lazy(() => import("./pages/Master.jsx"));
+const SubmissionLog = lazy(() => import("./pages/SubmissionLog.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
+const Users = lazy(() => import("./pages/Users.jsx"));
+const Notifications = lazy(() => import("./pages/Notifications.jsx"));
+const Messages = lazy(() => import("./pages/Messages.jsx"));
+const Account = lazy(() => import("./pages/Account.jsx"));
 import Login from "./pages/Login.jsx";
 import ShortcutsHelp from "./components/ShortcutsHelp.jsx";
 import Logo from "./components/Logo.jsx";
 import NotificationBell from "./components/NotificationBell.jsx";
-import Chatbot from "./components/Chatbot.jsx";
+const Chatbot = lazy(() => import("./components/Chatbot.jsx"));
 import { useSlashToFocusSearch } from "./hooks/useSlashToFocusSearch.js";
 import { usePolling } from "./hooks/usePolling.js";
 import { useAuth } from "./context/AuthContext.jsx";
@@ -52,6 +52,29 @@ const adminLinks = [
 // request regardless of what the frontend does).
 function AdminRoute({ isAdmin, children }) {
   return isAdmin ? children : <Navigate to="/" replace />;
+}
+
+// Each page is its own chunk so the first paint only downloads what's needed
+// for the page you land on. Once the app is idle, the rest are fetched in
+// the background so moving between pages feels instant.
+const prefetchPages = () => {
+  import("./pages/Master.jsx");
+  import("./pages/Dashboard.jsx");
+  import("./pages/TaskList.jsx");
+  import("./pages/DoerList.jsx");
+  import("./pages/SubmissionLog.jsx");
+  import("./pages/Messages.jsx");
+  import("./pages/Account.jsx");
+  import("./components/Chatbot.jsx");
+};
+
+function PageFallback() {
+  return (
+    <div className="page">
+      <div className="skeleton-bar" style={{ width: 180, height: 26, marginBottom: 18 }} />
+      <div className="skeleton-bar" style={{ width: "100%", height: 220 }} />
+    </div>
+  );
 }
 
 function AuthLoadingScreen({ slow }) {
@@ -105,6 +128,12 @@ export default function App() {
   };
 
   useSlashToFocusSearch();
+
+  useEffect(() => {
+    if (!user) return;
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
+    idle(prefetchPages);
+  }, [user]);
 
   if (loading) return <AuthLoadingScreen slow={slow} />;
   if (!user) return <Login />;
@@ -212,6 +241,7 @@ export default function App() {
         </div>
       </aside>
       <main className="content">
+        <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/consolidated" element={<Navigate to="/" replace />} />
@@ -225,9 +255,12 @@ export default function App() {
           <Route path="/users" element={<AdminRoute isAdmin={isAdmin}><Users /></AdminRoute>} />
           <Route path="/notifications" element={<AdminRoute isAdmin={isAdmin}><Notifications /></AdminRoute>} />
         </Routes>
+        </Suspense>
       </main>
       <ShortcutsHelp />
-      <Chatbot />
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
     </div>
   );
 }

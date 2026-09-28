@@ -17,8 +17,6 @@ function timeShort(date) {
   return d.toLocaleDateString([], sameYear ? { month: "short", day: "numeric" } : { month: "short", day: "numeric", year: "numeric" });
 }
 
-// Same relative-time formatting used by NotificationBell/Notifications, so
-// "3m ago" reads consistently everywhere in the app.
 function timeAgo(date) {
   const s = Math.max(0, Math.floor((Date.now() - new Date(date).getTime()) / 1000));
   if (s < 60) return "just now";
@@ -38,18 +36,24 @@ export default function Messages() {
 
   const [conversations, setConversations] = useState(null);
   const [people, setPeople] = useState([]);
-  const [broadcastPreview, setBroadcastPreview] = useState(null); // { unread, lastMessage } — filled in lazily
+  const [broadcastPreview, setBroadcastPreview] = useState(null);
   const [search, setSearch] = useState("");
-  const [active, setActive] = useState(null); // null | { type: "dm", user } | { type: "broadcast" }
+  const [active, setActive] = useState(null);
   const [messages, setMessages] = useState(null);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const [loadingThread, setLoadingThread] = useState(false);
-  const [openMenuId, setOpenMenuId] = useState(null); // message currently showing its ⋮ menu
-  const [editingId, setEditingId] = useState(null); // message currently being edited
-  const [confirmDeleteConvo, setConfirmDeleteConvo] = useState(null); // user id armed for conversation delete
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [confirmDeleteConvo, setConfirmDeleteConvo] = useState(null);
+  // NEW: track last-sent bubble id for color flash
+  const [flashBubbleId, setFlashBubbleId] = useState(null);
+  // NEW: confirm clear-chat
+  const [confirmClear, setConfirmClear] = useState(false);
+
   const bodyRef = useRef(null);
   const inputRef = useRef(null);
+  const bottomRef = useRef(null); // NEW: scroll anchor
 
   const loadConversations = () => {
     api.getConversations().then((r) => setConversations(r.conversations || [])).catch(() => {});
@@ -66,8 +70,6 @@ export default function Messages() {
   usePolling(loadConversations, 5000);
   usePolling(loadUnread, 5000);
 
-  // Keep the open thread live — a reply landing while you're looking at it
-  // should just appear, the same way Master/Dashboard stay in sync.
   usePolling(() => {
     if (active?.type === "dm") {
       api.getThread(active.user._id).then((r) => setMessages(r.messages)).catch(() => {});
@@ -76,14 +78,15 @@ export default function Messages() {
     }
   }, 4000);
 
+  // ALWAYS scroll to bottom — new messages anchor at bottom
   useEffect(() => {
-    bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Close any open bubble menu / in-progress edit when you switch threads.
   useEffect(() => {
     setOpenMenuId(null);
     setEditingId(null);
+    setConfirmClear(false);
   }, [active]);
 
   const selectUser = async (u) => {
@@ -118,8 +121,6 @@ export default function Messages() {
     }
   };
 
-  // Deep link support: /messages?user=<id> opens straight into that thread
-  // (handy for a future "Message" button elsewhere in the app).
   useEffect(() => {
     const uid = searchParams.get("user");
     if (uid && people.length) {
@@ -155,14 +156,23 @@ export default function Messages() {
         const res = await api.editMessage(editingId, t);
         setMessages((m) => (m || []).map((msg) => (msg._id === editingId ? res.message : msg)));
         setEditingId(null);
+        // Flash edited bubble
+        setFlashBubbleId(res.message._id);
+        setTimeout(() => setFlashBubbleId(null), 700);
       } else if (active.type === "broadcast") {
         const res = await api.sendBroadcast(t);
         setMessages((m) => [...(m || []), res.message]);
         toast(`Sent to ${res.reachedUserCount} of ${res.doerCount} people on the Doer List`, "good");
+        // Flash sent bubble
+        setFlashBubbleId(res.message._id);
+        setTimeout(() => setFlashBubbleId(null), 700);
       } else {
         const res = await api.sendMessage(active.user._id, t);
         setMessages((m) => [...(m || []), res.message]);
         loadConversations();
+        // Flash sent bubble
+        setFlashBubbleId(res.message._id);
+        setTimeout(() => setFlashBubbleId(null), 700);
       }
       setText("");
     } catch (err) {
@@ -204,6 +214,32 @@ export default function Messages() {
         setMessages(null);
       }
       toast("Conversation deleted", "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    }
+  };
+
+  // NEW: Clear chat (delete all messages in current thread for me)
+  const handleClearChat = async () => {
+    if (!confirmClear) {
+      setConfirmClear(true);
+      setTimeout(() => setConfirmClear(false), 3000);
+      return;
+    }
+    setConfirmClear(false);
+    try {
+      if (active.type === "dm") {
+        await api.deleteConversation(active.user._id);
+        setMessages([]);
+        loadConversations();
+        toast("Chat cleared", "good");
+      } else {
+        // Broadcast: delete all messages for me one by one (or add a bulk endpoint)
+        const ids = (messages || []).map((m) => m._id);
+        await Promise.all(ids.map((id) => api.deleteMessage(id, false)));
+        setMessages([]);
+        toast("Broadcast chat cleared for you", "good");
+      }
     } catch (err) {
       toast(err.message, "bad");
     }
@@ -331,11 +367,12 @@ export default function Messages() {
 
           {active && (
             <>
+              {/* ENHANCED HEADER — with Clear Chat + Delete Chat buttons */}
               <div className="messages-thread-head">
                 {active.type === "broadcast" ? (
                   <>
                     <span className="messages-avatar messages-avatar-broadcast" aria-hidden="true">📢</span>
-                    <div>
+                    <div className="messages-thread-head-info">
                       <div className="messages-thread-head-name">Doer List Announcements</div>
                       <div className="messages-thread-head-sub">Visible to everyone signed in</div>
                     </div>
@@ -343,12 +380,42 @@ export default function Messages() {
                 ) : (
                   <>
                     <span className="messages-avatar" style={avatarStyleFromString(active.user.name)}>{initials(active.user.name)}</span>
-                    <div>
+                    <div className="messages-thread-head-info">
                       <div className="messages-thread-head-name">{active.user.name}</div>
                       <div className="messages-thread-head-sub">{active.user.role === "admin" ? "Admin" : "Member"} · {active.user.email}</div>
                     </div>
                   </>
                 )}
+                {/* ACTION BUTTONS */}
+                <div className="messages-thread-head-actions">
+                  <button
+                    type="button"
+                    className={"msg-head-btn msg-head-btn-clear" + (confirmClear ? " confirming" : "")}
+                    title={confirmClear ? "Click again to confirm clear" : "Clear chat (removes messages for you only)"}
+                    onClick={handleClearChat}
+                    disabled={!messages || messages.length === 0}
+                  >
+                    {confirmClear ? (
+                      <><span className="msg-head-btn-icon">⚠️</span> Confirm Clear?</>
+                    ) : (
+                      <><span className="msg-head-btn-icon">🧹</span> Clear Chat</>
+                    )}
+                  </button>
+                  {active.type === "dm" && (
+                    <button
+                      type="button"
+                      className={"msg-head-btn msg-head-btn-delete" + (confirmDeleteConvo === active.user._id ? " confirming" : "")}
+                      title={confirmDeleteConvo === active.user._id ? "Click again to confirm delete" : "Delete entire conversation"}
+                      onClick={(e) => handleDeleteConversation(active.user, e)}
+                    >
+                      {confirmDeleteConvo === active.user._id ? (
+                        <><span className="msg-head-btn-icon">⚠️</span> Confirm Delete?</>
+                      ) : (
+                        <><span className="msg-head-btn-icon">🗑️</span> Delete Chat</>
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="messages-thread-body" ref={bodyRef}>
@@ -362,6 +429,7 @@ export default function Messages() {
                   const mine = String(m.sender?._id || m.sender) === String(user.id);
                   const deleted = m.deletedForEveryone;
                   const canEdit = mine && !deleted && (active.type !== "broadcast" || isAdmin);
+                  const isFlashing = flashBubbleId === m._id;
                   return (
                     <div key={m._id} className={"messages-bubble-row" + (mine ? " mine" : "")}>
                       {!deleted && (
@@ -377,19 +445,24 @@ export default function Messages() {
                           {openMenuId === m._id && (
                             <div className="messages-bubble-menu" onMouseLeave={() => setOpenMenuId(null)}>
                               {canEdit && (
-                                <button type="button" onClick={() => startEdit(m)}>Edit</button>
+                                <button type="button" onClick={() => startEdit(m)}>✏️ Edit</button>
                               )}
-                              <button type="button" onClick={() => handleDeleteMessage(m, false)}>Delete for me</button>
+                              <button type="button" onClick={() => handleDeleteMessage(m, false)}>🗑 Delete for me</button>
                               {mine && (
                                 <button type="button" className="danger" onClick={() => handleDeleteMessage(m, true)}>
-                                  Delete for everyone
+                                  ❌ Delete for everyone
                                 </button>
                               )}
                             </div>
                           )}
                         </div>
                       )}
-                      <div className={"messages-bubble" + (mine ? " messages-bubble-me" : " messages-bubble-them") + (deleted ? " messages-bubble-deleted" : "")}>
+                      <div className={
+                        "messages-bubble" +
+                        (mine ? " messages-bubble-me" : " messages-bubble-them") +
+                        (deleted ? " messages-bubble-deleted" : "") +
+                        (isFlashing ? " messages-bubble-flash" : "")
+                      }>
                         {active.type === "broadcast" && !mine && (
                           <div className="messages-bubble-sender">{m.sender?.name || "Admin"}</div>
                         )}
@@ -404,13 +477,15 @@ export default function Messages() {
                     </div>
                   );
                 })}
+                {/* BOTTOM ANCHOR — new messages always scroll here */}
+                <div ref={bottomRef} />
               </div>
 
               {(active.type === "dm" || isAdmin) ? (
                 <form className="messages-input-row" onSubmit={send}>
                   {editingId && (
                     <div className="messages-editing-note">
-                      Editing message
+                      ✏️ Editing message
                       <button type="button" onClick={cancelEdit}>Cancel</button>
                     </div>
                   )}

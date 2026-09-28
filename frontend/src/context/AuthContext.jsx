@@ -3,9 +3,25 @@ import { api, setAuthToken, setUnauthorizedHandler } from "../api.js";
 
 const AuthContext = createContext(null);
 
+// The last known user is kept in localStorage so a returning visitor sees
+// the app immediately (from the token + this cached profile) instead of a
+// blank "Loading…" screen while /auth/me round-trips — which on a free-tier
+// server that has gone to sleep can take most of a minute. The token is
+// still verified in the background; if it's rejected the 401 handler signs
+// them out as before.
+function readCachedUser() {
+  try {
+    if (!localStorage.getItem("authToken")) return null;
+    return JSON.parse(localStorage.getItem("authUser") || "null");
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const cachedUser = readCachedUser();
+  const [user, setUser] = useState(cachedUser);
+  const [loading, setLoading] = useState(!cachedUser);
   // True once the very first /auth/me is taking noticeably longer than a
   // warm request should — almost always a free-tier backend (Render, etc.)
   // spinning back up after going idle, which can take 30-50s. There's
@@ -27,7 +43,10 @@ export function AuthProvider({ children }) {
     const slowTimer = setTimeout(() => setSlow(true), 3500);
     api
       .me()
-      .then((res) => setUser(res.user))
+      .then((res) => {
+        setUser(res.user);
+        localStorage.setItem("authUser", JSON.stringify(res.user));
+      })
       .catch(() => {})
       .finally(() => {
         clearTimeout(slowTimer);
@@ -39,24 +58,35 @@ export function AuthProvider({ children }) {
   // Registered once — any API call anywhere that comes back 401 (expired
   // or invalid session) signs the user out, not just ones on this page.
   useEffect(() => {
-    setUnauthorizedHandler(() => setUser(null));
+    setUnauthorizedHandler(() => {
+      localStorage.removeItem("authUser");
+      setUser(null);
+    });
   }, []);
 
   const login = async (email, password) => {
     const res = await api.login(email, password);
     setAuthToken(res.token);
+    localStorage.setItem("authUser", JSON.stringify(res.user));
     setUser(res.user);
     return res.user;
   };
 
   const logout = () => {
     setAuthToken(null);
+    localStorage.removeItem("authUser");
     setUser(null);
   };
 
   // Lets Account.jsx reflect a saved name/Slack ID immediately after
   // PUT /auth/me succeeds, without a full page reload or re-fetching /me.
-  const updateProfile = (patch) => setUser((u) => (u ? { ...u, ...patch } : u));
+  const updateProfile = (patch) =>
+    setUser((u) => {
+      if (!u) return u;
+      const next = { ...u, ...patch };
+      localStorage.setItem("authUser", JSON.stringify(next));
+      return next;
+    });
 
   return (
     <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin" }}>

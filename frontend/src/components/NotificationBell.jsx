@@ -64,6 +64,26 @@ export default function NotificationBell({ isAdmin }) {
     else navigate("/master");
   };
 
+  const clearAll = async () => {
+    try {
+      await api.clearNotifications();
+      setItems([]);
+      setUnread(0);
+    } catch {
+      // leave the list as-is if it fails; the person can retry
+    }
+  };
+
+  const dismissOne = async (e, n) => {
+    e.stopPropagation();
+    try {
+      await api.removeNotification(n._id);
+      setItems((list) => list.filter((x) => x._id !== n._id));
+    } catch {
+      // ignore — item just stays
+    }
+  };
+
   const viewAll = () => {
     setOpen(false);
     navigate("/notifications");
@@ -88,7 +108,10 @@ export default function NotificationBell({ isAdmin }) {
         <div className="notif-panel">
           <div className="notif-panel-head">
             <span>Notifications</span>
-            <button type="button" className="link-btn" onClick={viewAll}>View all</button>
+            <span style={{ display: "flex", gap: 10 }}>
+              {items.length > 0 && <button type="button" className="link-btn danger" onClick={clearAll}>Clear all</button>}
+              <button type="button" className="link-btn" onClick={viewAll}>View all</button>
+            </span>
           </div>
           {!loaded ? (
             <div className="notif-empty">Loading…</div>
@@ -105,7 +128,7 @@ export default function NotificationBell({ isAdmin }) {
                     </div>
                     <div className="notif-item-sub">{n.taskName || n.task?.taskName || "Task"} · {timeAgo(n.createdAt)}</div>
                   </div>
-                  <span className="notif-item-arrow" aria-hidden="true">→</span>
+                  <button type="button" className="notif-dismiss" aria-label="Dismiss" title="Dismiss" onClick={(e) => dismissOne(e, n)}>×</button>
                 </li>
               ))}
             </ul>

@@ -12,6 +12,9 @@ let onUnauthorized = null;
 // Called from AuthContext on login/logout.
 export function setAuthToken(token) {
   authToken = token;
+  // Lists like Tasks are per-person (members only see their own) — never
+  // carry one person's cached copy over to the next sign-in.
+  listCache.clear();
 
   if (token) {
     localStorage.setItem("authToken", token);
@@ -57,6 +60,54 @@ async function request(path, options = {}) {
   }
 
   return res.json();
+}
+
+// --- Small client-side cache for rarely-changing lists -------------------
+// Doers and Tasks are requested by nearly every page (dropdowns, name
+// lookups) but only change when an admin edits them. Reuse one in-flight or
+// recent request instead of re-fetching on every page visit; any write
+// below drops the cached copy so edits show up immediately.
+const LIST_TTL_MS = 30_000;
+const listCache = new Map(); // path -> { at, promise }
+
+function cachedList(path) {
+  const hit = listCache.get(path);
+  if (hit && Date.now() - hit.at < LIST_TTL_MS) return hit.promise;
+  const promise = request(path).catch((err) => {
+    listCache.delete(path);
+    throw err;
+  });
+  listCache.set(path, { at: Date.now(), promise });
+  return promise;
+}
+
+// Runs a write, then forgets the cached lists it may have changed.
+function writeThen(paths, path, options) {
+  return request(path, options).then((res) => {
+    paths.forEach((p) => listCache.delete(p));
+    return res;
+  });
+}
+
+// Downloads a file from an authenticated endpoint (a plain <a href> can't
+// send the Authorization header, so it used to bounce with "Not signed in").
+export async function downloadFile(path, filename) {
+  const res = await fetch(`${BASE}${path}`, {
+    headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || "Download failed");
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export const api = {
@@ -120,22 +171,22 @@ export const api = {
   // ============================================================
 
   getDoers: () =>
-    request("/doers"),
+    cachedList("/doers"),
 
   createDoer: (data) =>
-    request("/doers", {
+    writeThen(["/doers"], "/doers", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   updateDoer: (id, data) =>
-    request(`/doers/${id}`, {
+    writeThen(["/doers", "/tasks"], `/doers/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
 
   removeDoer: (id) =>
-    request(`/doers/${id}`, {
+    writeThen(["/doers", "/tasks"], `/doers/${id}`, {
       method: "DELETE",
     }),
 
@@ -152,22 +203,26 @@ export const api = {
   // ============================================================
 
   getTasks: () =>
-    request("/tasks"),
+    cachedList("/tasks"),
+
+  // Ids of tasks that have a reminder inside a date window (Task List filter).
+  getScheduledTaskIds: (params = "") =>
+    request(`/tasks/scheduled${params}`),
 
   createTask: (data) =>
-    request("/tasks", {
+    writeThen(["/tasks"], "/tasks", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   updateTask: (id, data) =>
-    request(`/tasks/${id}`, {
+    writeThen(["/tasks"], `/tasks/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
 
   removeTask: (id) =>
-    request(`/tasks/${id}`, {
+    writeThen(["/tasks"], `/tasks/${id}`, {
       method: "DELETE",
     }),
 
@@ -180,6 +235,10 @@ export const api = {
 
   getMasterOne: (id) =>
     request(`/master/${id}`),
+
+  // Exports exactly the rows matching the given filter query string.
+  downloadMasterCsv: (params = "") =>
+    downloadFile(`/master/export.csv${params}`, "master.csv"),
 
   createMaster: (data) =>
     request("/master", {
@@ -246,6 +305,18 @@ export const api = {
   markAllNotificationsRead: () =>
     request("/notifications/read-all", {
       method: "POST",
+    }),
+
+  // Permanently clears the whole notification inbox.
+  clearNotifications: () =>
+    request("/notifications", {
+      method: "DELETE",
+    }),
+
+  // Dismisses a single notification.
+  removeNotification: (id) =>
+    request(`/notifications/${id}`, {
+      method: "DELETE",
     }),
 
   // ============================================================

@@ -734,6 +734,93 @@ a.generate-btn { display: inline-block; text-decoration: none; }
 .freq-preview-bad { background: var(--bad-bg); color: var(--bad); }
 .modal-divider { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
 
+/* ---------------------------------------------------------------------
+   Date range filter (Master + Task List) — the quick-range pills, the
+   From/To calendar inputs, and the "Showing tasks…" result chip get a
+   distinct treatment (accent-2 / violet) so the whole widget reads as
+   one unit and stands apart from the plain generate-btn / accent chips
+   used elsewhere on the page.
+------------------------------------------------------------------------*/
+.quick-range-pills {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.quick-range-pills .quick-range-pill {
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+.quick-range-pills .quick-range-pill-icon { margin-right: 1px; }
+.quick-range-pills .quick-range-pill:hover:not(:disabled) {
+  background: var(--accent-light);
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+}
+.quick-range-pills .quick-range-pill.filter-pill-active,
+.quick-range-pills .quick-range-pill.filter-pill-active:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  border-color: var(--accent-2);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(109, 79, 192, 0.35);
+}
+
+.date-range-row {
+  background: var(--panel-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-top: 8px;
+}
+.date-range-row label {
+  font-weight: 600;
+  color: var(--ink);
+}
+.date-range-row input[type="date"] {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13.5px;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.date-range-row input[type="date"]:focus {
+  outline: none;
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+.date-range-row input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px;
+  filter: var(--date-picker-icon-filter, none);
+}
+:root[data-theme="dark"] .date-range-row input[type="date"] {
+  --date-picker-icon-filter: invert(1) brightness(1.6);
+}
+.date-range-clear-btn { font-weight: 600; }
+
+.date-range-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--review-bg);
+  color: var(--review);
+  border: 1px solid transparent;
+}
+.date-range-chip strong { font-weight: 800; }
+.date-range-chip-icon { font-size: 12px; }
+.date-range-chip-bad { background: var(--bad-bg); color: var(--bad); }
+
 .form-hint {
   font-size: 12px;
   color: var(--muted);
@@ -1632,7 +1719,7 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 }
 
 /* ---------------------------------------------------------------------
-   Chatbot ("Ozzy") — floating assistant, bottom-right. Deliberately a
+   Chatbot ("MySoul Assistant") — floating assistant, bottom-right. Deliberately a
    bit more decorated than the rest of the app's flat UI: gradient glow,
    animated avatar ring, soft glassy panel.
 ------------------------------------------------------------------------*/
@@ -2269,4 +2356,186 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
   .messages-layout { grid-template-columns: 1fr; height: auto; }
   .messages-sidebar { max-height: 320px; }
   .messages-thread { min-height: 480px; }
+}
+
+/* ---- Notifications: clear all / dismiss ---- */
+.notif-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.notif-clear-confirm { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.notif-dismiss {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--faint);
+  font-size: 18px; line-height: 1;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.notif-dismiss:hover { background: var(--bad-bg, rgba(220, 38, 38, 0.12)); color: var(--bad, #dc2626); }
+.notif-page-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---- Master: From / To calendar row ---- */
+.date-range-row { align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.date-range-row input[type="date"] { min-width: 150px; }
+
+/* ---- Dashboard: on-time % colour legend ---- */
+.pct-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.pct-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.pct-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.pct-legend .dot-bad { background: var(--bad, #dc2626); }
+.pct-legend .dot-warn { background: var(--warn, #d97706); }
+.pct-legend .dot-good { background: var(--good, #16a34a); }
+
+/* ================================================================
+   MESSAGES ENHANCEMENTS — Clear Chat, Delete Chat, Flash, Dark Mode
+   ================================================================ */
+
+/* Thread head: push action buttons to the right */
+.messages-thread-head {
+  justify-content: flex-start;
+}
+.messages-thread-head-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Head action buttons */
+.messages-thread-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.msg-head-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--panel-alt);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+.msg-head-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.msg-head-btn-icon { font-size: 13px; }
+
+/* Clear chat — yellow/amber warning style */
+.msg-head-btn-clear:not(:disabled):hover {
+  background: #fff8e1;
+  color: #b45309;
+  border-color: #f59e0b;
+}
+:root[data-theme="dark"] .msg-head-btn-clear:not(:disabled):hover {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border-color: #f59e0b;
+}
+.msg-head-btn-clear.confirming {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #f59e0b;
+  animation: btn-pulse-warn 0.5s ease;
+}
+:root[data-theme="dark"] .msg-head-btn-clear.confirming {
+  background: rgba(245, 158, 11, 0.22);
+  color: #fbbf24;
+}
+
+/* Delete chat — red danger style */
+.msg-head-btn-delete:not(:disabled):hover {
+  background: var(--bad-bg);
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.msg-head-btn-delete.confirming {
+  background: var(--bad);
+  color: #fff;
+  border-color: var(--bad);
+  animation: btn-pulse-warn 0.5s ease;
+}
+
+@keyframes btn-pulse-warn {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* Bubble flash — color pop when you send/edit */
+@keyframes bubble-flash {
+  0%   { filter: brightness(1.45) saturate(1.6); }
+  60%  { filter: brightness(1.18) saturate(1.3); }
+  100% { filter: brightness(1) saturate(1); }
+}
+.messages-bubble-flash {
+  animation: bubble-flash 0.65s ease-out;
+}
+
+/* Dark mode: thread body bg stays clearly distinct from panel */
+:root[data-theme="dark"] .messages-thread-body {
+  background: #181c2a;
+}
+:root[data-theme="dark"] .messages-bubble-them {
+  background: #23293d;
+  border-color: rgba(255,255,255,0.07);
+  color: var(--ink);
+}
+
+/* Dark mode: input row */
+:root[data-theme="dark"] .messages-input-row {
+  background: #1e2235;
+  border-top-color: rgba(255,255,255,0.07);
+}
+:root[data-theme="dark"] .messages-input-row input {
+  background: #23293d;
+  border-color: rgba(255,255,255,0.1);
+  color: var(--ink);
+}
+
+/* Dark mode: sidebar */
+:root[data-theme="dark"] .messages-sidebar {
+  background: #1e2235;
+}
+:root[data-theme="dark"] .messages-list-item:hover {
+  background: #252b3d;
+}
+:root[data-theme="dark"] .messages-list-item.active {
+  background: rgba(88, 144, 255, 0.14);
+}
+
+/* Dark mode: thread head */
+:root[data-theme="dark"] .messages-thread-head {
+  background: #1e2235;
+  border-bottom-color: rgba(255,255,255,0.07);
+}
+:root[data-theme="dark"] .msg-head-btn {
+  background: #252b3d;
+  border-color: rgba(255,255,255,0.1);
+  color: var(--muted);
+}
+
+/* Dark mode: bubble menu */
+:root[data-theme="dark"] .messages-bubble-menu {
+  background: #23293d;
+  border-color: rgba(255,255,255,0.1);
+}
+:root[data-theme="dark"] .messages-bubble-menu button:hover {
+  background: #2c3450;
+}
+
+/* Responsive: hide labels on small screens */
+@media (max-width: 600px) {
+  .msg-head-btn span:last-child { display: none; }
+  .msg-head-btn { padding: 6px 9px; }
 }

@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
 import { hashPassword, comparePassword, signToken } from "../utils/auth.js";
-import { requireAuth } from "../middleware/auth.js";
+import { requireAuth, clearAuthCache } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -50,6 +50,7 @@ router.put("/me", requireAuth, async (req, res) => {
     }
     if (slackId !== undefined) updates.slackId = slackId.trim();
     const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true }).select("-passwordHash");
+    clearAuthCache();
     res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role, slackId: user.slackId } });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -73,6 +74,7 @@ router.post("/change-password", requireAuth, async (req, res) => {
 
     user.passwordHash = await hashPassword(newPassword);
     await user.save();
+    clearAuthCache();
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

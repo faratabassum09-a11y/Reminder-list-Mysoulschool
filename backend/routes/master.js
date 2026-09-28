@@ -6,7 +6,8 @@ import Notification from "../models/Notification.js";
 import { generateAllUpcoming, dedupeTaskInstances } from "../utils/generateOccurrences.js";
 import { sendCsv } from "../utils/csv.js";
 import { requireAdmin } from "../middleware/auth.js";
-import { claimCooldown } from "../utils/cache.js";
+import { claimCooldown, memo, getDataVersion } from "../utils/cache.js";
+import { getDoerMaps, getTaskMap } from "../utils/lookups.js";
 
 const router = express.Router();
 
@@ -16,11 +17,9 @@ const router = express.Router();
 async function scopeToOwnDoer(req) {
   if (req.user.role === "admin") return {};
 
-  const doer = await Doer.findOne({
-    email: req.user.email
-  })
-    .select("_id")
-    .lean();
+  // In-memory lookup (see utils/lookups.js) — no database query per request.
+  const { byEmail } = await getDoerMaps();
+  const doer = byEmail.get(String(req.user.email || "").toLowerCase());
 
   return {
     doer: doer ? doer._id : "000000000000000000000000"
@@ -87,25 +86,83 @@ async function requireOwnDoerOrAdmin(req, res, next) {
 
 
 // ------------------------------------------------------------
+// SHARED LIST FILTER
+// ------------------------------------------------------------
+// Used by both the Master list and the CSV export so "Export CSV" always
+// matches exactly what's on screen.
+//
+// Date window: ?plannedFrom=<ISO>&plannedTo=<ISO> — from inclusive, to
+// EXCLUSIVE. The browser computes these in the person's own time zone (for
+// the Today / Tomorrow / Last Week / Next Week pills and the From–To
+// calendar), so "tomorrow" means tomorrow for them, not for the server.
+// Either end may be omitted for an open-ended range.
+async function buildListFilter(req) {
+  const filter = {
+    ...(await scopeToOwnDoer(req))
+  };
+
+  // Admins may filter by doer
+  if (req.query.doer && req.user.role === "admin") {
+    if (!isValidObjectId(req.query.doer)) {
+      return { error: "Invalid doer ID" };
+    }
+    filter.doer = req.query.doer;
+  }
+
+  if (req.query.status) {
+    filter.status = String(req.query.status);
+  }
+
+  // Single-row lookup, e.g. /master?id=68abc123... (notification "View task")
+  if (req.query.id) {
+    if (!isValidObjectId(req.query.id)) {
+      return { error: "Invalid task instance ID" };
+    }
+    filter._id = req.query.id;
+  }
+
+  const from = req.query.plannedFrom ? new Date(String(req.query.plannedFrom)) : null;
+  const to = req.query.plannedTo ? new Date(String(req.query.plannedTo)) : null;
+  if ((from && isNaN(from)) || (to && isNaN(to))) {
+    return { error: "Invalid date range" };
+  }
+
+  if (from || to) {
+    filter.planned = {};
+    if (from) filter.planned.$gte = from;
+    if (to) filter.planned.$lt = to;
+  } else if (req.query.today === "1") {
+    // Legacy "today only" flag (still used by the assistant).
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1);
+    filter.planned = { $gte: start, $lt: end };
+  }
+
+  return { filter };
+}
+
+
+// ------------------------------------------------------------
 // CSV EXPORT
 // ------------------------------------------------------------
 
 router.get("/export.csv", async (req, res) => {
   try {
-    const filter = {
-      ...(await scopeToOwnDoer(req))
-    };
+    const { filter, error } = await buildListFilter(req);
 
-    if (req.query.status) {
-      filter.status = req.query.status;
+    if (error) {
+      return res.status(400).json({ error });
     }
 
     const rows = await TaskInstance.find(filter)
-      .populate("doer")
-      .populate("task")
+      .select("-submission")
       .sort({ planned: -1 })
       .limit(20000)
       .lean();
+
+    const [{ byId: doers }, tasks] = await Promise.all([getDoerMaps(), getTaskMap()]);
 
     const headers = [
       "Doer",
@@ -116,14 +173,18 @@ router.get("/export.csv", async (req, res) => {
       "Status"
     ];
 
-    const body = rows.map((r) => [
-      r.doer?.name || "",
-      r.task?.taskName || "",
-      r.doer?.department || "",
-      r.planned ? new Date(r.planned).toLocaleString() : "",
-      r.actual ? new Date(r.actual).toLocaleString() : "",
-      r.status || ""
-    ]);
+    const body = rows.map((r) => {
+      const doer = doers.get(String(r.doer));
+      const task = tasks.get(String(r.task));
+      return [
+        doer?.name || "",
+        task?.taskName || "",
+        doer?.department || "",
+        r.planned ? new Date(r.planned).toLocaleString() : "",
+        r.actual ? new Date(r.actual).toLocaleString() : "",
+        r.status || ""
+      ];
+    });
 
     sendCsv(res, "master.csv", headers, body);
   } catch (err) {
@@ -212,81 +273,60 @@ router.get("/", async (req, res) => {
       500
     );
 
-    const filter = {
-      ...(await scopeToOwnDoer(req))
-    };
+    const { filter, error } = await buildListFilter(req);
 
-    // Admins may filter by doer
-    if (
-      req.query.doer &&
-      req.user.role === "admin"
-    ) {
-      if (!isValidObjectId(req.query.doer)) {
-        return res.status(400).json({
-          error: "Invalid doer ID"
-        });
+    if (error) {
+      return res.status(400).json({ error });
+    }
+
+    // The whole response is cached in memory for a few seconds, keyed by
+    // who's asking + the exact query + a data version that any write to
+    // Master bumps (see the TaskInstance model). Everyone polling the same
+    // page — and every tab a person has open — shares one database hit, and
+    // a change (someone marking a task done) shows up on the very next
+    // request instead of after the TTL.
+    const scope = req.user.role === "admin" ? "admin" : `u:${req.user.email}`;
+    const qs = Object.keys(req.query)
+      .sort()
+      .map((k) => `${k}=${req.query[k]}`)
+      .join("&");
+    const cacheKey = `master:list:${getDataVersion()}:${scope}:${qs}`;
+
+    const body = await memo(cacheKey, 15_000, async () => {
+      const [rows, total, { byId: doers }, tasks] = await Promise.all([
+        TaskInstance.find(filter)
+          .select("-submission.image")
+          .sort({ planned: -1 })
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .lean(),
+
+        TaskInstance.countDocuments(filter),
+
+        getDoerMaps(),
+        getTaskMap()
+      ]);
+
+      // Same shape populate() used to give — joined from memory instead of
+      // two extra database round-trips per request.
+      for (const r of rows) {
+        r.doer = doers.get(String(r.doer)) || null;
+        r.task = tasks.get(String(r.task)) || null;
       }
 
-      filter.doer = req.query.doer;
-    }
-
-    // Status filter
-    if (req.query.status) {
-      filter.status = req.query.status;
-    }
-
-    // Single-row lookup
-    // Example:
-    // /master?id=68abc123...
-    if (req.query.id) {
-      if (!isValidObjectId(req.query.id)) {
-        return res.status(400).json({
-          error: "Invalid task instance ID"
-        });
-      }
-
-      filter._id = req.query.id;
-    }
-
-    // Today's Tasks filter
-    if (req.query.today === "1") {
-      const start = new Date();
-
-      start.setHours(0, 0, 0, 0);
-
-      const end = new Date(start);
-
-      end.setDate(end.getDate() + 1);
-
-      filter.planned = {
-        $gte: start,
-        $lt: end
-      };
-    }
-
-    const [rows, total] = await Promise.all([
-      TaskInstance.find(filter)
-        .select("-submission.image")
-        .populate("doer")
-        .populate("task")
-        .sort({ planned: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean(),
-
-      TaskInstance.countDocuments(filter)
-    ]);
-
-    res.json({
-      rows,
-      total,
-      page,
-      limit,
-      pages: Math.max(
-        Math.ceil(total / limit),
-        1
-      )
+      return JSON.stringify({
+        rows,
+        total,
+        page,
+        limit,
+        pages: Math.max(
+          Math.ceil(total / limit),
+          1
+        )
+      });
     });
+
+    res.type("application/json").send(body);
   } catch (err) {
     console.error("[master/]", err);
 

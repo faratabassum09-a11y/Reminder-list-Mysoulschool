@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
+import { quickRange, rangeToParams, formatRange } from "../utils/masterRanges.js";
 
-const BOT_NAME = "Ozzy";
+const BOT_NAME = "MySoul Assistant";
 
 const SUGGESTIONS = [
   "What tasks did I complete?",
   "What's my percentage?",
-  "Give me a percentage breakdown",
-  "What's still pending?",
+  "What are my next week tasks?",
+  "What's due tomorrow?",
   "Any delayed tasks?",
   "Open Dashboard",
 ];
@@ -18,23 +19,22 @@ const ADMIN_SUGGESTIONS = [
   "Give me a percentage breakdown",
   "Any new notifications?",
   "What's due today?",
-  "How's the team doing?",
+  "What's due next week?",
   "Open Dashboard",
 ];
 
-// Site knowledge — what each page/feature actually does. Lets Ozzy answer
+// Site knowledge — what each page/feature actually does. Lets the assistant answer
 // "what is X" / "how do I do Y" without hitting any API at all.
 const PAGE_INFO = {
   dashboard: "The Dashboard shows the big picture: total tasks, On Time vs Delayed vs Pending, a leaderboard, and a date-range picker (Today, This Week, Last Month, etc). It's a live rollup, not a separate sheet.",
-  master: "Master is the full reminder log — every task occurrence, Planned vs Actual, with live status. Admins can add new recurring tasks here (task name, department, frequency, assignee, start date) and everyone can mark their own tasks done.",
+  master: "Master is the full reminder log — every task occurrence, Planned vs Actual, with live status. You can filter by status, Today / Tomorrow / Last Week / Next Week, or any From–To date range. Admins can add new recurring tasks here (task name, department, frequency, assignee, start date) and everyone can mark their own tasks done.",
   "task list": "Task List is the read-only catalog of recurring tasks — the \"what\" and \"how often\", not individual occurrences. To add a new task with its schedule, use Master instead.",
-  "task": "Task List is the read-only catalog of recurring tasks — the \"what\" and \"how often\", not individual occurrences. To add a new task with its schedule, use Master instead.",
   "doer list": "Doer List is the roster of people tasks get assigned to — name, department, email. Doers are who tasks are for; Users are who can log in.",
   "doer": "Doer List is the roster of people tasks get assigned to — name, department, email. Doers are who tasks are for; Users are who can log in.",
   "submission log": "Submission Log is the raw \"task done\" submission history — every completion event, searchable by name or task, exportable as CSV.",
   settings: "Settings controls the schedule horizon (how far ahead reminders auto-generate), whether Sundays are skipped, and the daily reminder email hour/toggle. Admin-only.",
   users: "Users is where admins manage who can log in — name, email, role (admin/member), password. Admin-only.",
-  notifications: "Notifications is your inbox of \"someone marked a task done\" events. The bell icon in the sidebar shows the unread count — opening it (or the full page) marks everything read. Clicking a notification jumps straight to that task on Master.",
+  notifications: "Notifications is your inbox of \"someone marked a task done\" events. The bell icon in the sidebar shows the unread count — opening it (or the full page) marks everything read. Clicking a notification jumps straight to that task on Master, and you can clear the inbox with \"Clear all\".",
   account: "Account shows your profile, lets you change your password, and shows your own performance breakdown if you're a doer.",
 };
 
@@ -87,6 +87,23 @@ const NAV_TARGETS = [
   { re: /account|profile|my page/, path: "/account", label: "Account" },
 ];
 
+// Picks a date window out of a question ("next week", "tomorrow", ...).
+// "upcoming" means the next 7 days. Returns a quickRange() result or null.
+function detectWindow(q) {
+  if (/\bnext week\b/.test(q)) return quickRange("nextWeek");
+  if (/\blast week\b|\bprevious week\b|\bpast week\b/.test(q)) return quickRange("lastWeek");
+  if (/\bthis week\b/.test(q)) return quickRange("thisWeek");
+  if (/\btomorrow\b/.test(q)) return quickRange("tomorrow");
+  if (/\byesterday\b/.test(q)) return quickRange("yesterday");
+  if (/\btoday\b|\btoday'?s\b/.test(q)) return quickRange("today");
+  if (/\bupcoming\b|\bcoming up\b|\bnext few days\b/.test(q)) return quickRange("upcoming");
+  return null;
+}
+
+function dayLabel(d) {
+  return new Date(d).toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" });
+}
+
 export default function Chatbot() {
   const { user, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
@@ -131,7 +148,7 @@ export default function Chatbot() {
     }
     // bot identity — answered instantly, without needing the AI fallback
     if (/who (are|r) (you|u)\b|your name|who (made|built|created|developed) you|who'?s your (developer|creator|maker)/.test(q)) {
-      return { text: "I'm Ozzy 🦉, developed by Fara." };
+      return { text: "I'm MySoul Assistant 🦉, developed by Fara." };
     }
     if (/thank|thanks|thx|appreciate/.test(q)) {
       return { text: "Anytime! 🦉 Anything else you'd like to check?" };
@@ -147,6 +164,82 @@ export default function Chatbot() {
         return { text: `${navMatch.label} is admin-only, so I can't take you there — but I can tell you what it's for if you'd like.` };
       }
       return { text: `On it — opening ${navMatch.label}.`, navTo: navMatch.path };
+    }
+
+    // Tasks in a time window — "what are my next week tasks", "what's due
+    // tomorrow", "upcoming tasks", "delayed tasks last week"... These must be
+    // checked BEFORE the page-explanation rule below, otherwise "what are my
+    // ... tasks" gets mistaken for "what is the Task List page?".
+    const win = detectWindow(q);
+    const asksForTasks = /\btasks?\b|\breminders?\b|\bdue\b|\bschedule[d]?\b|\bwhat'?s on\b|\bwhat do i have\b|\bupcoming\b|\bcoming up\b/.test(q);
+    if (win && asksForTasks) {
+      try {
+        const params = new URLSearchParams({ limit: "100", ...rangeToParams(win) });
+        if (/\bdelay(ed)?\b|\boverdue\b|\blate\b/.test(q)) params.set("status", "Delayed");
+        else if (/\bpending\b|\bnot done\b|\bleft\b/.test(q)) params.set("status", "Pending");
+        // An admin's "my tasks" means the ones assigned to them, not the whole team's.
+        if (isAdmin && /\bmy\b/.test(q)) {
+          const doers = await api.getDoers();
+          const mine = doers.find((d) => d.email === user?.email);
+          if (mine) params.set("doer", mine._id);
+        }
+        const res = await api.getMaster(`?${params.toString()}`);
+        let rows = res.rows || [];
+        if (/\bcompleted\b|\bdone\b|\bfinished\b/.test(q)) rows = rows.filter((r) => r.actual);
+        const span = formatRange(win);
+        if (rows.length === 0) return { text: `Nothing on the list ${win.label} (${span}).` };
+        rows = [...rows].sort((a, b) => new Date(a.planned) - new Date(b.planned));
+        const shown = rows.slice(0, 8);
+        const lines = shown.map(
+          (r) => `• ${r.task?.taskName || "Task"}${isAdmin ? ` — ${r.doer?.name || ""}` : ""} — ${dayLabel(r.planned)} (${r.status})`
+        );
+        const more = (res.total || rows.length) > shown.length ? `\n…and ${(res.total || rows.length) - shown.length} more — open Master and use the date filters to see them all.` : "";
+        return { text: `${rows.length}${res.total > rows.length ? "+" : ""} task${rows.length === 1 ? "" : "s"} ${win.label} (${span}):\n${lines.join("\n")}${more}` };
+      } catch {
+        return { text: "I couldn't load those tasks just now — try again in a moment." };
+      }
+    }
+
+    // "What tasks need to be done / what do I have to do / what's left" —
+    // the person's actual to-do list: anything overdue, plus what's coming up
+    // in the next 7 days (today included). Checked BEFORE the page-explanation
+    // rule, otherwise "what are my tasks…" gets answered with a description of
+    // the Task List page instead of real tasks.
+    const asksTodo =
+      /\btasks?\b|\breminders?\b|\bwork\b|\bto ?do\b/.test(q) &&
+      /need(s|ed)?\b|to be done|to do\b|todo|have to|has to|must|should|left|remaining|outstanding|yet to|not (yet )?(done|completed)|what (are|is) (my|the|our) (tasks?|reminders?)\b|(my|our) tasks?\??$/.test(q) &&
+      !/task list|tasks? page|what (is|does) (the )?tasks?\b/.test(q);
+    if (asksTodo) {
+      try {
+        const upcoming = { plannedFrom: quickRange("today").from.toISOString(), plannedTo: quickRange("upcoming").to.toISOString() };
+        let doerParam = {};
+        if (isAdmin && /\bmy\b/.test(q)) {
+          const doers = await api.getDoers();
+          const mine = doers.find((d) => d.email === user?.email);
+          if (mine) doerParam = { doer: mine._id };
+        }
+        const base = { limit: "100", ...doerParam };
+        const [late, soon] = await Promise.all([
+          api.getMaster(`?${new URLSearchParams({ ...base, status: "Delayed" })}`),
+          api.getMaster(`?${new URLSearchParams({ ...base, status: "Pending", ...upcoming })}`),
+        ]);
+        const overdue = (late.rows || []).filter((r) => !r.actual).sort((a, b) => new Date(a.planned) - new Date(b.planned));
+        const coming = (soon.rows || []).filter((r) => !r.actual).sort((a, b) => new Date(a.planned) - new Date(b.planned));
+        if (overdue.length === 0 && coming.length === 0) {
+          return { text: "Nothing needs doing right now — no overdue tasks and nothing due in the next 7 days. 🎉" };
+        }
+        const line = (r) => `• ${r.task?.taskName || "Task"}${isAdmin ? ` — ${r.doer?.name || ""}` : ""} — ${dayLabel(r.planned)}`;
+        const parts = [];
+        if (overdue.length) {
+          parts.push(`⚠️ Overdue (${overdue.length}):\n${overdue.slice(0, 6).map(line).join("\n")}${overdue.length > 6 ? `\n…and ${overdue.length - 6} more` : ""}`);
+        }
+        if (coming.length) {
+          parts.push(`📅 Due in the next 7 days (${coming.length}):\n${coming.slice(0, 6).map(line).join("\n")}${coming.length > 6 ? `\n…and ${coming.length - 6} more` : ""}`);
+        }
+        return { text: `${parts.join("\n\n")}\n\nOpen Master to mark them done or filter by date.` };
+      } catch {
+        return { text: "I couldn't load your to-do list just now — try again in a moment." };
+      }
     }
 
     // site / feature explanations — "what is X", "what does X do", "how do I..."
@@ -326,7 +419,7 @@ export default function Chatbot() {
       return { text: buildHelpMessage(isAdmin) };
     }
 
-    // Nothing above matched — hand it to Ozzy's AI brain (Gemini), which
+    // Nothing above matched — hand it to the assistant's AI brain (Gemini), which
     // gets a live snapshot of this user's real data server-side so it
     // answers from actual numbers instead of guessing. Covers anything
     // about the site, this account's data, or genuinely random questions.

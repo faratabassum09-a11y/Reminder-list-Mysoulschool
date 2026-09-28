@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { bumpData } from "../utils/cache.js";
 
 // This is the "Master" sheet: one row per occurrence of a task for a doer,
 // with Planned vs Actual completion time and computed Status.
@@ -45,5 +46,16 @@ taskInstanceSchema.pre("save", function (next) {
 taskInstanceSchema.index({ planned: -1 });
 taskInstanceSchema.index({ doer: 1, planned: -1 });
 taskInstanceSchema.index({ status: 1, planned: -1 });
+
+// Any write to this collection retires every cached Master list / Dashboard
+// rollup (they're keyed by a data version — see utils/cache.js), so people
+// never see a stale count right after marking something done. Hooking the
+// model instead of each route means no write path can forget to do it.
+const bump = () => bumpData();
+taskInstanceSchema.post("save", bump);
+taskInstanceSchema.post("insertMany", bump);
+for (const op of ["updateOne", "updateMany", "deleteOne", "deleteMany", "findOneAndUpdate", "findOneAndDelete", "findOneAndReplace"]) {
+  taskInstanceSchema.post(op, bump);
+}
 
 export default mongoose.model("TaskInstance", taskInstanceSchema);

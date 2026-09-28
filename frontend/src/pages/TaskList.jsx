@@ -16,6 +16,10 @@ import { chipStyleFromString } from "../utils/colorFromString.js";
 import { downloadCsv } from "../utils/csv.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { FREQ_LABELS as freqLabels } from "../utils/frequency.js";
+import { rangeToParams } from "../utils/masterRanges.js";
+import { useDateFilter } from "../hooks/useDateFilter.js";
+import { QuickRangePills, DateRangeRow } from "../components/DateFilter.jsx";
+import { usePolling } from "../hooks/usePolling.js";
 
 export default function TaskList() {
   const { isAdmin } = useAuth();
@@ -30,11 +34,33 @@ export default function TaskList() {
   const tableRef = useRef(null);
   useTableHotkeys(tableRef);
   const debouncedQ = useDebouncedValue(q, 200);
+  const dateFilter = useDateFilter();
 
   const load = () => {
     api.getTasks().then(setTasks).catch((e) => setError(e.message));
   };
   useEffect(load, []);
+
+  // Date filter: which tasks have a reminder scheduled inside the window.
+  // `null` means "no date filter"; otherwise a Set of task ids. Works for
+  // every signed-in user — the server only counts a member's own reminders.
+  const [scheduledIds, setScheduledIds] = useState(null);
+  const reqId = useRef(0);
+  const loadScheduled = () => {
+    if (!dateFilter.range || dateFilter.error) return setScheduledIds(null);
+    const my = ++reqId.current;
+    const params = new URLSearchParams(rangeToParams(dateFilter.range));
+    api
+      .getScheduledTaskIds(`?${params.toString()}`)
+      .then((r) => { if (my === reqId.current) setScheduledIds(new Set(r.ids || [])); })
+      .catch((e) => { if (my === reqId.current) setError(e.message); });
+  };
+  useEffect(() => {
+    setScheduledIds(null);
+    loadScheduled();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateFilter.quick, dateFilter.dateFrom, dateFilter.dateTo]);
+  usePolling(loadScheduled, 30000);
 
   const toggleActive = async (t) => {
     setBusyId(t._id);
@@ -71,12 +97,13 @@ export default function TaskList() {
           t.defaultAssignee?.name?.toLowerCase().includes(needle)
       );
     }
+    if (scheduledIds) rows = rows.filter((t) => scheduledIds.has(String(t._id)));
     const deptNeedle = colFilters.department.trim().toLowerCase();
     const assigneeNeedle = colFilters.assignee.trim().toLowerCase();
     if (deptNeedle) rows = rows.filter((t) => t.department?.toLowerCase().includes(deptNeedle));
     if (assigneeNeedle) rows = rows.filter((t) => t.defaultAssignee?.name?.toLowerCase().includes(assigneeNeedle));
     return sortRows(rows, sort);
-  }, [tasks, debouncedQ, sort, colFilters]);
+  }, [tasks, debouncedQ, sort, colFilters, scheduledIds]);
 
   const exportCsv = () => {
     downloadCsv(
@@ -99,7 +126,7 @@ export default function TaskList() {
       <PageHeader
         title="Task List"
         subtitle='Catalog of recurring tasks (the "what" and "how often")'
-        meta={tasks && <span className="chip"><strong>{visibleTasks.length}</strong> {debouncedQ ? `of ${tasks.length}` : "tasks"}</span>}
+        meta={tasks && <span className="chip"><strong>{visibleTasks.length}</strong> {debouncedQ || dateFilter.range ? `of ${tasks.length}` : "tasks"}</span>}
       />
       {error && <p className="error">{error}</p>}
       <p className="form-hint">
@@ -107,10 +134,14 @@ export default function TaskList() {
       </p>
 
       {tasks && tasks.length > 0 && (
-        <div className="toolbar">
-          <SearchInput value={q} onChange={setQ} placeholder="Search by task, ID, department, or assignee… (press /)" />
-          <button type="button" className="link-btn generate-btn" onClick={exportCsv}>⬇ Export CSV</button>
-        </div>
+        <>
+          <div className="toolbar" style={{ flexWrap: "wrap" }}>
+            <SearchInput value={q} onChange={setQ} placeholder="Search by task, ID, department, or assignee… (press /)" />
+            <QuickRangePills filter={dateFilter} />
+            <button type="button" className="link-btn generate-btn" onClick={exportCsv}>⬇ Export CSV</button>
+          </div>
+          <DateRangeRow filter={dateFilter} noun="tasks with a reminder" />
+        </>
       )}
 
       <div className="table-panel">
@@ -139,7 +170,11 @@ export default function TaskList() {
               {!tasks && <TableSkeleton columns={9} rows={8} />}
               {tasks && visibleTasks.length === 0 && (
                 <tr><td colSpan={9} className="empty-state">
-                  {debouncedQ ? `No tasks match “${debouncedQ}”.` : "No tasks yet — add one from Master."}
+                  {debouncedQ
+                    ? `No tasks match “${debouncedQ}”.`
+                    : dateFilter.range
+                    ? "No tasks have a reminder in that date range."
+                    : "No tasks yet — add one from Master."}
                 </td></tr>
               )}
               {visibleTasks.map((t, i) => (
