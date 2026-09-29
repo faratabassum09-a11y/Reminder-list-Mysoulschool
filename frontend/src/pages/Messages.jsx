@@ -54,6 +54,9 @@ export default function Messages() {
   const bodyRef = useRef(null);
   const inputRef = useRef(null);
   const bottomRef = useRef(null); // NEW: scroll anchor
+  // Thread cache: key → messages array. Populated on first load,
+  // shown instantly on re-visit, then silently refreshed in background.
+  const threadCache = useRef(new Map());
 
   const loadConversations = () => {
     api.getConversations().then((r) => setConversations(r.conversations || [])).catch(() => {});
@@ -72,9 +75,15 @@ export default function Messages() {
 
   usePolling(() => {
     if (active?.type === "dm") {
-      api.getThread(active.user._id).then((r) => setMessages(r.messages)).catch(() => {});
+      api.getThread(active.user._id).then((r) => {
+        threadCache.current.set(`dm:${active.user._id}`, r.messages);
+        setMessages(r.messages);
+      }).catch(() => {});
     } else if (active?.type === "broadcast") {
-      api.getBroadcast().then((r) => setMessages(r.messages)).catch(() => {});
+      api.getBroadcast().then((r) => {
+        threadCache.current.set("broadcast", r.messages);
+        setMessages(r.messages);
+      }).catch(() => {});
     }
   }, 4000);
 
@@ -90,34 +99,66 @@ export default function Messages() {
   }, [active]);
 
   const selectUser = async (u) => {
+    const cacheKey = `dm:${u._id}`;
+    const cached = threadCache.current.get(cacheKey);
     setActive({ type: "dm", user: u });
-    setMessages(null);
-    setLoadingThread(true);
-    try {
-      const res = await api.getThread(u._id);
-      setMessages(res.messages);
-      loadConversations();
-    } catch (err) {
-      toast(err.message, "bad");
-    } finally {
+    if (cached) {
+      // Show instantly from cache — no loading spinner
+      setMessages(cached);
       setLoadingThread(false);
       setTimeout(() => inputRef.current?.focus(), 50);
+      // Silently refresh in background
+      api.getThread(u._id).then((res) => {
+        threadCache.current.set(cacheKey, res.messages);
+        setMessages(res.messages);
+        loadConversations();
+      }).catch(() => {});
+    } else {
+      setMessages(null);
+      setLoadingThread(true);
+      try {
+        const res = await api.getThread(u._id);
+        threadCache.current.set(cacheKey, res.messages);
+        setMessages(res.messages);
+        loadConversations();
+      } catch (err) {
+        toast(err.message, "bad");
+      } finally {
+        setLoadingThread(false);
+        setTimeout(() => inputRef.current?.focus(), 50);
+      }
     }
   };
 
   const selectBroadcast = async () => {
+    const cacheKey = "broadcast";
+    const cached = threadCache.current.get(cacheKey);
     setActive(BROADCAST);
-    setMessages(null);
-    setLoadingThread(true);
-    try {
-      const res = await api.getBroadcast();
-      setMessages(res.messages);
-      setBroadcastPreview({ unread: 0, lastMessage: res.messages[res.messages.length - 1] || null });
-    } catch (err) {
-      toast(err.message, "bad");
-    } finally {
+    if (cached) {
+      // Show instantly from cache
+      setMessages(cached);
       setLoadingThread(false);
       setTimeout(() => inputRef.current?.focus(), 50);
+      // Silently refresh in background
+      api.getBroadcast().then((res) => {
+        threadCache.current.set(cacheKey, res.messages);
+        setMessages(res.messages);
+        setBroadcastPreview({ unread: 0, lastMessage: res.messages[res.messages.length - 1] || null });
+      }).catch(() => {});
+    } else {
+      setMessages(null);
+      setLoadingThread(true);
+      try {
+        const res = await api.getBroadcast();
+        threadCache.current.set(cacheKey, res.messages);
+        setMessages(res.messages);
+        setBroadcastPreview({ unread: 0, lastMessage: res.messages[res.messages.length - 1] || null });
+      } catch (err) {
+        toast(err.message, "bad");
+      } finally {
+        setLoadingThread(false);
+        setTimeout(() => inputRef.current?.focus(), 50);
+      }
     }
   };
 
@@ -175,6 +216,9 @@ export default function Messages() {
         setTimeout(() => setFlashBubbleId(null), 700);
       }
       setText("");
+      // Keep cache in sync with what we just sent
+      const ck = active.type === "broadcast" ? "broadcast" : `dm:${active.user._id}`;
+      threadCache.current.set(ck, messages || []);
     } catch (err) {
       toast(err.message, "bad");
     } finally {
@@ -208,6 +252,7 @@ export default function Messages() {
     setConfirmDeleteConvo(null);
     try {
       await api.deleteConversation(u._id);
+      threadCache.current.delete(`dm:${u._id}`);
       setConversations((list) => (list || []).filter((c) => c.user._id !== u._id));
       if (active?.type === "dm" && active.user._id === u._id) {
         setActive(null);
