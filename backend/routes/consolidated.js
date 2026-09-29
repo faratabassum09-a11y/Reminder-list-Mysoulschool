@@ -273,4 +273,88 @@ router.delete("/archive/:id", requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+// ─── ORPHAN CLEANUP ────────────────────────────────────────────────────────
+// Why Fara (or anyone) can show tasks in the Dashboard even with 0 rows
+// in Master filtered view:
+//
+//  1. TaskInstance rows are grouped by doer ObjectId — NOT by task name.
+//     If tasks were deleted from the Task collection but their TaskInstance
+//     rows were NOT deleted, those orphaned instances still count.
+//
+//  2. Column filters on the Master page filter what YOU SEE — they don't
+//     change what the DB aggregate counts.
+//
+//  3. A Doer can have TaskInstances whose linked Task no longer exists
+//     (task was removed). The instance still has the doer's _id so it
+//     still appears in the per-person rollup.
+//
+// This route: GET  /api/consolidated/orphans        → preview orphaned rows
+//             DELETE /api/consolidated/orphans      → delete them
+// ──────────────────────────────────────────────────────────────────────────
+router.get("/orphans", requireAdmin, async (req, res) => {
+  try {
+    const Task = (await import("../models/Task.js")).default;
+    const [allTaskIds, allDoerIds] = await Promise.all([
+      Task.distinct("_id"),
+      Doer.distinct("_id"),
+    ]);
+    const taskSet = new Set(allTaskIds.map(String));
+    const doerSet = new Set(allDoerIds.map(String));
+
+    // Find instances whose task OR doer no longer exists
+    const all = await TaskInstance.find({}, { task: 1, doer: 1, planned: 1, status: 1 }).lean();
+    const orphans = all.filter(
+      (inst) => !taskSet.has(String(inst.task)) || !doerSet.has(String(inst.doer))
+    );
+
+    // Group by doer for a readable preview
+    const byDoer = {};
+    for (const o of orphans) {
+      const key = String(o.doer);
+      byDoer[key] = byDoer[key] || { doerId: key, count: 0, reason: [] };
+      byDoer[key].count++;
+      if (!taskSet.has(String(o.task)) && !byDoer[key].reason.includes("task deleted"))
+        byDoer[key].reason.push("task deleted");
+      if (!doerSet.has(String(o.doer)) && !byDoer[key].reason.includes("doer deleted"))
+        byDoer[key].reason.push("doer deleted");
+    }
+
+    // Enrich with doer name where possible
+    const doerDocs = await Doer.find({ _id: { $in: Object.keys(byDoer) } }, { name: 1 }).lean();
+    const nameMap = new Map(doerDocs.map((d) => [String(d._id), d.name]));
+    const summary = Object.values(byDoer).map((r) => ({
+      ...r,
+      name: nameMap.get(r.doerId) || "(deleted doer)",
+    }));
+
+    res.json({ totalOrphans: orphans.length, byDoer: summary });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete("/orphans", requireAdmin, async (req, res) => {
+  try {
+    const Task = (await import("../models/Task.js")).default;
+    const [allTaskIds, allDoerIds] = await Promise.all([
+      Task.distinct("_id"),
+      Doer.distinct("_id"),
+    ]);
+    const taskSet = new Set(allTaskIds.map(String));
+    const doerSet = new Set(allDoerIds.map(String));
+
+    const all = await TaskInstance.find({}, { task: 1, doer: 1 }).lean();
+    const orphanIds = all
+      .filter((inst) => !taskSet.has(String(inst.task)) || !doerSet.has(String(inst.doer)))
+      .map((inst) => inst._id);
+
+    if (!orphanIds.length) return res.json({ deleted: 0, message: "No orphans found" });
+
+    const result = await TaskInstance.deleteMany({ _id: { $in: orphanIds } });
+    res.json({ deleted: result.deletedCount, message: `Removed ${result.deletedCount} orphaned rows from Master` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;
