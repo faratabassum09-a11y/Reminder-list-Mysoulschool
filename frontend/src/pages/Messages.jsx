@@ -162,7 +162,7 @@ export default function Messages() {
       } else if (active.type === "broadcast") {
         const res = await api.sendBroadcast(t);
         setMessages((m) => [...(m || []), res.message]);
-        toast(`Sent to ${res.reachedUserCount} of ${res.doerCount} people on the Doer List`, "good");
+        toast("Sent", "good");
         // Flash sent bubble
         setFlashBubbleId(res.message._id);
         setTimeout(() => setFlashBubbleId(null), 700);
@@ -430,33 +430,37 @@ export default function Messages() {
                   const deleted = m.deletedForEveryone;
                   const canEdit = mine && !deleted && (active.type !== "broadcast" || isAdmin);
                   const isFlashing = flashBubbleId === m._id;
-                  return (
-                    <div key={m._id} className={"messages-bubble-row" + (mine ? " mine" : "")}>
-                      {!deleted && (
-                        <div className="messages-bubble-menu-wrap">
-                          <button
-                            type="button"
-                            className="messages-bubble-menu-btn"
-                            aria-label="Message options"
-                            onClick={() => setOpenMenuId((id) => (id === m._id ? null : m._id))}
-                          >
-                            ⋮
-                          </button>
-                          {openMenuId === m._id && (
-                            <div className="messages-bubble-menu" onMouseLeave={() => setOpenMenuId(null)}>
-                              {canEdit && (
-                                <button type="button" onClick={() => startEdit(m)}>✏️ Edit</button>
-                              )}
-                              <button type="button" onClick={() => handleDeleteMessage(m, false)}>🗑 Delete for me</button>
-                              {mine && (
-                                <button type="button" className="danger" onClick={() => handleDeleteMessage(m, true)}>
-                                  ❌ Delete for everyone
-                                </button>
-                              )}
-                            </div>
+                  // Menu button — renders LEFT of bubble for others, RIGHT of bubble for mine
+                  const menuBtn = !deleted && (
+                    <div className="messages-bubble-menu-wrap">
+                      <button
+                        type="button"
+                        className="messages-bubble-menu-btn"
+                        aria-label="Message options"
+                        onClick={() => setOpenMenuId((id) => (id === m._id ? null : m._id))}
+                      >
+                        ⋮
+                      </button>
+                      {openMenuId === m._id && (
+                        <div className="messages-bubble-menu" onMouseLeave={() => setOpenMenuId(null)}>
+                          {canEdit && (
+                            <button type="button" onClick={() => startEdit(m)}>✏️ Edit</button>
+                          )}
+                          <button type="button" onClick={() => handleDeleteMessage(m, false)}>🗑 Delete for me</button>
+                          {mine && (
+                            <button type="button" className="danger" onClick={() => handleDeleteMessage(m, true)}>
+                              ❌ Delete for everyone
+                            </button>
                           )}
                         </div>
                       )}
+                    </div>
+                  );
+
+                  return (
+                    <div key={m._id} className={"messages-bubble-row" + (mine ? " mine" : "")}>
+                      {/* For others' messages: menu LEFT then bubble. For mine: bubble first then menu RIGHT */}
+                      {!mine && menuBtn}
                       <div className={
                         "messages-bubble" +
                         (mine ? " messages-bubble-me" : " messages-bubble-them") +
@@ -474,6 +478,7 @@ export default function Messages() {
                           {timeShort(m.createdAt)}
                         </div>
                       </div>
+                      {mine && menuBtn}
                     </div>
                   );
                 })}

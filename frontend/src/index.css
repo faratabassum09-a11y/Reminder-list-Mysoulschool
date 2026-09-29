@@ -2182,7 +2182,9 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-panel);
-  overflow: hidden;
+  /* overflow:hidden was clipping the bubble action menu dropdown.
+     Changed to visible so the popup can escape the container bounds. */
+  overflow: visible;
 }
 .messages-thread-head {
   display: flex;
@@ -2212,11 +2214,13 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 .messages-thread-body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: visible;
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 4px;
   background: var(--panel-alt);
+  /* Do NOT set position:relative here — it would trap the dropdown z-index */
 }
 .messages-bubble-row { display: flex; align-items: flex-end; gap: 4px; }
 .messages-bubble-row.mine { justify-content: flex-end; }
@@ -2238,9 +2242,16 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 .messages-bubble-edited { opacity: 0.85; font-style: italic; }
 .messages-bubble-deleted .messages-bubble-text { font-style: italic; opacity: 0.65; }
 
-.messages-bubble-menu-wrap { position: relative; opacity: 0.85; transition: opacity 0.12s ease; flex-shrink: 0; }
+.messages-bubble-menu-wrap {
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  flex-shrink: 0;
+  align-self: center;
+}
 .messages-bubble-row:hover .messages-bubble-menu-wrap,
-.messages-bubble-menu-wrap:focus-within { opacity: 1; }
+.messages-bubble-menu-wrap:focus-within,
+.messages-bubble-menu-wrap:has(.messages-bubble-menu) { opacity: 1; }
 .messages-bubble-menu-btn {
   border: 1px solid var(--line);
   background: var(--panel);
@@ -2255,18 +2266,21 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 .messages-bubble-menu-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
 .messages-bubble-menu {
   position: absolute;
-  bottom: calc(100% + 4px);
-  z-index: 20;
+  /* Open DOWNWARD from the button so it never gets clipped at the top */
+  top: calc(100% + 4px);
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  min-width: 168px;
+  min-width: 172px;
   padding: 4px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-panel);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
 }
+/* For mine rows: menu-wrap is RIGHT of bubble, so align dropdown to the right */
 .messages-bubble-row.mine .messages-bubble-menu { right: 0; }
+/* For others rows: menu-wrap is LEFT of bubble, so align dropdown to the left */
 .messages-bubble-row:not(.mine) .messages-bubble-menu { left: 0; }
 .messages-bubble-menu button {
   text-align: left;
