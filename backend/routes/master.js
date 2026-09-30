@@ -140,6 +140,33 @@ async function buildListFilter(req) {
     filter.planned = { $gte: start, $lt: end };
   }
 
+  // Column filters (the small pin icon in each Master header). These search
+  // EVERY row, not just the page on screen: ?doerName= / ?taskName= /
+  // ?department= are case-insensitive "contains" matches, resolved to ids
+  // from the in-memory doer/task lookups and applied as an $in filter.
+  const dn = String(req.query.doerName || "").trim().toLowerCase();
+  const tn = String(req.query.taskName || "").trim().toLowerCase();
+  const dept = String(req.query.department || "").trim().toLowerCase();
+  if (dn || tn || dept) {
+    const and = [];
+    if (dn || dept) {
+      const { byId } = await getDoerMaps();
+      const ids = [...byId.values()]
+        .filter((d) => (!dn || String(d.name || "").toLowerCase().includes(dn)) &&
+                       (!dept || String(d.department || "").toLowerCase().includes(dept)))
+        .map((d) => d._id);
+      and.push({ doer: { $in: ids } });
+    }
+    if (tn) {
+      const tasks = await getTaskMap();
+      const ids = [...tasks.values()]
+        .filter((t) => String(t.taskName || "").toLowerCase().includes(tn))
+        .map((t) => t._id);
+      and.push({ task: { $in: ids } });
+    }
+    filter.$and = [...(filter.$and || []), ...and];
+  }
+
   return { filter };
 }
 

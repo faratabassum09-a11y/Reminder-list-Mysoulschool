@@ -117,6 +117,76 @@ router.get("/stats", async (req, res) => {
   });
 });
 
+// ------------------------------------------------------------ dashboard ----
+// Team-wide performance for every workshop user (not just admins), same
+// rules as the Reminder List dashboard: only tasks that have come due are
+// scored, and On-Time % = on time / due. Range filters on the planned date.
+function wsRange(key) {
+  const day0 = new Date(); day0.setHours(0, 0, 0, 0);
+  const add = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const monday = (d) => add(d, d.getDay() === 0 ? -6 : 1 - d.getDay());
+  const now = new Date();
+  switch (key) {
+    case "today": return { start: day0, end: add(day0, 1) };
+    case "yesterday": return { start: add(day0, -1), end: day0 };
+    case "thisWeek": { const m = monday(day0); return { start: m, end: add(m, 7) }; }
+    case "lastWeek": { const m = monday(day0); return { start: add(m, -7), end: m }; }
+    case "nextWeek": { const m = add(monday(day0), 7); return { start: m, end: add(m, 7) }; }
+    case "lastMonth": return { start: new Date(now.getFullYear(), now.getMonth() - 1, 1), end: new Date(now.getFullYear(), now.getMonth(), 1) };
+    case "year": return { start: new Date(now.getFullYear(), 0, 1), end: new Date(now.getFullYear() + 1, 0, 1) };
+    default: return null;
+  }
+}
+
+router.get("/dashboard", async (req, res) => {
+  try {
+    const now = new Date();
+    const range = wsRange(String(req.query.range || ""));
+    const cutoff = new Date(new Date(now).setHours(24, 0, 0, 0)); // end of today
+    const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
+    const planned = { $lt: end };
+    if (range) planned.$gte = range.start;
+
+    const facet = (key) => [
+      { $group: { _id: key, total: { $sum: 1 },
+          onTime: { $sum: { $cond: [{ $eq: ["$outcome", "On Time"] }, 1, 0] } },
+          delayed: { $sum: { $cond: [{ $eq: ["$outcome", "Delayed"] }, 1, 0] } },
+          pending: { $sum: { $cond: [{ $eq: ["$actual", null] }, 1, 0] } },
+          name: { $first: "$owner" }, department: { $first: "$department" } } },
+    ];
+    const [agg] = await WorkshopTask.aggregate([
+      { $match: { planned } },
+      { $facet: { all: facet(null), byType: facet("$workshopType"), byPerson: facet({ $ifNull: ["$ownerEmail", ""] }) } },
+    ]);
+    const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : 0);
+    const shape = (r) => ({ ...r, onTimePercent: pct(r.onTime, r.total), completedPercent: pct(r.onTime + r.delayed, r.total) });
+    const all = shape(agg.all[0] || { total: 0, onTime: 0, delayed: 0, pending: 0 });
+    const byType = agg.byType.map(shape).map((r) => ({ type: r._id, ...r })).sort((a, b) => a.type.localeCompare(b.type));
+    const byPerson = agg.byPerson
+      .filter((r) => r._id)
+      .map(shape)
+      .map((r) => ({ email: r._id, name: r.name || r._id, department: r.department || "—", ...r }))
+      .sort((a, b) => b.onTimePercent - a.onTimePercent || b.total - a.total);
+    let rank = 0, last = null, seen = 0;
+    for (const p of byPerson) { seen++; if (p.onTimePercent !== last) { rank = seen; last = p.onTimePercent; } p.rank = p.total ? rank : null; }
+
+    const overdue = await WorkshopTask.countDocuments({ actual: null, planned: { $lt: now, ...(range ? { $gte: range.start } : {}) } });
+    const [workshopsApproved, workshopsUpcoming, workshopsPending] = await Promise.all([
+      Workshop.countDocuments({ status: "approved" }),
+      Workshop.countDocuments({ status: "approved", startDate: { $gte: new Date(now.toISOString().slice(0, 10)) } }),
+      Workshop.countDocuments({ status: "pending" }),
+    ]);
+    res.json({
+      summary: { ...all, _id: undefined, name: undefined, department: undefined, overdue },
+      byType, byPerson,
+      workshops: { approved: workshopsApproved, upcoming: workshopsUpcoming, pending: workshopsPending },
+      me: req.user.email,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ------------------------------------------------------------ templates ----
 router.get("/templates", async (req, res) => {
   res.json(await listTemplates(true));
