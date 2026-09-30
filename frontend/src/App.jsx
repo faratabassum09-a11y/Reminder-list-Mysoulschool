@@ -17,10 +17,10 @@ import ShortcutsHelp from "./components/ShortcutsHelp.jsx";
 import Logo from "./components/Logo.jsx";
 import NotificationBell from "./components/NotificationBell.jsx";
 const Chatbot = lazy(() => import("./components/Chatbot.jsx"));
+import { useTheme } from "./context/ThemeContext.jsx";
 import { useSlashToFocusSearch } from "./hooks/useSlashToFocusSearch.js";
 import { usePolling } from "./hooks/usePolling.js";
 import { useAuth } from "./context/AuthContext.jsx";
-import { useTheme } from "./context/ThemeContext.jsx";
 import { api } from "./api.js";
 import { avatarStyleFromString, initials } from "./utils/colorFromString.js";
 
@@ -96,8 +96,8 @@ function AuthLoadingScreen({ slow }) {
 
 export default function App() {
   const { user, loading, slow, logout, isAdmin, hasReminder, hasWorkshop, canRequestWorkshops } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const { pathname } = useLocation();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(
     () => localStorage.getItem("sidebar-collapsed") === "1"
@@ -112,17 +112,13 @@ export default function App() {
   };
   useEffect(loadMsgUnread, [user]);
   usePolling(loadMsgUnread, 12000);
-  // Shows a small pulsing dot on the theme toggle until the person clicks
-  // it for the first time — a nudge that it's there and clickable, not
-  // just a static icon. Gone for good (per browser) after the first click.
-  const [themeHintSeen, setThemeHintSeen] = useState(
-    () => localStorage.getItem("theme-toggle-seen") === "1"
-  );
-
   useEffect(() => {
     localStorage.setItem("sidebar-collapsed", collapsed ? "1" : "0");
   }, [collapsed]);
 
+  const [themeHintSeen, setThemeHintSeen] = useState(
+    () => localStorage.getItem("theme-toggle-seen") === "1"
+  );
   const handleToggleTheme = () => {
     toggleTheme();
     if (!themeHintSeen) {

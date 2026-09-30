@@ -69,9 +69,6 @@ export default function WsLaunches() {
         meta={<button type="button" className="btn-ghost" onClick={loadRemote} disabled={checking}>{checking ? "Checking…" : "Re-check feed"}</button>}
       />
 
-      {internal && (
-        <p className="ws-note">Launch Verification runs inside this website — nothing to set up. Approved workshops appear below automatically. (To also push them to an external Apps Script app, set <code>LAUNCH_WEBHOOK_URL</code> in the backend and restart.)</p>
-      )}
 
       <div className="cards">
         <StatCard label="Upcoming approved" value={rows ? upcoming.length : "…"} tone="accent" />

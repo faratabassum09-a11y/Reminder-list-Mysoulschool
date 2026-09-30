@@ -223,12 +223,12 @@ export default function Users() {
       <div className="table-wrap">
         <table className="table">
           <thead>
-            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>App access</th><th>Slack ID</th><th>Status</th><th></th></tr>
+            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Account role</th><th>Workshop role</th><th>App access</th><th>Slack ID</th><th>Status</th><th></th></tr>
           </thead>
           <tbody>
-            {!users && <TableSkeleton columns={8} rows={5} />}
+            {!users && <TableSkeleton columns={9} rows={5} />}
             {users && filteredUsers.length === 0 && (
-              <tr><td colSpan={8} className="empty-state">No users match "{q}".</td></tr>
+              <tr><td colSpan={9} className="empty-state">No users match "{q}".</td></tr>
             )}
             {filteredUsers?.map((u, i) => (
               <tr key={u._id} className={u.active === false ? "row-inactive" : ""}>
@@ -242,15 +242,33 @@ export default function Users() {
                 <td>{u.email}</td>
                 <td>
                   <button type="button" className={"role-toggle " + (u.role === "admin" ? "role-admin" : "role-member")}
-                    disabled={busyId === u._id} onClick={() => toggleRole(u)} title="Click to change role">
+                    disabled={busyId === u._id} onClick={() => toggleRole(u)} title={u.role === "admin" ? "Click to make this person a Member" : "Click to make this person an Admin"}>
                     {u.role === "admin" ? "Admin" : "Member"}
                   </button>
-                  {u.role !== "admin" && (
-                    <button type="button" className={"role-toggle " + (u.canRequestWorkshops ? "role-admin" : "role-member")}
-                      style={{ marginLeft: 6 }} disabled={busyId === u._id} onClick={() => toggleCoordinator(u)}
-                      title="Click to allow / stop this person adding new workshops in Workshop PMS">
-                      {u.canRequestWorkshops ? "Workshop coordinator ✓" : "+ Coordinator"}
-                    </button>
+                </td>
+                <td>
+                  {u.role === "admin" ? (
+                    <span className="wsrole wsrole-approver" title="Admins approve every workshop request">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.5 4.500 4.500L19 7.500" /></svg>
+                      Approver
+                    </span>
+                  ) : (
+                    <div className="wsrole-cell">
+                      <ToggleSwitch
+                        checked={!!u.canRequestWorkshops}
+                        disabled={busyId === u._id}
+                        label={`${u.name} can add new workshops`}
+                        onChange={() => toggleCoordinator(u)}
+                      />
+                      {u.canRequestWorkshops ? (
+                        <span className="wsrole wsrole-coord" title="Can add new workshops and see all requests">
+                          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="m12 2.800 2.800 5.900 6.400.8-4.700 4.400 1.200 6.400L12 17.200 6.300 20.300l1.200-6.400L2.800 9.500l6.400-.8L12 2.800Z" /></svg>
+                          Coordinator
+                        </span>
+                      ) : (
+                        <span className="wsrole wsrole-owner" title="Only works on their assigned workshop tasks">Task owner</span>
+                      )}
+                    </div>
                   )}
                 </td>
                 <td>

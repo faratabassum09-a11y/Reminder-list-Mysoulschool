@@ -502,6 +502,7 @@ export const api = {
 
   wsMeta: () => request("/workshops/meta"),
   wsStats: () => request("/workshops/stats"),
+  wsDashboard: (range) => request("/workshops/dashboard" + (range ? `?range=${range}` : "")),
 
   wsList: (params = "") => request(`/workshops${params}`),
   wsNextId: (type) => request(`/workshops/next-id?type=${encodeURIComponent(type)}`),

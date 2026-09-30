@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo.jsx";
 import WorkshopLogo from "../components/WorkshopLogo.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import SchoolBrand from "../components/SchoolLogo.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import { api } from "../api.js";
 import "./hub.css";
 
@@ -14,7 +15,6 @@ const greeting = () => {
 
 export default function Hub() {
   const { user, logout, isAdmin, hasReminder, hasWorkshop } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [wsStats, setWsStats] = useState(null);
   const [remStats, setRemStats] = useState(null);
@@ -31,12 +31,14 @@ export default function Hub() {
     navigate(to);
   };
 
+  const { theme, toggleTheme } = useTheme();
   const first = (user?.name || "").split(" ")[0];
 
   return (
     <div className="hub">
       <div className="hub-glow" aria-hidden="true" />
       <header className="hub-top">
+        <SchoolBrand size={40} tone="dark" />
         <div className="hub-user">
           <span className="hub-user-name">{user?.name}</span>
           <span className="hub-user-role">{isAdmin ? "Admin" : "Member"}</span>
@@ -48,7 +50,6 @@ export default function Hub() {
       </header>
 
       <main className="hub-main">
-        <p className="hub-eyebrow">MySoulSchool Ops</p>
         <h1 className="hub-title">{greeting()}{first ? `, ${first}` : ""}.</h1>
         <p className="hub-sub">Where would you like to work today?</p>
 

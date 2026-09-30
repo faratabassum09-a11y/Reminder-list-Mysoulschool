@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useToast } from "../../components/Toast.jsx";
 import { usePolling } from "../../hooks/usePolling.js";
 import { downloadCsv } from "../../utils/csv.js";
-import { fmtDateTimeYear, nowLocalInput, istInputToIso, dmy, dmyhms, hms } from "../../utils/wsFormat.js";
+import { fmtDateTimeYear, dmy, dmyhms, hms } from "../../utils/wsFormat.js";
 import { Empty, TypeChip, WorkshopStatus } from "../ui.jsx";
 
 // The in-app version of the two Google Forms:
@@ -23,39 +23,16 @@ export default function WsResponses({ onChanged }) {
   const [busyId, setBusyId] = useState(null);
   const [responses, setResponses] = useState(null);
   const [workshops, setWorkshops] = useState(null);
-  const [open, setOpen] = useState([]);
   const [error, setError] = useState("");
   const [q, setQ] = useState("");
-  const [taskId, setTaskId] = useState("");
-  const [when, setWhen] = useState(nowLocalInput());
-  const [note, setNote] = useState("");
-  const [busy, setBusy] = useState(false);
 
   const load = () => {
     api.wsResponses().then(setResponses).catch((e) => setError(e.message));
     if (canRequestWorkshops) api.wsList().then(setWorkshops).catch(() => {});
-    api.wsTasks(isAdmin ? "?status=open" : "?status=open&mine=1").then(setOpen).catch(() => {});
   };
   useEffect(load, []);
   usePolling(load, 30000);
 
-  const submit = async (e) => {
-    e.preventDefault();
-    if (!taskId) return setError("Choose the task you finished");
-    setBusy(true);
-    setError("");
-    try {
-      const done = await api.wsSubmitResponse({ taskId, actual: istInputToIso(when), note });
-      toast(done.status === "On Time" ? `On time — ${done.ownerScore} pts` : "Recorded (late — 0 pts)", done.status === "On Time" ? "good" : "default");
-      setTaskId(""); setNote(""); setWhen(nowLocalInput());
-      load();
-      onChanged?.();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setBusy(false);
-    }
-  };
 
   // Admin-only: approving a form response creates its fixed task list automatically.
   const approve = async (w) => {
@@ -109,20 +86,9 @@ export default function WsResponses({ onChanged }) {
     <div className="page">
       <PageHeader
         title="Form responses"
-        subtitle={isAdmin ? "Every task-done and new-workshop form submission. Approving a new workshop creates its fixed tasks automatically." : canRequestWorkshops ? "Task-done responses, and every new-workshop form you submitted with its approval status." : "Submit one of your tasks as done here; you only see your own responses."}
+        subtitle={isAdmin ? "Every task-done and new-workshop form submission. Approving a new workshop creates its fixed tasks automatically." : canRequestWorkshops ? "Task-done responses, and every new-workshop form you submitted with its approval status." : "Your task-done responses. Mark a task done from the Tasks page; you only see your own responses."}
       />
 
-      {open.length > 0 || tab === "task" ? (
-        <form className="inline-form" onSubmit={submit}>
-          <select value={taskId} onChange={(e) => setTaskId(e.target.value)} aria-label="Workshop Task ID" required>
-            <option value="">Workshop Task ID…</option>
-            {open.map((t) => <option key={t._id} value={t.taskId}>{t.taskId} — {t.task.slice(0, 50)}</option>)}
-          </select>
-          <input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} required title="When it was actually done (India time)" />
-          <input placeholder="Note (optional)" maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} />
-          <button type="submit" disabled={busy || !taskId}>{busy ? "Submitting…" : "Submit response"}</button>
-        </form>
-      ) : null}
       {error && <p className="error">{error}</p>}
 
       <div className="toolbar">
@@ -140,7 +106,7 @@ export default function WsResponses({ onChanged }) {
         !responses ? (
           <div className="table-wrap"><table className="table ws-table"><tbody><TableSkeleton rows={6} columns={8} /></tbody></table></div>
         ) : rRows.length === 0 ? (
-          <Empty icon="📝" title="No task responses yet">Submit the form above when you finish a task.</Empty>
+          <Empty icon="📝" title="No task responses yet">Mark a task done from My Tasks and it will appear here.</Empty>
         ) : (
           <div className="table-wrap">
             <table className="table ws-table">

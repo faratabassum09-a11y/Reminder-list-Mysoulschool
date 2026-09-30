@@ -9,6 +9,8 @@ import { useDebouncedValue } from "../../hooks/useDebouncedValue.js";
 import { usePolling } from "../../hooks/usePolling.js";
 import { downloadCsv } from "../../utils/csv.js";
 import { dmy, dmyhms } from "../../utils/wsFormat.js";
+import { useDateFilter } from "../../hooks/useDateFilter.js";
+import { QuickRangePills, DateRangeRow } from "../../components/DateFilter.jsx";
 import TaskTable from "../TaskTable.jsx";
 import { Empty } from "../ui.jsx";
 
@@ -27,6 +29,8 @@ export default function WsTasks({ onChanged }) {
   const [q, setQ] = useState("");
   const [typeCodes, setTypeCodes] = useState(["UTW", "ICP", "R12", "THW"]);
   const dq = useDebouncedValue(q, 250);
+  const dateFilter = useDateFilter(() => setPage(1));
+  const rangeKey = dateFilter.error ? "" : `${dateFilter.range?.from?.getTime() || ""}-${dateFilter.range?.to?.getTime() || ""}`;
   const status = params.get("status") || "";
   const mine = params.get("mine") === "1";
   const type = params.get("type") || "";
@@ -43,6 +47,11 @@ export default function WsTasks({ onChanged }) {
     if (mine) p.set("mine", "1");
     if (type) p.set("type", type);
     if (dq.trim()) p.set("q", dq.trim());
+    if (dateFilter.range && !dateFilter.error) {
+      if (dateFilter.range.from) p.set("from", dateFilter.range.from.toISOString());
+      // range end is exclusive; the API's "to" is inclusive
+      if (dateFilter.range.to) p.set("to", new Date(dateFilter.range.to.getTime() - 1).toISOString());
+    }
     p.set("page", String(page));
     p.set("limit", String(PAGE_SIZE));
     api.wsTasks(`?${p}`)
@@ -55,8 +64,8 @@ export default function WsTasks({ onChanged }) {
       .catch((e) => setError(e.message));
   };
   useEffect(() => { api.wsMeta().then((m) => setTypeCodes(m.types.map((t) => t.code))).catch(() => {}); }, []);
-  useEffect(() => { setPage(1); }, [status, mine, type, dq]);
-  useEffect(load, [status, mine, type, dq, page]);
+  useEffect(() => { setPage(1); }, [status, mine, type, dq, rangeKey]);
+  useEffect(load, [status, mine, type, dq, page, rangeKey]);
   usePolling(load, 60000);
 
   const owners = useMemo(() => new Set((tasks || []).map((t) => t.owner)).size, [tasks]);
@@ -93,7 +102,9 @@ export default function WsTasks({ onChanged }) {
           )}
           <button type="button" className="btn-ghost ws-small-btn" onClick={exportCsv} disabled={!tasks?.length}>Export CSV</button>
         </div>
+        <QuickRangePills filter={dateFilter} />
       </div>
+      <DateRangeRow filter={dateFilter} noun="tasks planned" />
       {error && <p className="error">{error}</p>}
       {tasks && <p className="muted ws-count">{meta.total.toLocaleString()} task{meta.total === 1 ? "" : "s"} · showing {tasks.length ? (meta.page - 1) * PAGE_SIZE + 1 : 0}–{(meta.page - 1) * PAGE_SIZE + tasks.length}{owners > 0 ? ` · ${owners} owner${owners === 1 ? "" : "s"} on this page` : ""}</p>}
 

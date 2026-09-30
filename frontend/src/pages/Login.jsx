@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../components/Logo.jsx";
+import SchoolBrand from "../components/SchoolLogo.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Login() {
@@ -31,11 +31,8 @@ export default function Login() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-brand">
-          <Logo size={44} />
-          <div>
-            <div className="login-title">Reminder List</div>
-            <div className="login-subtitle">MySoulSchool Ops Tracker</div>
-          </div>
+          <SchoolBrand size={52} />
+          <div className="login-suite">Sign in to Reminder List and Workshop PMS</div>
         </div>
         <form onSubmit={submit} className="login-form">
           <label>

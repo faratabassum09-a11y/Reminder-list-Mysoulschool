@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
@@ -70,7 +71,11 @@ export default function Master() {
   const focusId = searchParams.get("highlight");
   const clearFocus = () => setSearchParams({}, { replace: true });
 
-  const setColFilter = (key, value) => setColFilters((f) => ({ ...f, [key]: value }));
+  const setColFilter = (key, value) => {
+    setColFilters((f) => ({ ...f, [key]: value }));
+    setPage(1);
+  };
+  const dColFilters = useDebouncedValue(colFilters, 350);
 
   // Doers and Tasks are used here only to populate dropdowns and to look up
   // a name/department for display — they don't change from filtering or
@@ -102,6 +107,10 @@ export default function Master() {
     }
     if (filterStatus) params.set("status", filterStatus);
     if (mineOnly && myDoer) params.set("doer", myDoer._id);
+    // Column filters are applied on the server so they search ALL rows.
+    if (dColFilters.doer.trim()) params.set("doerName", dColFilters.doer.trim());
+    if (dColFilters.task.trim()) params.set("taskName", dColFilters.task.trim());
+    if (dColFilters.department.trim()) params.set("department", dColFilters.department.trim());
     if (dateRange.range) {
       Object.entries(rangeToParams(dateRange.range)).forEach(([k, v]) => params.set(k, v));
     }
@@ -128,7 +137,7 @@ export default function Master() {
   useEffect(() => {
     setData((d) => ({ ...d, rows: null }));
   }, [focusId]);
-  useEffect(load, [filterStatus, quick, dateFrom, dateTo, mineOnly, page, focusId, myDoer?._id]);
+  useEffect(load, [filterStatus, quick, dateFrom, dateTo, mineOnly, page, focusId, myDoer?._id, dColFilters]);
   // Everyone sees completions within seconds, no refresh needed.
   usePolling(load, 20000);
 
@@ -264,20 +273,9 @@ export default function Master() {
     setPage(n);
   };
 
-  // Per-column filters (the small ⚲ icon in each header) narrow down the
-  // rows already loaded on the current page — a quick, precise way to spot
-  // "just this doer" or "just this task" without leaving the page filter
-  // and pagination behind.
-  const visibleRows = useMemo(() => {
-    let rows = data.rows || [];
-    const dNeedle = colFilters.doer.trim().toLowerCase();
-    const tNeedle = colFilters.task.trim().toLowerCase();
-    const deptNeedle = colFilters.department.trim().toLowerCase();
-    if (dNeedle) rows = rows.filter((e) => e.doer?.name?.toLowerCase().includes(dNeedle));
-    if (tNeedle) rows = rows.filter((e) => e.task?.taskName?.toLowerCase().includes(tNeedle));
-    if (deptNeedle) rows = rows.filter((e) => e.doer?.department?.toLowerCase().includes(deptNeedle));
-    return rows;
-  }, [data.rows, colFilters]);
+  // Per-column filters (the small pin icon in each header) are sent to the
+  // server, so they search every reminder - not just the 100 on this page.
+  const visibleRows = data.rows || [];
   const colFiltering = !!(colFilters.doer.trim() || colFilters.task.trim() || colFilters.department.trim());
 
   return (
@@ -409,17 +407,14 @@ export default function Master() {
             <tbody>
               {!data.rows && <TableSkeleton columns={8} rows={12} />}
               {data.rows && data.rows.length === 0 && (
-                <tr><td colSpan={8} className="empty-state">No reminders match this filter.</td></tr>
-              )}
-              {data.rows && data.rows.length > 0 && visibleRows.length === 0 && (
-                <tr><td colSpan={8} className="empty-state">No rows match the column filters you've set.</td></tr>
+                <tr><td colSpan={8} className="empty-state">{colFiltering ? "No reminders match the column filters you've set." : "No reminders match this filter."}</td></tr>
               )}
               {visibleRows.map((e, i) => {
                 const isOwnRow = e.doer?.email === user?.email;
                 const rowCls = focusId && e._id === focusId ? "row-highlighted" : undefined;
                 return (
                   <tr key={e._id} className={rowCls}>
-                    <td>{(data.page - 1) * limit + (colFiltering ? data.rows.indexOf(e) : i) + 1}</td>
+                    <td>{(data.page - 1) * limit + i + 1}</td>
                     <td>{e.doer?.name}</td>
                     <td className="col-task truncate-cell" title={e.task?.taskName}>{e.task?.taskName}</td>
                     <td>{e.doer?.department}</td>

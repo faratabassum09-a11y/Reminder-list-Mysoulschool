@@ -1,14 +1,15 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate } from "react-router-dom";
 import WorkshopLogo from "../components/WorkshopLogo.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 import { api } from "../api.js";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
 import "./workshops.css";
 
 const WsOverview = lazy(() => import("./pages/WsOverview.jsx"));
+const WsDashboard = lazy(() => import("./pages/WsDashboard.jsx"));
 const WsNew = lazy(() => import("./pages/WsNew.jsx"));
 const WsRequests = lazy(() => import("./pages/WsRequests.jsx"));
 const WsWorkshops = lazy(() => import("./pages/WsWorkshops.jsx"));
@@ -20,6 +21,7 @@ const WsResponses = lazy(() => import("./pages/WsResponses.jsx"));
 const Account = lazy(() => import("../pages/Account.jsx"));
 
 const I = {
+  dashboard: "M4 20V10M10 20V4M16 20v-7M22 20H2",
   overview: "M3 13h7V3H3v10Zm0 8h7v-6H3v6Zm11 0h7V11h-7v10Zm0-18v6h7V3h-7Z",
   new: "M12 5v14M5 12h14",
   requests: "M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h9",
@@ -54,11 +56,12 @@ export default function WorkshopApp() {
 
   const links = [
     { to: "/workshops", label: "Overview", end: true, icon: "overview" },
+    { to: "/workshops/dashboard", label: "Dashboard", icon: "dashboard" },
     ...(canRequestWorkshops ? [{ to: "/workshops/new", label: "New Workshop", icon: "new" }] : []),
     ...(canRequestWorkshops ? [{ to: "/workshops/requests", label: isAdmin ? "Approvals" : "My Requests", icon: "requests", badge: isAdmin ? stats?.pendingApproval : 0 }] : []),
     ...(canRequestWorkshops ? [{ to: "/workshops/plan", label: "Workshops", icon: "workshops" }] : []),
     { to: "/workshops/tasks", label: canRequestWorkshops ? "Tasks" : "My Tasks", icon: "tasks", badge: stats?.myOverdue, bad: true },
-    { to: "/workshops/responses", label: canRequestWorkshops ? "Form Responses" : "Submit Task Done", icon: "responses" },
+    { to: "/workshops/responses", label: canRequestWorkshops ? "Form Responses" : "My Responses", icon: "responses" },
     ...(isAdmin
       ? [
           { to: "/workshops/launches", label: "Launches", icon: "launches" },
@@ -86,7 +89,7 @@ export default function WorkshopApp() {
             {!collapsed && (
               <div className="brand-text">
                 <div className="brand-title">Workshop PMS</div>
-                <div className="brand-sub">Plan · Approve · Launch</div>
+                <div className="brand-sub">Plan, approve, launch</div>
               </div>
             )}
           </div>
@@ -157,6 +160,7 @@ export default function WorkshopApp() {
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route index element={<WsOverview stats={stats} />} />
+            <Route path="dashboard" element={<WsDashboard />} />
             <Route path="new" element={canRequestWorkshops ? <WsNew onSaved={loadStats} /> : <Navigate to="/workshops" replace />} />
             <Route path="requests" element={canRequestWorkshops ? <WsRequests onChanged={loadStats} /> : <Navigate to="/workshops" replace />} />
             <Route path="responses" element={<WsResponses onChanged={loadStats} />} />
