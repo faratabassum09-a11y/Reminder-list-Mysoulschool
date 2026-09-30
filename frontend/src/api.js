@@ -495,4 +495,36 @@ export const api = {
         method: "DELETE",
       }
     ),
+
+  // ============================================================
+  // WORKSHOP PMS
+  // ============================================================
+
+  wsMeta: () => request("/workshops/meta"),
+  wsStats: () => request("/workshops/stats"),
+
+  wsList: (params = "") => request(`/workshops${params}`),
+  wsNextId: (type) => request(`/workshops/next-id?type=${encodeURIComponent(type)}`),
+  wsGet: (id) => request(`/workshops/${encodeURIComponent(id)}`),
+  wsCreate: (data) => request("/workshops", { method: "POST", body: JSON.stringify(data) }),
+  wsUpdate: (id, data) => request(`/workshops/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+  wsApprove: (id, note) => request(`/workshops/${id}/approve`, { method: "POST", body: JSON.stringify({ note }) }),
+  wsReject: (id, note) => request(`/workshops/${id}/reject`, { method: "POST", body: JSON.stringify({ note }) }),
+  wsRemove: (id) => request(`/workshops/${id}`, { method: "DELETE" }),
+  wsResendLaunch: (id) => request(`/workshops/${id}/resend-launch`, { method: "POST" }),
+  wsRemoteLaunches: () => request("/workshops/launches/remote"),
+
+  wsVerifyLaunch: (id, verified = true) => request(`/workshops/${id}/verify-launch`, { method: "POST", body: JSON.stringify({ verified }) }),
+  wsGenerateTasks: (id) => request(`/workshops/${id}/generate-tasks`, { method: "POST" }),
+  wsTasks: (params = "") => request(`/workshops/tasks${params}`),
+  wsCompleteTask: (id, data = {}) => request(`/workshops/tasks/${id}/complete`, { method: "POST", body: JSON.stringify(data) }),
+  wsReopenTask: (id) => request(`/workshops/tasks/${id}/reopen`, { method: "POST" }),
+  wsUpdateTask: (id, data) => request(`/workshops/tasks/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+
+  wsTemplates: () => request("/workshops/templates"),
+  wsSaveTemplate: (code, data) => request(`/workshops/templates/${code}`, { method: "PUT", body: JSON.stringify(data) }),
+  wsResponses: (params = "") => request(`/workshops/responses${params}`),
+  wsSubmitResponse: (data) => request("/workshops/responses", { method: "POST", body: JSON.stringify(data) }),
+  wsCounters: () => request("/workshops/counters"),
+  wsSaveCounters: (data) => request("/workshops/counters", { method: "PUT", body: JSON.stringify(data) }),
 };

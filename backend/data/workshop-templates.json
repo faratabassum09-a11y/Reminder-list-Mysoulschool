@@ -1,0 +1,1474 @@
+{
+ "UTW": {
+  "tasks": [
+   {
+    "task": "Create Whatsapp Community x 2 (Switch on 24hr Disappearing Messages)",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "New Event in Aevent - Timeline: UTW Day 1",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Webinar - UTW Day 1 - WA Link",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Create New Event in Aevent - Timeline: UTW Day 2",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Webinar - UTW Day 2 - WA Link",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Create New Event in Aevent - Timeline: UTW Day 3",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Webinar - UTW Day 3 - WA Link",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 2
+   },
+   {
+    "task": "Review Aevent Events - Day 1, Day 2, Day 3",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Inform Marketing Team to Shift Launch: Landing Page, Pabbly, Email Campaigns - 12PM",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Publish & Verify Launch Shift: WhatsApp Links, Email Sequences, TY Page - 2PM",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day T-7 | Welcome Message",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Create/Update Invitation Calls Sheet - Assign Leads to all Interns + Drop Message in Interns Channel",
+    "timeline": "T-4",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Check & Recharge - Wati, Aisensy, AutoCall",
+    "timeline": "T-4",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Invitation Calls + Drop Message in Interns Channel",
+    "timeline": "T-3",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Create/Update Invitation Calls Sheet - Assign Leads to all Interns",
+    "timeline": "T-3",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Invitation Calls + Drop Message in Interns Channel",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Create/Update Invitation Calls Sheet - Assign Leads to all Interns",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Invitation Calls + Drop Message in Interns Channel",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "WATI Msgs - Day T-1 @7pm",
+    "timeline": "T-1",
+    "time": "19:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Auto Call - Day T-1 @6pm",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Replay Page - WA Link (FlexiFunnels)",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Email Sequence | During Webinar",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Auto Call - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Auto Call - Day 2",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Auto Call - Day 3",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "WATI Msgs - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "WATI Msgs - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "WATI Msgs - Day 3",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day T-4",
+    "timeline": "T-4",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day T-1",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day 3",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Whatsapp Group Messages - Day 4",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 2
+   },
+   {
+    "task": "Create/Update Day 1 Attendee Sheet - Assign Leads to all Interns",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 2
+   },
+   {
+    "task": "Review - Interns Call Status - Day 1 Attendees",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Create/Update Day 2 Attendee Sheet - Assign Leads to all Interns",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Day 2 Attendees + Drop Message in Interns Channel",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Update Attendee Leads in WB Attendees Sheet, AiSensy & Email Tool",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Email Sequence | Post Webinar",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Assign Leads to Sales Team",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Timer on Sales Page for Post Webinar Sales (Flexifunnels)",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Rename Zoom Meeting @6:30pm - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Rename Zoom Meeting @6:30pm - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Rename Zoom Meeting @6:30pm - Day 3",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Check & Recharge - Wati, Aisensy, AutoCall",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Final Review & Update - Performance Sheet & Fix Duplicates",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Final Review & Update - Performance Sheet & Fix Duplicates",
+    "timeline": "T+4",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Final Review & Update - Performance Sheet & Fix Duplicates",
+    "timeline": "T+6",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Start & Manage Launch via Zoom | Day 1",
+    "timeline": "T",
+    "time": "23:00",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "Start & Manage Launch via Zoom | Day 2",
+    "timeline": "T+1",
+    "time": "23:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Start & Manage Launch via Zoom | Day 3",
+    "timeline": "T+2",
+    "time": "23:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Post Launch Responsibilites - Team Channel - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Post Launch Responsibilites - Team Channel - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Post Launch Responsibilites - Team Channel - Day 3",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Congratulate UTW Giveaway Winners on Instagram - Get Name, Email, Phone",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Dolly",
+    "score": 1
+   },
+   {
+    "task": "Share Hot Leads with Sales Team - Day 2",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Share Hot Leads with Sales Team - Day 3",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Update Switchy Zoom Link - Day 1",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Switchy Zoom Link - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Switchy Zoom Link - Day 3",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Send Quick Technical Update in Slack - UTW-ICP-OPS Channel on How to manage the launch - Day 1",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Send Quick Technical Update in Slack - UTW-ICP-OPS Channel on How to manage the launch - Day 2",
+    "timeline": "T+1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Send Quick Technical Update in Slack - UTW-ICP-OPS Channel on How to manage the launch - Day 3",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Check if TMR Slides in Aevent Videos - Day 2 & Day 3 are Updated",
+    "timeline": "T-9",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Create 6 Email Campaigns in Tagmango for Current UTW Leads - D1, D2, D3 (11am + 6:30pm)",
+    "timeline": "T-1",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "UTW - Verify if all the tasks have been done by the Team for the upcoming Launch/Event/Webinar",
+    "timeline": "T",
+    "time": "14:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Create UTW Launch for upcoming UTW in Tagmango for all the UTW Registrants",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Check & ensure no other sessions are created from UTW Launch Zoom Account",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Send UTW 7:30PM WA Reminder msg - Every Monday By 8PM",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Send UTW 9PM WA Reminder msg - Every Tuesday by 10PM",
+    "timeline": "T+1",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Send UTW 7PM Reminder Msg - Every Friday by 8PM",
+    "timeline": "T-3",
+    "time": "20:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Share UTW Performance Report on - Total Lead, Showup (Count & %) & Total Sales (Count & %) - Every Tuesday by 8PM",
+    "timeline": "T+1",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Share Total UTW Performance Report on - Total Lead, Showup (Count & %) & Total Sales (Count & %) - Every Wednesday by 8PM",
+    "timeline": "T+2",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Mention No of Attendee Leads assigned to Sales Team in Resective Channel",
+    "timeline": "T+3",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update UTW Registration number in Analytics - Weekly on Monday",
+    "timeline": "T",
+    "time": "15:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Update Aisensy Drafts sent to leads via Calling Team on automation",
+    "timeline": "T-6",
+    "time": "15:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Verify Aisensy Drafts sent to leads via Calling Team on automation",
+    "timeline": "T-3",
+    "time": "18:00",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "Share UTW Day 2 & 3 Report with Nitin sir",
+    "timeline": "T+3",
+    "time": "14:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T-3",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Tagmango - Send UTW Post Webinar Email Sequence",
+    "timeline": "T+2",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Send msg in UTW gruop by 9pm",
+    "timeline": "T+2",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Send msg in UTW gruop by 9pm",
+    "timeline": "T+3",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Plan upcoming Webinar & delegate Tasks accordingl",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Review the session length (how many hrs session) in Zoom",
+    "timeline": "T-4",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Fill UTW Sales Analytics",
+    "timeline": "T+4",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Delete the Recordings of Automated Webinars from",
+    "timeline": "T+4",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Email invitation for Reminders : UTW Day 1",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Email invitation for Non Attendees: UTW Day 1",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Share UTW Day 1 Showup Update",
+    "timeline": "T",
+    "time": "23:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T-3",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T-2",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T-1",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T+1",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Assign Tarot Invitation Calls to Interns in the Morning by 10AM",
+    "timeline": "T+2",
+    "time": "10:30",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Share Hot Leads with Sales Team - Day 2",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Share Hot Leads with Sales Team - Day 3",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Update UTW Registration number in Analytics - Weekly on Monday",
+    "timeline": "T",
+    "time": "15:00",
+    "owner": "Aravind",
+    "score": 0
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T-3",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Check if the Calling team has started with the calls",
+    "timeline": "T",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 0
+   },
+   {
+    "task": "Verify the launch",
+    "timeline": "T-7",
+    "time": "20:00",
+    "owner": "Aravind",
+    "score": 0
+   },
+   {
+    "task": "Update Dolly in utw-ops channel for final verification",
+    "timeline": "T-7",
+    "time": "20:00",
+    "owner": "Aravind",
+    "score": 0
+   },
+   {
+    "task": "Dolly - verify everything in the launch",
+    "timeline": "T",
+    "time": "20:00",
+    "owner": "Dolly",
+    "score": 0
+   },
+   {
+    "task": "Update Tanvi in utw-ops channel that everything is verified and running smoothly!",
+    "timeline": "T",
+    "time": "20:00",
+    "owner": "Dolly",
+    "score": 0
+   },
+   {
+    "task": "Congratulate UTW Giveaway Winners on Instagram - Get Name, Email, Phone",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Dolly",
+    "score": 0
+   },
+   {
+    "task": "Submit Giveaway Form & Inform MIS Executive To Give Course Access",
+    "timeline": "T+3",
+    "time": "18:00",
+    "owner": "Dolly",
+    "score": 0
+   }
+  ]
+ },
+ "ICP": {
+  "tasks": [
+   {
+    "task": "New Event in Aevent",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Webinar - ICP - WA Link",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 2
+   },
+   {
+    "task": "Review Aevent - iCP",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Email Campaign - Pre Webinar Sequence",
+    "timeline": "T-2",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - Old UTW Groups | Invitation Message",
+    "timeline": "T-1",
+    "time": "19:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - MSS Community | Welcome Message",
+    "timeline": "T-1",
+    "time": "19:00",
+    "owner": "Paridhi",
+    "score": 2
+   },
+   {
+    "task": "Post Launch Responsibilites - Team Channel",
+    "timeline": "T",
+    "time": "",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "11:15",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "15:15",
+    "owner": "Paridhi",
+    "score": 2
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "16:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "16:15",
+    "owner": "Paridhi",
+    "score": 2
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "16:30",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "16:45",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "WA Group Msg - MSS Community",
+    "timeline": "T",
+    "time": "17:00",
+    "owner": "Paridhi",
+    "score": 2
+   },
+   {
+    "task": "Share Hot Leads with Sales Team",
+    "timeline": "T",
+    "time": "20:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Update Analytics Sheet",
+    "timeline": "T",
+    "time": "20:00",
+    "owner": "Chandrika",
+    "score": 2
+   },
+   {
+    "task": "Share ICP Performance Report",
+    "timeline": "T",
+    "time": "20:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Start & Manage Launch via Zoom",
+    "timeline": "T",
+    "time": "16:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "ICP - Verify if all the tasks have been done by the Team for the upcoming Launch/Event/Webinar",
+    "timeline": "T",
+    "time": "14:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Check & ensure no other sessions are created from ICP Launch Zoom Account",
+    "timeline": "T-1",
+    "time": "20:00",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "Send ICP 7PM Reminder Msg - Every Friday by 8PM",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "Review the session length (how many hrs session) in Zoom",
+    "timeline": "T-4",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Registrations Number of ICP Webinar Analytical Sheet",
+    "timeline": "T+1",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Delete the Recordings of Automated Webinars from",
+    "timeline": "T+1",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Email invitation for Reminders : UTW Day 1",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Email invitation for Non Attendees: UTW Day 1",
+    "timeline": "T-7",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Create Meeting in Tagmango & Tag UTW",
+    "timeline": "T-7",
+    "time": "22:00",
+    "owner": "Aravind",
+    "score": 1
+   }
+  ]
+ },
+ "R12": {
+  "tasks": [
+   {
+    "task": "Reiki - Create New Event in Aevent for Reiki Webinar if RECORDED",
+    "timeline": "T-7",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Create a New WEBINAR via support@mysoulschool.in & Tagmango - Reiki & Energy Shift Workshop",
+    "timeline": "T-7",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Update Reiki Banners for Whatsapp & Aisensy Drafts in Reiki Launch Sheet",
+    "timeline": "T-6",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Update Reiki Whatsapp Community (Description - to next launch)",
+    "timeline": "T-5",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Verify Reiki Webinar on Aevent/Zoom/Tagmango",
+    "timeline": "T-4",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 2
+   },
+   {
+    "task": "Reiki - Send Whatsapp Group Messages for Reiki Webinar (T-3)",
+    "timeline": "T-3",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get Reiki Invite Calls Assigned Daily & share update in UTW Channel",
+    "timeline": "T-3",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get Reiki Invite Calls Assigned Daily & share update in UTW Channel",
+    "timeline": "T-3",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Verify Whatsapp Group Messages for Reiki Webinar",
+    "timeline": "T-3",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Schedule WATI draft for Reiki Invitatioin Calls after the Call is marked connected",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Verify that the Reiki WATI draft is being sent automatically after a connected call is marked.",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get Reiki Invite Calls Assigned Daily & share update in UTW Channel",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Schedule Reiki Auto Call - Day T-1 @6pm & T at 10AM)",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Check if Reiki Payment Link has been updated with correct details",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Start sending Whatsapp Group Messages for Reiki Webinar - (Day T-2)",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Check & ensure no other sessions are created from Reiki Launch Zoom Account (support@mysoulschool.in)",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Delete the Recordings of Automated Webinars from Support@mysoulschool.in",
+    "timeline": "T-2",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Reiki Invitation Calls",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Schedule Reiki WATI Drafts (T-1 at 7PM & T)",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get Reiki Invite Calls Assigned Daily & share update in UTW Channel",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Send Whatsapp Group Messages for Reiki Webinar",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Verify Whatsapp Group Messages for Reiki Webinar",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Schedule Reiki Launch Responsibilites - Team Channel",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Send Quick Technical Update in Slack for Reiki - UTW-ICP-OPS Channel on How to manage the Reiki launch",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Send Whatsapp Group Messages for Reiki Webinar (T)",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Review - Interns Call Status - Reiki Invitation Calls",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get Pending Reiki Invite Calls Assigned & share update in UTW Channel",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Start Reiki Launch via Zoom",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Assign all the Reiki Webinar Attendee Leads to Sales Team",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Get all the Reiki Webinar Attendee Leads assigned to Sales Team",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 2
+   },
+   {
+    "task": "Update Attendee Leads in WB Attendees Sheet",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Final Review & Update - Performance Sheet & Fix Duplicates",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Reiki - Verify if all the tasks have been done by the Team for the upcoming Reiki Webinar",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Share Reiki Performance Report by 8PM",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Mention No of Attendee Leads assigned to Sales Team in Resective Channel",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Reiki Registration number in Analytics",
+    "timeline": "T",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Delete Reiki Webinar Messages from Telegram Communities",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Fill Reiki Sales Analytics",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Email invitation for Non Attendees",
+    "timeline": "T+2",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Sunday - Send 3 Whatsapp Community messages if Launch happens on Monday",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   }
+  ]
+ },
+ "THW": {
+  "tasks": [
+   {
+    "task": "Get new Health Banners Created from Megha if needed",
+    "timeline": "T-10",
+    "time": "16:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "New Event in Aevent from support@mysoulschool.in Zoom & Tagmango",
+    "timeline": "T-7",
+    "time": "20:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Health Zoom Webinar - Reiki - WA Link",
+    "timeline": "T-7",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Webinar - Tarot Health - WA Link",
+    "timeline": "T-7",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Review Health Webinar in Aevent - REIKI",
+    "timeline": "T-6",
+    "time": "18:00",
+    "owner": "Aravind",
+    "score": 2
+   },
+   {
+    "task": "Update Health Webinar Community Msgs",
+    "timeline": "T-5",
+    "time": "22:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Review the Health Webinar session length (Should be 3hrs Session in Zoom)",
+    "timeline": "T-4",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Health Webinar Email Campaign - Pre Webinar Sequence",
+    "timeline": "T-3",
+    "time": "21:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Send Health Webinar Reminder in Whatsapp & Telegram Communities (T-2)",
+    "timeline": "T-2",
+    "time": "12:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Send Health Webinar Reminder in Whatsapp & Telegram Communities (T-2)",
+    "timeline": "T-2",
+    "time": "20:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Schedule Health Webinar Team Roles & Responsibilities in Team Channel - for (T-1) 7pm | T 10am",
+    "timeline": "T-2",
+    "time": "19:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Remind Mehakleen Mam to Inform Students IN ICC Call about tomorrow's Health Webinar",
+    "timeline": "T-1",
+    "time": "21:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Send Health Reminder in Whatsapp & Telegram Communities (T-1)",
+    "timeline": "T-1",
+    "time": "12:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Send Health Reminder in Whatsapp & Telegram Communities (T-1)",
+    "timeline": "T-1",
+    "time": "20:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Send Health Webinar Reminder in Whatsapp & Telegram Communities",
+    "timeline": "T",
+    "time": "12:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Join Health Webinar by 10:40AM & Update Zoom Settings",
+    "timeline": "T",
+    "time": "11:30",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Manage Health Webinar Analytics",
+    "timeline": "T",
+    "time": "11:30",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Share LIVE Health Webinar Leads with Sales Team",
+    "timeline": "T",
+    "time": "15:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Join the Health Webinar by 10:40AM & Update the Zoom Settings",
+    "timeline": "T",
+    "time": "11:30",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Keep Health Webinar Zoom Chat to Everyone & Monitor & delete unecessary Msgs",
+    "timeline": "T",
+    "time": "12:30",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Join the Health Webinar by 12PM",
+    "timeline": "T",
+    "time": "12:30",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Keep Health Webinar Zoom Chat to Everyone & Monitor & delete unecessary Msgs",
+    "timeline": "T",
+    "time": "12:30",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Check & Verify if all the Aisensy Msgs are being addressed timely (Specifically Closing Msgs)",
+    "timeline": "T",
+    "time": "14:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Check if the LIVE Health Webinar Leads Follow-ups have been done properly by Sales Team",
+    "timeline": "T",
+    "time": "15:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "Manage Health Webinar Closing by doing 1:1 & Everyone Chats",
+    "timeline": "T",
+    "time": "14:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Delete Health Webinar Telegram Communities Messages",
+    "timeline": "T+1",
+    "time": "21:00",
+    "owner": "Chandrika",
+    "score": 1
+   },
+   {
+    "task": "Update Zoom Registrations Number of Tarot Health Webinar from support@mysoulschool.in Zoom in Analytical sheet",
+    "timeline": "T+1",
+    "time": "19:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Share Health Webinar Report",
+    "timeline": "T+2",
+    "time": "21:00",
+    "owner": "Tanvi",
+    "score": 1
+   },
+   {
+    "task": "Assign Health Webinar Attendee Leads to Sales Team",
+    "timeline": "T+1",
+    "time": "11:00",
+    "owner": "Aravind",
+    "score": 1
+   },
+   {
+    "task": "Ensure That Sales Team is completing Reiki Webinar Attendee Leads Calls by today",
+    "timeline": "T+2",
+    "time": "18:00",
+    "owner": "Paridhi",
+    "score": 1
+   },
+   {
+    "task": "THW - Send Quick Technical Update in Slack - UTW-ICP-OPS Channel on How to manage the launch",
+    "timeline": "T-1",
+    "time": "20:00",
+    "owner": "Aravind",
+    "score": 1
+   }
+  ]
+ }
+}

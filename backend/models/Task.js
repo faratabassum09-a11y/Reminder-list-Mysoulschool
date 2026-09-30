@@ -25,6 +25,9 @@ const taskSchema = new mongoose.Schema(
     // (pre-working-day-shift) anchor date to resume generating from. Reset
     // to null whenever startDate changes, so a new schedule starts clean.
     nextAnchor: { type: Date },
+    // Time of day (IST, 24h "HH:MM") each generated reminder is planned for.
+    // Empty = legacy default of 11:00 AM.
+    startTime: { type: String, default: "", match: /^$|^([01]\d|2[0-3]):[0-5]\d$/ },
     // Advisory lock so two concurrent generation calls for this task can't
     // race each other and double-insert the same Master rows.
     generating: { type: Boolean, default: false },

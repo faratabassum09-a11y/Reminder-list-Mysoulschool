@@ -1,0 +1,3282 @@
+[
+ {
+  "taskName": "UTW - Publish & Verify Launch Shift",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-16"
+ },
+ {
+  "taskName": "Submit Daily End Report",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Create Monthly Calendar in Calendar Sheet",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "E3rd",
+  "startTime": "22:00",
+  "dueDate": "2025-07-18"
+ },
+ {
+  "taskName": "Create Weekly Calls in membership area",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "E3rd",
+  "startTime": "22:00",
+  "dueDate": "2025-07-18"
+ },
+ {
+  "taskName": "SUPER/RGM EMI Follow-up Calls",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-08"
+ },
+ {
+  "taskName": "UTW Giveaway",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Promote UTW",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "E1st",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Approve Facebook Post & Members",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Upload Reiki L4 L5 live Recording in Tagmango & Youtube",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Assign ICP attendee leads to Sales Team",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "UTW - Fill Performance Sheet",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-12"
+ },
+ {
+  "taskName": "Acknowledge all WhatsApp Chats - 12PM",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-08-04"
+ },
+ {
+  "taskName": "Monitor - New Order FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Resolve - Help Ticket",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Aisensy",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Helpdesk",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Student Record Sheet Data",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Team Checklist from PC Dashboard",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Check Huddle timings in Support-Daily- Huddle Channel",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send Report - O2D",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Monitor - Weekly Live Class FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send Daily EOD Report",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Take the registration Numbers of every launch 15 minutes prior to the launch starts from Zoom",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Send reminder to Mentors for Calendar schedule",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-15"
+ },
+ {
+  "taskName": "Super (Dec) EMI Follow-up Calls",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-08"
+ },
+ {
+  "taskName": "Schedule ICP Roles & Responsibilities for tomorrow's Launch",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Keep a check over the Whatapp - Wati & AIsensy Number Quality",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share Thursday Full Day Class Recording with students by Saturday Max",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "SUPPORT - Evening Huddle with CREs",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Daily audit any one team members task",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor Super PMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Follow Onboarding FMS",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-08-04"
+ },
+ {
+  "taskName": "Follow Due Payment FMS",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Submit MOM After Evening Huddle",
+  "doerName": "Muskan",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Follow Old Due Payments FMS",
+  "doerName": "Muskan",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Follow Old Due Payments FMS",
+  "doerName": "Muskan",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Follow Old Due Payments FMS",
+  "doerName": "Muskan",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send Reminder to Mentors to fill the Calendar for the Classes",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-13"
+ },
+ {
+  "taskName": "Create Monthly Classes in Tagmango/Zoom",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-19"
+ },
+ {
+  "taskName": "Update Full Day Event Calendar and share in groups",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Remove previous day duplicates from Student Dashboard",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Update UTW Invitation Calls",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Clear Duplicate Entries in Tarot - Dashboard",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Resolve Technical Queries raised via Help - Ticket",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Attend Ops - Daily Huddle at 1pm",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Update Day 1 Attendee Calls",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-01"
+ },
+ {
+  "taskName": "Update Day 2 Attendee calls",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-02"
+ },
+ {
+  "taskName": "Update UTW Invitation Calls",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Update due payment for RGM & SUPER",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Refund FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Query Management FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Update due payments Status from Student Dashboard Sheet",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send UTW Whatsapp Community Messages",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send Weekly Class Reminder (Only if Needed)",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Start & Attend Business Coaching Call",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Start & Attend Leadership Call",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Start & Attend Business Coaching Call",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-08"
+ },
+ {
+  "taskName": "SUPER Dec Batch Accountability Calls",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-08"
+ },
+ {
+  "taskName": "SUPER August Batch Accountability Calls",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share Super March Homework in Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Share Super/PRO Full Day Class Replay in Groups (If Needed)",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Post EMI Reminder in SUPER Dec Whatsapp Group",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-05"
+ },
+ {
+  "taskName": "Take SUPER Dec Batch EMI Followups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-08"
+ },
+ {
+  "taskName": "Take SUPER March Batch EMI Followups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-08"
+ },
+ {
+  "taskName": "Take RGM EMI Followups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-08"
+ },
+ {
+  "taskName": "Give access to all students Giveaway winning students.",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-04-10"
+ },
+ {
+  "taskName": "Take 2nd EMI Followups from SUPER/RGM Students - Monthly Every 15th & share Report by EOD",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-15"
+ },
+ {
+  "taskName": "Update RGM and SUPER payments",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Resolve all PRO/SUPER Queries on Aisensy/Helpdesk ( Resolve over Call & then respond to query by mentioning the Solution as discussed over Call)",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Fill the PMS workshop form before every WAM for the next 15 days",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Submit a report upon queries received last week and on repetitive queries",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Update Testimonials Sheet",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Share Daily Report by EOD of all the Tasks done for the Day with Tanvi",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share SUPER Homework in WhatsApp Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Share SUPER Homework in WhatsApp Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Monitor Event Reschedule & Cancellation FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor Leave FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share all recharge and top up details With Namita for the next week",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Send EMI Reminder in Super - March in Whatsapp Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-05"
+ },
+ {
+  "taskName": "Take daily EMI Followups from all RGM/SUPER for the next 10 days and share a proper report",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-11"
+ },
+ {
+  "taskName": "Send EMI Reminder in RGM - April Batch Whatsapp Group starting from May",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-05"
+ },
+ {
+  "taskName": "Submit Lead Quality Report on every Thursday",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Share upcoming week Launch Calendar",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Take SUPER March & Dec EMI Followups via Call & take a timeline from them",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-08"
+ },
+ {
+  "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "UTW Payment Reminder for Current Launch in AiSensy - Schedule for Thurday 4PM",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "UTW Payment Reminder for Current Launch in AiSensy - Schedule for Friday 11AM 3PM",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2025-04-25"
+ },
+ {
+  "taskName": "Share Reiki L4/L5 \"Monthly Healers Meet\" Class Reminder in RGM (Nov) WA Community",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "18:00",
+  "dueDate": "2025-08-06"
+ },
+ {
+  "taskName": "Resolve Aisensy Queries",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Resolve Email Queries",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Fill & Follow New Lead FMS",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Discuss pending queries in Evening Huddle with Senior",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Maintain Account Locked sheet",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Share Reiki L4/L5 - Monthly Healers Meet Class Reminder in RGM (Nov Group)",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "18:00",
+  "dueDate": "2025-08-03"
+ },
+ {
+  "taskName": "Ask to the interns for planning any leave in up coming week",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Send good morning message with the sheet link in intern channel",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Inform about the number of UTW Leads to be assigned between Interns in UTW Channel before 6 p.m",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Send EOD report of sales team to Nitin sir if there is less then 50 calls",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "Schedule Morning Draft And Google Forms in Interns channel for Sunday",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Update UTW Sales Analytic Sheet",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Review all tools and inform EA about the recharge for the current week.",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Empty all task - Quick Note",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Morning Huddle with Mehakleen Ma'am",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Check Emails",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "16:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Update Team Attendance Sheet",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Send EOD Report",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Assign New Leads queries to Paridhi",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Candidate shortlisting",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Update Suruchi's Attendance",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-05-05"
+ },
+ {
+  "taskName": "Update Suruchi's Attendance",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Student Access Update FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Certificate Issuance & Update FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Student Information Update FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Do Interns Meeting Every Wednesday",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Create Invitation Calls Plan For Interns and Share With Aravind & Deesha",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - New Order FMS",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share Mehakleen's calendar tasks and meetings list",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Check Youtube & Instagram Post",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Ask Organic Growth to share New Topics",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-05-09"
+ },
+ {
+  "taskName": "Check Student Access Update FMS",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - Content Creation FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Monitor - RGM PMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share UTW Whatsapp Group Messages scheduled after 8PM",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-08"
+ },
+ {
+  "taskName": "Extract & upload Testimonials of weekly Classes on YT & update the link in Testimonial Sheet",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Spot Check Sales Team - Green & Red",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Approve or Reject Sales - Match Closing Screenshot & Proof of Sale",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Send EMI notification",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "5 Scripts of IG",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "10 Captions for IG",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "5 Scripts of IG",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Promote UTW",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "E3rd",
+  "startTime": "22:00",
+  "dueDate": "2025-07-14"
+ },
+ {
+  "taskName": "Check Student Access Update FMS",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Check Student Information Update FMS",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Update & Share Weekly Live Class & Webinar Schedule with all the Mentors",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2025-07-07"
+ },
+ {
+  "taskName": "Monitor UTW reminders in all the groups.",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Mark Attendance of SUPER Students if they have attended the Class or not",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Mark Attendance of SUPER Students if they have attended the Class or not",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-09"
+ },
+ {
+  "taskName": "Discuss important mails with seniors and escalate them if needed",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Check UTW MSG in Comunity gruops",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-06-09"
+ },
+ {
+  "taskName": "Share class photo in Tag Mango after every weekly class / Full day class tagging mastery programs",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-04"
+ },
+ {
+  "taskName": "Share class photo in Tag Mango after every weekly class / Full day class tagging mastery programs",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-10"
+ },
+ {
+  "taskName": "Check Weekly Live Class FMS",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-12"
+ },
+ {
+  "taskName": "Verify the Tarot Workshop Created on Tagmango",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-11"
+ },
+ {
+  "taskName": "Verify the Tarot Workshop Created on Tagmango",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-16"
+ },
+ {
+  "taskName": "Verify the Tarot Workshop Created on Tagmango",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-17"
+ },
+ {
+  "taskName": "Review & Update Master Process Sheet Of My Soul School",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-06-15"
+ },
+ {
+  "taskName": "Review & Update Master Process Sheet Of My Soul School",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-06-29"
+ },
+ {
+  "taskName": "Update Tuesday File on Every Monday",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-23"
+ },
+ {
+  "taskName": "Post 1 Story on IG",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-23"
+ },
+ {
+  "taskName": "Create Live Class for 30 Days Manifestation program - for First Saturday at 10AM {Manifestation - Live Masterclass (July)}",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-06-29"
+ },
+ {
+  "taskName": "Send Community Messages - Ig Channel, Tg at 10:30 a.m",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-26"
+ },
+ {
+  "taskName": "Query Time at 2 p.m",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-26"
+ },
+ {
+  "taskName": "Instagram Post + Instagram Engagment from 6 - 7 p.m",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-26"
+ },
+ {
+  "taskName": "Mark Script Done in Content Creation FMS",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-01"
+ },
+ {
+  "taskName": "5 Carousel Scripts",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-01"
+ },
+ {
+  "taskName": "YT Script + Training / Editing",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-02"
+ },
+ {
+  "taskName": "Idea Stacking - Reels & Carousel",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-27"
+ },
+ {
+  "taskName": "Fill Content Creation FMS - Topic + Caption + Reels",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-06-27"
+ },
+ {
+  "taskName": "Fill System Tickets & Update Response Sheet",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-29"
+ },
+ {
+  "taskName": "Monitor - System Update FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-29"
+ },
+ {
+  "taskName": "Assign Query Tag to all Unresolved Chats - 6PM",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-06-30"
+ },
+ {
+  "taskName": "Update upcoming Launches in Webinar Calendar for Next Month",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-25"
+ },
+ {
+  "taskName": "Share Total Enrollments and Revenue Generated for Ho'ponopono & RGM with Namita",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-07-01"
+ },
+ {
+  "taskName": "Do evening huddle with Paridhi & Chandrika",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-05"
+ },
+ {
+  "taskName": "Review all the previous day enrollment enteries",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-11"
+ },
+ {
+  "taskName": "Upload call recordings of all the closing calls done by sales team in the performance sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-12"
+ },
+ {
+  "taskName": "Monitor - Access Revoke FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-14"
+ },
+ {
+  "taskName": "Monitor - Sales FMS Super and RGM",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-14"
+ },
+ {
+  "taskName": "Fill Due payment form",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-28"
+ },
+ {
+  "taskName": "5 - reel scripts",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-28"
+ },
+ {
+  "taskName": "3 - carousels script - MK and design 1st page of all 3 carousels",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-29"
+ },
+ {
+  "taskName": "3 Carousels script-MSSP and design 1st page of all 3 carousels",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-30"
+ },
+ {
+  "taskName": "idea stacking - Reels, Carousels",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-31"
+ },
+ {
+  "taskName": "FREE SPACE TO CATCH & WIND THINGS UP review all 6 carousels of aditi",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-18"
+ },
+ {
+  "taskName": "5 Reel Scripts",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-19"
+ },
+ {
+  "taskName": "Add Closing Calls in Sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-26"
+ },
+ {
+  "taskName": "Fill all the Live Classes forms for the upcoming week",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-07-26"
+ },
+ {
+  "taskName": "Post Carousel at 12 PM - Daily Task",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-23"
+ },
+ {
+  "taskName": "Upload shorts on YT",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-07-25"
+ },
+ {
+  "taskName": "Monitor System Creation FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-28"
+ },
+ {
+  "taskName": "Review Program Details Sheet if any changes are required",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-04"
+ },
+ {
+  "taskName": "Meeting with Interns Every Wednesday",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-06"
+ },
+ {
+  "taskName": "Monitor New Lead FMS 2.0",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-31"
+ },
+ {
+  "taskName": "Monitor Sales FMS",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-31"
+ },
+ {
+  "taskName": "Check Tagmango Entries if any new payment rcvd for any Program & fill the New Booking before 7 p.m",
+  "doerName": "Muskan",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-31"
+ },
+ {
+  "taskName": "Plan upcoming Webinar & delegate Tasks accordingly",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-04"
+ },
+ {
+  "taskName": "Post msg to Calling team & Verify if the UTW Invitation Calls have been started or not by 11 a.m",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "12:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "Monitor UTW Invitation Calls at 2 p.m",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "17:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "Share updates with Tanvi on - UTW Calls by 6 p.m",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-08-01"
+ },
+ {
+  "taskName": "Review Comments of Tagmango Feed Posts & delete negative comments",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-09"
+ },
+ {
+  "taskName": "Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-08"
+ },
+ {
+  "taskName": "Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-11"
+ },
+ {
+  "taskName": "Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-13"
+ },
+ {
+  "taskName": "Update Active and Inactive Team members Sheet",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Check is there any class schedule for upcoming week",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-08-12"
+ },
+ {
+  "taskName": "Create Weekly Schedule for next week",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-20"
+ },
+ {
+  "taskName": "Update next week's schedule on Google Calendar",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-16"
+ },
+ {
+  "taskName": "Review MSSP: GHL Heal Her 2.0 Calendar for Call Bookings",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-08-20"
+ },
+ {
+  "taskName": "Review Team Attendance response sheet",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-20"
+ },
+ {
+  "taskName": "Review Team Attendance response sheet",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-30"
+ },
+ {
+  "taskName": "Review Team Attendance response sheet",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-10"
+ },
+ {
+  "taskName": "Take SUPER EMI (Aug batch)",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-08-28"
+ },
+ {
+  "taskName": "Share RCA call calender with Tanvi",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-08-23"
+ },
+ {
+  "taskName": "Drop Reminder To Tanvi and Client before logging out",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-08-23"
+ },
+ {
+  "taskName": "Verify Tagmango Transactions of current week & see if any booking form is not filled",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Fill New Booking Forms",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-08-29"
+ },
+ {
+  "taskName": "Get your Doubts Clarified in the huddle with Paridhi",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-08-29"
+ },
+ {
+  "taskName": "Share Daily Report of Onboarding & Due Payment status with Paridhi",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-08-29"
+ },
+ {
+  "taskName": "Get your Doubts Clarified in the huddle with Paridhi",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-08-29"
+ },
+ {
+  "taskName": "Share motivation message with sales team",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-02"
+ },
+ {
+  "taskName": "MSSP - Upload & Share Yesterday evening SoulFit session in all client groups.",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "11:00",
+  "dueDate": "2025-08-30"
+ },
+ {
+  "taskName": "Download Yoga session from zoom and Upload it on YT playlist",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-08-30"
+ },
+ {
+  "taskName": "Take RGM/Reiki testimonials list after every class from Sneha Mam",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Take RGM/Reiki testimonials list after every class from Sneha Mam",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-02"
+ },
+ {
+  "taskName": "Take RGM/Reiki testimonials list after every class from Sneha Mam",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-03"
+ },
+ {
+  "taskName": "Upload MSSP Weekly Healing Session recordings on YT of Sneha Mam & Share with Students",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2025-09-06"
+ },
+ {
+  "taskName": "Monitor Social Media Dashboard",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Monitor Megha's Help -ticket , And Reminder List from PC Dashboard",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Shift one month data from sales fms to backup sales FMS",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2025-09-01"
+ },
+ {
+  "taskName": "Schedule 24 Hrs before & same day Reminders to all the Tarot Health Mastery students (Class timings are 1st Sat of every Month at 3PM - 5PM)",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2025-10-02"
+ },
+ {
+  "taskName": "Schedule 24 Hrs before & same day Reminders to all the Manifestation Program students (Class timings are 1st Sat of every Month at 10AM - 12PM)",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2025-10-02"
+ },
+ {
+  "taskName": "Start & Manage Inner Circle Call",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-12"
+ },
+ {
+  "taskName": "Update EMI Defaulter list",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-15"
+ },
+ {
+  "taskName": "Get the access Revoked of all the SUPER/RGM students if EMI is due",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-15"
+ },
+ {
+  "taskName": "Update SUPER/RGM Defaulter sheet & check EA Notes as well properly",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2025-09-14"
+ },
+ {
+  "taskName": "Monitor Aisensy & helpdesk if all the queries are being answered properly",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "17:00",
+  "dueDate": "2025-09-12"
+ },
+ {
+  "taskName": "Verify if all the Tagmango Community Msgs are being answered by EOD by 7p.m",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-09-12"
+ },
+ {
+  "taskName": "Submit MOM After Morning & Evening Huddle",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-09-12"
+ },
+ {
+  "taskName": "Submit MOM After Morning & Evening Huddle",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-09-12"
+ },
+ {
+  "taskName": "Fill Due Payment Reminder Forms",
+  "doerName": "Blessy",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2025-09-15"
+ },
+ {
+  "taskName": "Share Support Team Draft with student's queries in Tagmango Community",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-09-13"
+ },
+ {
+  "taskName": "Verify if all the Tagmango Community Queries are acknowledged",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2025-09-13"
+ },
+ {
+  "taskName": "Review Program Details Sheet and update it.",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-13"
+ },
+ {
+  "taskName": "Review Program Details Sheet and update it.",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-28"
+ },
+ {
+  "taskName": "Review Canned Responses and keep them updated",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-13"
+ },
+ {
+  "taskName": "Review Canned Responses and keep them updated",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-28"
+ },
+ {
+  "taskName": "Inform about Suruchi's ICC Call Attendance to Riya",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "15:00",
+  "dueDate": "2025-09-13"
+ },
+ {
+  "taskName": "Inform about Suruchi's ICC Call Attendance to Riya",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "15:00",
+  "dueDate": "2025-09-20"
+ },
+ {
+  "taskName": "Start & Manage Monthly Manifestation MasterClass at 10AM",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "12:00",
+  "dueDate": "2025-10-04"
+ },
+ {
+  "taskName": "Review Upcoming Webinar Messages on every Monday",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-09-15"
+ },
+ {
+  "taskName": "Remind Mehakleen Mam in class about sharing Affiliation details in ICC Call",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "22:00",
+  "dueDate": "2025-10-03"
+ },
+ {
+  "taskName": "Review the Group Messages of all the webinars and workshops",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-22"
+ },
+ {
+  "taskName": "Fill Defaulter Sheet",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-22"
+ },
+ {
+  "taskName": "Update Sales Team Performance Sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2025-09-15"
+ },
+ {
+  "taskName": "Send all reminder At 11:30 am , 2:30 pm , 5:30 pm ONLY",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-09-18"
+ },
+ {
+  "taskName": "Call for due payments for Manifestation and Reiki L1/L2 from Student Record Sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2025-09-25"
+ },
+ {
+  "taskName": "Share the list of UTW which are not relevant to our workshop",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-27"
+ },
+ {
+  "taskName": "Update FMS list Sheet",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2025-09-25"
+ },
+ {
+  "taskName": "Post Youtube Short Video",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-09-19"
+ },
+ {
+  "taskName": "Write 3 carousel script - Mk",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-30"
+ },
+ {
+  "taskName": "Write 3 carousel script - MSSP",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-09-30"
+ },
+ {
+  "taskName": "Design 3 carousel - Mk",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-10-01"
+ },
+ {
+  "taskName": "Design 3 carousel - MSSP",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-10-02"
+ },
+ {
+  "taskName": "Review Manifestation Due Payments status and Revoke Access",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-09-30"
+ },
+ {
+  "taskName": "Review Manifestation Due Payments status and Revoke Access",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "22:00",
+  "dueDate": "2025-10-25"
+ },
+ {
+  "taskName": "Update Sales FMS Backup Sheet",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "13:00",
+  "dueDate": "2025-10-29"
+ },
+ {
+  "taskName": "Monitor Reminderlist update FMS",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-10-04"
+ },
+ {
+  "taskName": "Update Lead Qualification FMS Backup Sheet",
+  "doerName": "Ruchi",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-10-06"
+ },
+ {
+  "taskName": "Approve Joining & Posts Requests in Facebook Community at 12 PM",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "12:30",
+  "dueDate": "2025-10-04"
+ },
+ {
+  "taskName": "Approve Joining & Posts Requests in Facebook Community at 6 PM",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2025-10-04"
+ },
+ {
+  "taskName": "Review UTW launch Sheet 2.0",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-10-16"
+ },
+ {
+  "taskName": "Turn on Off Hours message on Aisesny",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-10-25"
+ },
+ {
+  "taskName": "Share the Current Week new system that we are going to work & implement",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "12:00",
+  "dueDate": "2025-10-26"
+ },
+ {
+  "taskName": "Share IG Analytics with EA",
+  "doerName": "Megha Chanda",
+  "department": "Social Media",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-11-03"
+ },
+ {
+  "taskName": "Check and Revert to Clients msgs in Whatsapp Groups",
+  "doerName": "Akankshya",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "11:00",
+  "dueDate": "2025-10-29"
+ },
+ {
+  "taskName": "Check and Revert to Clients msgs in Whatsapp Groups",
+  "doerName": "Akankshya",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "15:00",
+  "dueDate": "2025-10-29"
+ },
+ {
+  "taskName": "Check and Revert to Clients msgs in Whatsapp Groups",
+  "doerName": "Akankshya",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "17:00",
+  "dueDate": "2025-10-29"
+ },
+ {
+  "taskName": "Share ICP Launch Data",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-11-15"
+ },
+ {
+  "taskName": "Share Health Mastery Launch Data",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Q",
+  "startTime": "22:00",
+  "dueDate": "2025-11-17"
+ },
+ {
+  "taskName": "Share Reiki Launch Data",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Q",
+  "startTime": "22:00",
+  "dueDate": "2025-11-17"
+ },
+ {
+  "taskName": "Share Mehakleen Ma'am calendar task daily.",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-11-21"
+ },
+ {
+  "taskName": "Morning Huddle with Mehakleen Ma'am",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "12:00",
+  "dueDate": "2025-12-01"
+ },
+ {
+  "taskName": "Share Mehakleen's calendar tasks and meetings list",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-12-04"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2026-01-01"
+ },
+ {
+  "taskName": "Submit EOD Report in Admin Group",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2025-12-19"
+ },
+ {
+  "taskName": "Share Aravind's Current Week Plan for New System Creation",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-12-22"
+ },
+ {
+  "taskName": "Review Sales Calls and share update on this Week's Launch - Lead Quality, Pickup Ratio, Pitch Quality.",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2025-12-25"
+ },
+ {
+  "taskName": "Review the Affiliates of Current week and update Namita ma'am about the same.",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "22:00",
+  "dueDate": "2026-02-02"
+ },
+ {
+  "taskName": "Follow on onboarding & due payment FMS",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2026-02-25"
+ },
+ {
+  "taskName": "Fill Due Payment Reminder Forms",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "12:00",
+  "dueDate": "2026-03-02"
+ },
+ {
+  "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "11:00",
+  "dueDate": "2026-03-31"
+ },
+ {
+  "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2026-03-31"
+ },
+ {
+  "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2026-03-31"
+ },
+ {
+  "taskName": "Check TeamLogger Every Morning",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "12:00",
+  "dueDate": "2026-03-31"
+ },
+ {
+  "taskName": "Share 2-3 UTW Invitation Recordings of each Intern with Tanvi Personally",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2026-04-02"
+ },
+ {
+  "taskName": "Share this week's Leadership Call Topic in SUPER Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-04-02"
+ },
+ {
+  "taskName": "Share this week's Leadership Call Topic in SUPER Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-04-06"
+ },
+ {
+  "taskName": "Share this week's Leadership Call Topic in SUPER Groups",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-04-07"
+ },
+ {
+  "taskName": "Share a daily report of all the Accountability calls/Support Calls (batch-wise: total calls dialed, connected, not connected, along with student names",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "21:00",
+  "dueDate": "2026-04-02"
+ },
+ {
+  "taskName": "Share SUPER Monthly Calendar in Groups",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-04-25"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-21"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-22"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-25"
+ },
+ {
+  "taskName": "Conduct RGM April Accountability",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-04-30"
+ },
+ {
+  "taskName": "Conduct RGM April Accountability",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-05-15"
+ },
+ {
+  "taskName": "Conduct Super Accountability",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-24"
+ },
+ {
+  "taskName": "Share BOD Report Daily in Admin Group",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "10:30",
+  "dueDate": "2026-04-22"
+ },
+ {
+  "taskName": "Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "10:30",
+  "dueDate": "2026-04-24"
+ },
+ {
+  "taskName": "Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "10:30",
+  "dueDate": "2026-04-27"
+ },
+ {
+  "taskName": "Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet",
+  "doerName": "Ishika",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "10:30",
+  "dueDate": "2026-04-29"
+ },
+ {
+  "taskName": "Call Defaulter Every Monday, Thursday and Saturday",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-25"
+ },
+ {
+  "taskName": "Call Defaulter Every Monday, Thursday and Saturday",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-27"
+ },
+ {
+  "taskName": "Call Defaulter Every Monday, Thursday and Saturday",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-04-30"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:30",
+  "dueDate": "2026-04-27"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:30",
+  "dueDate": "2026-04-29"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:30",
+  "dueDate": "2026-05-01"
+ },
+ {
+  "taskName": "Review all FMS and dashboards to verify that all doer names and IDs are accurate and up to date",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2026-05-30"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-01"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-02"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-03"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-04"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-04"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-05"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-06"
+ },
+ {
+  "taskName": "Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "21:00",
+  "dueDate": "2026-06-07"
+ },
+ {
+  "taskName": "Share this Week's FOCUS & Planning",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-06-14"
+ },
+ {
+  "taskName": "Share Daily Report on INVITE A FREIND & TAROT MASTERY Accountability (Referral)",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:30",
+  "dueDate": "2026-06-09"
+ },
+ {
+  "taskName": "Share Homework with students in Group after every Class",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "21:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Share Due Payment Report",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-25"
+ },
+ {
+  "taskName": "Share Due Payment Report",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-20"
+ },
+ {
+  "taskName": "Share Due Payment Report",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-21"
+ },
+ {
+  "taskName": "Share the UTW & Webinar message report on the channel",
+  "doerName": "Dolly",
+  "department": "Admin",
+  "frequency": "D",
+  "startTime": "21:00",
+  "dueDate": "2026-05-20"
+ },
+ {
+  "taskName": "Share EMI Defaulters of the particular batch in SUPER Channel & tag the Mentor who is taking the class",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-27"
+ },
+ {
+  "taskName": "Share EMI Defaulters of the particular batch in SUPER Channel & tag the Mentor who is taking the class",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-22"
+ },
+ {
+  "taskName": "Share EMI Defaulters of all the students SUPER Channel & tag the Mentor who is taking the class",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-28"
+ },
+ {
+  "taskName": "Update the Due Payment Weekly Update sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-30"
+ },
+ {
+  "taskName": "Update the Invite a Friend Weekly Update sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-29"
+ },
+ {
+  "taskName": "Check \"Invite a Freind\" FMS",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-05-30"
+ },
+ {
+  "taskName": "Check \"Invite a Freind\" FMS",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-06-04"
+ },
+ {
+  "taskName": "Check \"Invite a Freind\" FMS",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-06-05"
+ },
+ {
+  "taskName": "Check if TMR/RME Banners needs to be created",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Y",
+  "startTime": "21:00",
+  "dueDate": "2027-02-02"
+ },
+ {
+  "taskName": "Check if TMR/RME Banners needs to be created",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Y",
+  "startTime": "21:00",
+  "dueDate": "2027-05-02"
+ },
+ {
+  "taskName": "Check if TMR/RME Banners needs to be created",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Y",
+  "startTime": "21:00",
+  "dueDate": "2026-08-02"
+ },
+ {
+  "taskName": "Check if TMR/RME Banners needs to be created",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "Y",
+  "startTime": "21:00",
+  "dueDate": "2026-11-02"
+ },
+ {
+  "taskName": "Share Daily Intern Calls Report (Individually) in UTW Channel",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "21:00",
+  "dueDate": "2026-06-18"
+ },
+ {
+  "taskName": "Check if we need to get NEW SIM for Intern Calls",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "21:00",
+  "dueDate": "2026-07-06"
+ },
+ {
+  "taskName": "Check if we need to get NEW SIM for Intern Calls",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "21:00",
+  "dueDate": "2026-07-10"
+ },
+ {
+  "taskName": "Fill Ad Report Form",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-03"
+ },
+ {
+  "taskName": "Check UTM Parameters",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-03"
+ },
+ {
+  "taskName": "Review Internal Meta Campaigns",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-03"
+ },
+ {
+  "taskName": "Check Ad Account Funds & Add Funds (if required)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "22:00",
+  "dueDate": "2025-07-03"
+ },
+ {
+  "taskName": "Assign Invitation Calls to Interns in the Morning by 10AM",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "10:30",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Check Interns' Call Status form wheather submitted or not (12PM)",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "12:30",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Daily Morning Huddle with Interns by 10:30AM & align them to start with the calls",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "11:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Daily Morning Check-in for Sales Team & align them to start with the calls by 11AM",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "11:30",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Check for new Leads on WATI if any",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "13:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Update Call Numbers & all other tabs in Interns' Performance Sheet",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Update Sales Team's Performance Tracker Sheet before Daily Meeting",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "14:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Do Tarot Accountability Calls from New Order FMS Dashboard",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "17:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Discuss pending queries in afternoon Huddle with Senior",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Check the Connectivity Ratio + Calls Status Report of Interns' Invitation Calls",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "14:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Do Evening Huddle with Interns & review Call Recordings & give Feedback around 3PM",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Spot Check Sales Team (Recordings/Call History/Quality of Calls during the Morning Huddle",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Share Daily Intern Calls Report (Individually) in UTW Channel & in Interns Group",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "19:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "12:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Open & Check all the Messages in WATI if there is any Lead",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Share 2-3 Tarot/Reiki Invitation Recordings of each Intern with Tanvi Personally",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Send EOD Report of Sales team to Nitin sir if there is less then 50 calls",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Monitor New Lead FMS 2.0",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:30",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Monitor Sales FMS",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "16:30",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Share Morning Message to Interns once the leads are assigned on SUNDAY",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-05"
+ },
+ {
+  "taskName": "Approve or Reject Sales - Match Closing Screenshot & Proof of Sale",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-07-09"
+ },
+ {
+  "taskName": "Upload Call Recordings in DRIVE for Sales Team & add in the Closers Perforrmance sheet",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2026-07-09"
+ },
+ {
+  "taskName": "Motivate Closers Team for the Closing",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-07"
+ },
+ {
+  "taskName": "Motivate Closers Team for the Closing",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Review/Verify Closers' Team Performance Sheet",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "15:00",
+  "dueDate": "2026-07-10"
+ },
+ {
+  "taskName": "Share the Non Registrant Report from tarot Workshop which are not relevant to our workshop",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "12:00",
+  "dueDate": "2026-07-06"
+ },
+ {
+  "taskName": "Review Sales Calls and share update on this Week's Launch - Lead Quality, Pickup Ratio, Pitch Quality.",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-07-09"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-07"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-08"
+ },
+ {
+  "taskName": "Share the number of Closings with Tanvi by 8pm",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Message in Interns' Channel if they are planning for leave in upcoming week",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "12:00",
+  "dueDate": "2026-07-06"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:00",
+  "dueDate": "2026-07-09"
+ },
+ {
+  "taskName": "Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "11:00",
+  "dueDate": "2026-07-04"
+ },
+ {
+  "taskName": "Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2026-08-03"
+ },
+ {
+  "taskName": "Check if we need to allot NEW SIM for Intern Calls",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "20:00",
+  "dueDate": "2026-08-03"
+ },
+ {
+  "taskName": "Check if we need to allot NEW SIM for Intern Calls",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "E1st",
+  "startTime": "19:00",
+  "dueDate": "2026-08-03"
+ },
+ {
+  "taskName": "Raise a Ticket for Namita to update Callyzer Subscription",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "18:00",
+  "dueDate": "2026-07-07"
+ },
+ {
+  "taskName": "Tarot - Update Free Optin Page (MON)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-13"
+ },
+ {
+  "taskName": "Tarot - Update Free TY Page (MON)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-13"
+ },
+ {
+  "taskName": "Update date, time & timer on Reiki Landing Page. (THU)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-16"
+ },
+ {
+  "taskName": "Update date, time, timer & WhatsApp link (from Arvind Sir) on Reiki Thank You Page.(THU)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-16"
+ },
+ {
+  "taskName": "Update PABBLY – Reiki – FREE – Flexi Optin Step 5 (Webinar Date & Time).(THU)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-16"
+ },
+ {
+  "taskName": "Update PABBLY – Reiki – FREE – Flexi Optin Step 8 (Webinar Date, Time & WhatsApp link).(THU)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-16"
+ },
+ {
+  "taskName": "Register as a user and verify the complete flow. (THU)",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-07-16"
+ },
+ {
+  "taskName": "Share BOD by 10:00 AM",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2026-07-11"
+ },
+ {
+  "taskName": "Share EOD by 06:30 PM",
+  "doerName": "Siddhi",
+  "department": "Marketing",
+  "frequency": "D",
+  "startTime": "18:00",
+  "dueDate": "2026-07-11"
+ },
+ {
+  "taskName": "Share Daily Report of Accountability Calls (Referral) done today",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-07-13"
+ },
+ {
+  "taskName": "Fill Webinar Showup Form",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-07-24"
+ },
+ {
+  "taskName": "Share a proper Daily Report for Onboardings (Invite a Friend) & Due Payments in Support Channel",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-08-05"
+ },
+ {
+  "taskName": "Verify if the Msgs via Automation are correct via Aisensy - timings to be updated by 2pm",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-08-05"
+ },
+ {
+  "taskName": "Share Attunement Guidelines in Reiki Whatsapp & Telegram Groups - 29th & 1st of every Month",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "20:00",
+  "dueDate": "2026-08-29"
+ },
+ {
+  "taskName": "Share Attunement Guidelines in Reiki Whatsapp & Telegram Groups - 29th & 1st of every Month",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "20:00",
+  "dueDate": "2026-09-01"
+ },
+ {
+  "taskName": "Share a confirmation message confirming that all technical aspects (Zoom link, backend setup, permissions, recordings, etc.) have been verified to ensure the webinar runs smoothly without any issues (All the Next Week Webinars) - EV",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2026-08-09"
+ },
+ {
+  "taskName": "Verify all the Workshops of this week - Daily by 9:30PM",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-08-07"
+ },
+ {
+  "taskName": "Schedule 2 Reminders for Reiki L1/L2 & L3 Attunement in Telegram (48 Hrs before & Same day) - 27th & 30th of every month",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "20:00",
+  "dueDate": "2026-08-27"
+ },
+ {
+  "taskName": "Schedule 2 Reminders for Reiki L1/L2 & L3 Attunement in Telegram (48 Hrs before & Same day) - 27th & 30th of every month",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "20:00",
+  "dueDate": "2026-08-30"
+ },
+ {
+  "taskName": "Share Reiki L1/L2 & L3 Attunement Reminder in Reiki Groups - 1st of every Month",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "M",
+  "startTime": "20:00",
+  "dueDate": "2026-09-01"
+ },
+ {
+  "taskName": "Share an update on Last week's Due Payments - every Saturday",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "19:30",
+  "dueDate": "2026-08-22"
+ },
+ {
+  "taskName": "Upload the IAF Call recordings of those who have not invited anyone in the IAF sheet",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2026-09-05"
+ },
+ {
+  "taskName": "Upload the IAF Call recordings of those who have not invited anyone in the IAF sheet",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2026-09-05"
+ },
+ {
+  "taskName": "Fara - Test Task",
+  "doerName": "Riya",
+  "department": "Admin",
+  "frequency": "Q",
+  "startTime": "20:00",
+  "dueDate": "2026-09-30"
+ },
+ {
+  "taskName": "Upload Call Recordings on Callyzer by EOD",
+  "doerName": "Deesha",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-09-15"
+ },
+ {
+  "taskName": "Upload Call Recordings on Callyzer by EOD",
+  "doerName": "Paridhi",
+  "department": "Customer Support",
+  "frequency": "D",
+  "startTime": "20:00",
+  "dueDate": "2026-09-15"
+ },
+ {
+  "taskName": "Post Group message in Channel",
+  "doerName": "Aravind",
+  "department": "Operations",
+  "frequency": "W",
+  "startTime": "20:00",
+  "dueDate": "2026-09-21"
+ },
+ {
+  "taskName": "Share Total Tarot, Reiki & Health Sales",
+  "doerName": "Tanvi Negi",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "21:00",
+  "dueDate": "2026-09-20"
+ },
+ {
+  "taskName": "Send Reminder of all the classes scheduled for the week",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-09-21"
+ },
+ {
+  "taskName": "Send Reminder of all the classes scheduled for the week",
+  "doerName": "Chandrika Pathak",
+  "department": "Customer Support",
+  "frequency": "W",
+  "startTime": "18:00",
+  "dueDate": "2026-09-24"
+ }
+]

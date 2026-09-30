@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { verifyToken } from "../utils/auth.js";
+import { hasApp } from "../utils/access.js";
 
 // Requires a valid "Authorization: Bearer <token>" header. Attaches the
 // current user (minus passwordHash) to req.user for downstream routes.
@@ -48,4 +49,17 @@ export function requireAdmin(req, res, next) {
     return res.status(403).json({ error: "Admins only" });
   }
   next();
+}
+
+// Stacks after requireAuth — blocks accounts that weren't given this app
+// ("reminder" = Reminder List, "workshop" = Workshop PMS). Enforced on the
+// server so a workshop-only user can't reach reminder data by calling the
+// API directly, and vice versa.
+export function requireApp(app) {
+  return (req, res, next) => {
+    if (!hasApp(req.user, app)) {
+      return res.status(403).json({ error: `Your account doesn't have access to ${app === "workshop" ? "Workshop PMS" : "the Reminder List"}` });
+    }
+    next();
+  };
 }

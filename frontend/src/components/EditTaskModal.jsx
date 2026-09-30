@@ -29,6 +29,7 @@ export default function EditTaskModal({ row, doers, onClose, onChanged }) {
   const [department, setDepartment] = useState(task.department || "");
   const [assignee, setAssignee] = useState(task.defaultAssignee?._id || task.defaultAssignee || "");
   const [startDate, setStartDate] = useState(toDateInput(task.startDate));
+  const [startTime, setStartTime] = useState(task.startTime || "11:00");
   const [freqInput, setFreqInput] = useState(FREQ_LABELS[task.frequency] || task.frequency || "");
   const [plannedLocal, setPlannedLocal] = useState(toDateTimeLocalInput(row.planned));
 
@@ -47,7 +48,8 @@ export default function EditTaskModal({ row, doers, onClose, onChanged }) {
         taskName,
         department,
         defaultAssignee: assignee || null,
-        startDate: startDate ? new Date(startDate).toISOString() : task.startDate,
+        startDate: startDate ? startDate + "T05:30:00.000Z" : task.startDate,
+        startTime,
         frequency: freqParsed.code,
       });
       toast("Task updated — upcoming reminders refreshed to match", "good");
@@ -124,6 +126,9 @@ export default function EditTaskModal({ row, doers, onClose, onChanged }) {
           )}
           <label className="modal-field" style={{ marginTop: 12 }}>Schedule starts from
             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+          </label>
+          <label className="modal-field" style={{ marginTop: 12 }}>Time of day (IST)
+            <input type="time" required value={startTime} onChange={(e) => setStartTime(e.target.value)} />
           </label>
           {error && <p className="error">{error}</p>}
           <div className="modal-actions">

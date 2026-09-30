@@ -2553,3 +2553,6 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
   .msg-head-btn span:last-child { display: none; }
   .msg-head-btn { padding: 6px 9px; }
 }
+
+/* "All apps" switcher at the foot of the Reminder List sidebar */
+.nav-link-switch { width: 100%; background: none; border: none; font: inherit; text-align: left; cursor: pointer; margin-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.08); border-radius: 0 0 8px 8px; padding-top: 12px; opacity: 0.85; }

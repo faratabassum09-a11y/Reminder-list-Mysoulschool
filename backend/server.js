@@ -17,9 +17,10 @@ import userRoutes from "./routes/users.js";
 import notificationRoutes from "./routes/notifications.js";
 import chatbotRoutes from "./routes/chatbot.js";
 import messageRoutes from "./routes/messages.js";
+import workshopRoutes from "./routes/workshops.js";
 import { getSettings } from "./models/Settings.js";
 import { sendDailyReminders } from "./utils/sendDailyReminders.js";
-import { requireAuth, requireAdmin } from "./middleware/auth.js";
+import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
 import TaskInstance from "./models/TaskInstance.js";
 
 // TaskInstance.status is computed once, on save (see the model's pre-save
@@ -91,22 +92,27 @@ app.get("/api/health", (req, res) => res.json({ ok: true }));
 // inside each file). Settings, Reminders (the email job), and Users are
 // admin-only in full, since they affect the whole system or other
 // people's accounts.
-app.use("/api/doers", requireAuth, doerRoutes);
-app.use("/api/tasks", requireAuth, taskRoutes);
-app.use("/api/master", requireAuth, masterRoutes);
-app.use("/api/consolidated", requireAuth, consolidatedRoutes);
-app.use("/api/submissions", requireAuth, submissionRoutes);
+app.use("/api/doers", requireAuth, requireApp("reminder"), doerRoutes);
+app.use("/api/tasks", requireAuth, requireApp("reminder"), taskRoutes);
+app.use("/api/master", requireAuth, requireApp("reminder"), masterRoutes);
+app.use("/api/consolidated", requireAuth, requireApp("reminder"), consolidatedRoutes);
+app.use("/api/submissions", requireAuth, requireApp("reminder"), submissionRoutes);
 app.use("/api/settings", requireAuth, requireAdmin, settingsRoutes);
 app.use("/api/reminders", requireAuth, requireAdmin, reminderRoutes);
 app.use("/api/users", requireAuth, requireAdmin, userRoutes);
 app.use("/api/notifications", requireAuth, requireAdmin, notificationRoutes);
 // Member-level, like Doers/Tasks/Master — every signed-in person can ask
 // MySoul Assistant questions, the route itself scopes the data snapshot to their role.
-app.use("/api/chatbot", requireAuth, chatbotRoutes);
+app.use("/api/chatbot", requireAuth, requireApp("reminder"), chatbotRoutes);
 // Member-level too — anyone signed in can DM anyone else. The one
 // exception is posting a Doer-list broadcast, which the router itself
 // gates behind requireAdmin (see routes/messages.js).
-app.use("/api/messages", requireAuth, messageRoutes);
+app.use("/api/messages", requireAuth, requireApp("reminder"), messageRoutes);
+// Workshop PMS sub-site. Member-level (anyone signed in can submit a workshop
+// request and complete their own tasks); approving, rejecting, deleting,
+// templates and the Launch Verification hand-off are admin-only inside the
+// router itself.
+app.use("/api/workshops", requireAuth, requireApp("workshop"), workshopRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/reminder_list";

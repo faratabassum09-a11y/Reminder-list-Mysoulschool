@@ -108,7 +108,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
   try {
     // taskId is immutable once assigned — ignore it even if sent.
     const { taskId, ...updates } = req.body;
-    const scheduleChanged = "startDate" in updates || "frequency" in updates;
+    const scheduleChanged = "startDate" in updates || "frequency" in updates || "startTime" in updates;
     const assigneeChanged = "defaultAssignee" in updates;
     // A new/changed startDate or frequency means "restart the schedule from
     // here" — reset the resume bookmark so generation begins clean instead
@@ -141,12 +141,21 @@ router.put("/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// DELETE (permanent) task
+// DELETE (permanent) task — also deletes EVERY occurrence of that task in
+// Master (pending, delayed and completed), so no orphan rows are left behind.
+// Occurrences are removed first, so a failure part-way never leaves a
+// Master row pointing at a task that no longer exists.
 router.delete("/:id", requireAdmin, async (req, res) => {
-  const deleted = await Task.findByIdAndDelete(req.params.id);
-  if (!deleted) return res.status(404).json({ error: "Task not found" });
-  await cacheDel("tasks:all");
-  res.json({ ok: true });
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ error: "Task not found" });
+    const { deletedCount } = await TaskInstance.deleteMany({ task: task._id });
+    await Task.findByIdAndDelete(task._id);
+    await cacheDel("tasks:all");
+    res.json({ ok: true, deletedOccurrences: deletedCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 export default router;

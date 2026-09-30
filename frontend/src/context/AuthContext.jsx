@@ -18,6 +18,14 @@ function readCachedUser() {
   }
 }
 
+// Which apps this account can open. Older cached sessions have no `apps`
+// value, so they keep both until /auth/me refreshes them.
+function userApps(user) {
+  if (!user) return [];
+  if (user.role === "admin" || !Array.isArray(user.apps)) return ["reminder", "workshop"];
+  return user.apps;
+}
+
 export function AuthProvider({ children }) {
   const cachedUser = readCachedUser();
   const [user, setUser] = useState(cachedUser);
@@ -67,12 +75,14 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await api.login(email, password);
     setAuthToken(res.token);
+    sessionStorage.removeItem("hubChosen"); // fresh sign-in -> show the app chooser
     localStorage.setItem("authUser", JSON.stringify(res.user));
     setUser(res.user);
     return res.user;
   };
 
   const logout = () => {
+    sessionStorage.removeItem("hubChosen");
     setAuthToken(null);
     localStorage.removeItem("authUser");
     setUser(null);
@@ -89,7 +99,7 @@ export function AuthProvider({ children }) {
     });
 
   return (
-    <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin" }}>
+    <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin", hasReminder: userApps(user).includes("reminder"), hasWorkshop: userApps(user).includes("workshop"), canRequestWorkshops: user?.role === "admin" || user?.canRequestWorkshops === true }}>
       {children}
     </AuthContext.Provider>
   );

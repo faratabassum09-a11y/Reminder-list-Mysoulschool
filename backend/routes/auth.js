@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import { hashPassword, comparePassword, signToken } from "../utils/auth.js";
 import { requireAuth, clearAuthCache } from "../middleware/auth.js";
+import { appsOf } from "../utils/access.js";
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.post("/login", async (req, res) => {
     const token = signToken(user);
     res.json({
       token,
-      user: { id: user._id, name: user.name, email: user.email, role: user.role, slackId: user.slackId, createdAt: user.createdAt },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role, slackId: user.slackId, createdAt: user.createdAt, canRequestWorkshops: !!user.canRequestWorkshops, apps: appsOf(user) },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -34,8 +35,8 @@ router.post("/login", async (req, res) => {
 // load if it has a stored token, to confirm it's still valid and fetch
 // the current user's name/role.
 router.get("/me", requireAuth, (req, res) => {
-  const { _id, name, email, role, slackId, createdAt } = req.user;
-  res.json({ user: { id: _id, name, email, role, slackId, createdAt } });
+  const { _id, name, email, role, slackId, createdAt, canRequestWorkshops } = req.user;
+  res.json({ user: { id: _id, name, email, role, slackId, createdAt, canRequestWorkshops: !!canRequestWorkshops, apps: appsOf(req.user) } });
 });
 
 // Self-service profile edit — name and Slack ID only (not email, role, or
@@ -51,7 +52,7 @@ router.put("/me", requireAuth, async (req, res) => {
     if (slackId !== undefined) updates.slackId = slackId.trim();
     const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true }).select("-passwordHash");
     clearAuthCache();
-    res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role, slackId: user.slackId } });
+    res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role, slackId: user.slackId, canRequestWorkshops: !!user.canRequestWorkshops, apps: appsOf(user) } });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

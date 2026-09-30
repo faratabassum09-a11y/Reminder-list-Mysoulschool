@@ -8,35 +8,15 @@ import { getSettings } from "../models/Settings.js";
 // sane "Working Day Calendar" length in the original, without needing to
 // enumerate one.
 const MAX_PER_TASK = 1000;
+// Cap on anchors walked (kept or skipped) — guards against runaway loops.
+const MAX_WALK = 20000;
 // Cap on how many days the backward "find a working day" walk will try
 // before giving up, in case every remaining day is somehow a holiday.
 const MAX_BACKSHIFT_DAYS = 30;
 
-// A single global scheduleHorizon (Settings) could be months or years out.
-// Generating every occurrence up to that horizon in one call is fine for
-// a Quarterly or Yearly task (a handful of rows) but floods a Daily task
-// with dozens of rows at once (e.g. a year-out horizon = ~87 Daily rows
-// created in one shot). Instead, each frequency only tops up a short
-// rolling window ahead of *today*, capped by the admin's scheduleHorizon
-// when that's sooner. Because generation resumes from task.nextAnchor and
-// this function is called again on every Master page load (subject to the
-// 60s cooldown) and via the manual "Generate Upcoming" button, the window
-// keeps rolling forward on its own — it never needs to "catch up" all at
-// once. Y (Yearly) isn't listed here: it's handled as a one-time burst
-// below and never consults this table.
-const ROLLING_WINDOW_DAYS = {
-  D: 7, // Daily — next 7 days only
-  W: 28, // Weekly — about a month of occurrences at a time
-  F: 28, // Fortnightly — about two occurrences at a time
-  M: 60, // Monthly — next 2 months
-  Q: 190, // Quarterly — comfortably covers the next occurrence
-  E1st: 60,
-  E2nd: 60,
-  E3rd: 60,
-  E4th: 60,
-  ELast: 60,
-};
-const DEFAULT_ROLLING_WINDOW_DAYS = 30;
+// Every frequency (Daily included) generates ALL occurrences from the task's
+// start date up to the Schedule Horizon set in Settings — nothing is
+// throttled to a rolling window. MAX_PER_TASK above is only a safety net.
 
 function dateKey(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
@@ -119,8 +99,14 @@ function makeDoc(task, date) {
   const now = new Date();
   // Pin to 05:30 UTC (IST midnight) so the planned date always displays
   // on the correct calendar day in India regardless of server timezone.
-  const planned = new Date(date);
-  planned.setUTCHours(5, 30, 0, 0);
+  // The task's own time of day (IST, "HH:MM") wins; blank falls back to the
+  // old 11:00 AM IST default. IST = UTC+5:30, so subtract that offset.
+  const [hh, mm] = /^\d{2}:\d{2}$/.test(task.startTime || "")
+    ? task.startTime.split(":").map(Number)
+    : [11, 0];
+  const planned = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), hh, mm) - (5 * 60 + 30) * 60000
+  );
   return {
     doer: task.defaultAssignee,
     task: task._id,
@@ -136,7 +122,14 @@ function makeDoc(task, date) {
 // an advisory lock on the task first, so two near-simultaneous calls (e.g.
 // a page-load top-up racing a manual "Generate Upcoming" click) can't both
 // read the same resume point and double-insert the same occurrences.
-export async function generateOccurrencesForTask(task, settings, holidaySet) {
+//
+// `options.skipBefore` (optional Date): occurrences planned before this
+// moment are still walked (so the recurrence cadence stays exactly right)
+// but not inserted (`options.clampToHorizon` also trims Yearly's fixed
+// multi-year burst to the Schedule Horizon) — used by the PDF importer to load only today-onward
+// reminders instead of a year of already-past, never-marked rows.
+export async function generateOccurrencesForTask(task, settings, holidaySet, options = {}) {
+  const skipBefore = options.skipBefore ? new Date(options.skipBefore) : null;
   if (!task.startDate || !task.defaultAssignee || task.active === false) {
     return { created: 0 };
   }
@@ -165,26 +158,28 @@ export async function generateOccurrencesForTask(task, settings, holidaySet) {
         anchor = addYearsClamped(anchor, 1);
         docs.push(makeDoc(claimed, anchor));
       }
+      if (skipBefore) {
+        for (let i = docs.length - 1; i >= 0; i--) if (docs[i].planned < skipBefore) docs.splice(i, 1);
+      }
+      if (options.clampToHorizon && settings.scheduleHorizon) {
+        // Horizon is end-of-day of the chosen date.
+        const limit = new Date(new Date(settings.scheduleHorizon).getTime() + 24 * 3600 * 1000);
+        for (let i = docs.length - 1; i >= 0; i--) if (docs[i].planned >= limit) docs.splice(i, 1);
+      }
       if (docs.length) await TaskInstance.insertMany(docs);
       return { created: docs.length };
     }
 
     if (!settings.scheduleHorizon) return { created: 0, horizonMissing: true };
     const globalHorizon = new Date(settings.scheduleHorizon);
-    // Effective horizon for this call = the sooner of the admin's overall
-    // schedule horizon and today + this frequency's rolling window — so a
-    // Daily task only ever tops up ~7 days ahead, a Monthly one ~2 months,
-    // etc., no matter how far out scheduleHorizon is set.
-    const windowDays = ROLLING_WINDOW_DAYS[claimed.frequency] ?? DEFAULT_ROLLING_WINDOW_DAYS;
-    const rollingHorizon = addDays(new Date(), windowDays);
-    const horizon = rollingHorizon < globalHorizon ? rollingHorizon : globalHorizon;
+    const horizon = globalHorizon;
     const skipSundays = settings.skipSundays;
 
     let anchor = claimed.nextAnchor ? new Date(claimed.nextAnchor) : new Date(claimed.startDate);
     const docs = [];
     let iterations = 0;
 
-    while (anchor <= horizon && iterations < MAX_PER_TASK) {
+    while (anchor <= horizon && docs.length < MAX_PER_TASK && iterations < MAX_WALK) {
       iterations++;
       const frozen = new Date(anchor);
       let occurrenceDate = null;
@@ -236,12 +231,18 @@ export async function generateOccurrencesForTask(task, settings, holidaySet) {
         }
       }
 
-      if (occurrenceDate) docs.push(makeDoc(claimed, occurrenceDate));
+      if (occurrenceDate) {
+        const doc = makeDoc(claimed, occurrenceDate);
+        if (!skipBefore || doc.planned >= skipBefore) docs.push(doc);
+      }
       anchor = nextAnchor;
     }
 
     if (docs.length) await TaskInstance.insertMany(docs);
     await Task.findByIdAndUpdate(claimed._id, { nextAnchor: anchor });
+    console.log(
+      `[generate] "${claimed.taskName}" (${claimed.frequency}) -> ${docs.length} row(s) up to horizon ${globalHorizon.toISOString().slice(0, 10)}`
+    );
     return { created: docs.length };
   } finally {
     // Always release the lock, even if generation threw partway through.

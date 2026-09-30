@@ -21,6 +21,12 @@ import { useDateFilter } from "../hooks/useDateFilter.js";
 import { QuickRangePills, DateRangeRow } from "../components/DateFilter.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 
+// "HH:MM" (24h, IST) -> "11:00 AM"; blank = legacy default 11:00 AM.
+function fmtTime(hhmm) {
+  const [h, m] = /^\d{2}:\d{2}$/.test(hhmm || "") ? hhmm.split(":").map(Number) : [11, 0];
+  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+}
+
 export default function TaskList() {
   const { isAdmin } = useAuth();
   const [tasks, setTasks] = useState(null);
@@ -77,9 +83,10 @@ export default function TaskList() {
 
   const remove = async (t) => {
     try {
-      await api.removeTask(t._id);
+      const res = await api.removeTask(t._id);
       setTasks((prev) => prev.filter((x) => x._id !== t._id));
-      toast(`Deleted "${t.taskName}"`, "bad");
+      const n = res?.deletedOccurrences;
+      toast(`Deleted "${t.taskName}"${n != null ? ` and its ${n} Master occurrence${n === 1 ? "" : "s"}` : ""}`, "bad");
     } catch (err) {
       toast(err.message, "bad");
     }
@@ -115,7 +122,7 @@ export default function TaskList() {
         t.department,
         freqLabels[t.frequency] || t.frequency,
         t.defaultAssignee?.name || "",
-        t.startDate ? new Date(t.startDate).toLocaleDateString() : "",
+        t.startDate ? `${new Date(t.startDate).toLocaleDateString()} ${fmtTime(t.startTime)}` : "",
         t.active !== false ? "Yes" : "No",
       ])
     );
@@ -188,7 +195,7 @@ export default function TaskList() {
                   <td>
                     {t.startDate ? (
                       <span className="badge badge-neutral" title="Master reminders auto-generate from this date">
-                        {new Date(t.startDate).toLocaleDateString()} · Auto
+                        {new Date(t.startDate).toLocaleDateString()} · {fmtTime(t.startTime)} · Auto
                       </span>
                     ) : "-"}
                   </td>

@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema(
     // tooling (e.g. a future "notify on Slack" reminder). Just a plain
     // member ID/handle string, not validated against Slack's API.
     slackId: { type: String, trim: true, default: "" },
+    // Workshop PMS: only people with this switched on (e.g. Tanvi) — plus
+    // admins — can fill the New Workshop form. Admins (e.g. Nitin) approve.
+    canRequestWorkshops: { type: Boolean, default: false },
+    // Which apps this account may open: "reminder" (Reminder List) and/or
+    // "workshop" (Workshop PMS). Accounts created before this field existed
+    // have no value and are treated as having BOTH (see utils/access.js), so
+    // nothing changes for existing people. Admins always get both.
+    apps: { type: [String], enum: ["reminder", "workshop"], default: undefined },
   },
   { timestamps: true }
 );

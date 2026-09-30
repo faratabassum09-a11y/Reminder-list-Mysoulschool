@@ -54,7 +54,7 @@ function ProgressRing({ pct = 0, size = 96, stroke = 9, color = "var(--accent)" 
 }
 
 export default function Account() {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, hasReminder } = useAuth();
   const toast = useToast();
   const [tab, setTab] = useState("profile");
 
@@ -63,6 +63,7 @@ export default function Account() {
   const [perfError, setPerfError] = useState("");
 
   useEffect(() => {
+    if (!hasReminder) return; // workshop-only accounts have no reminder performance
     setPerf(null);
     api.getMyPerformance(perfRange).then(setPerf).catch((e) => setPerfError(e.message));
   }, [perfRange]);
@@ -158,7 +159,7 @@ export default function Account() {
       </div>
 
       <div className="account-tabs" role="tablist" aria-label="Account sections">
-        {TABS.map((t) => (
+        {TABS.filter((t) => hasReminder || t.id !== "performance").map((t) => (
           <button
             key={t.id}
             type="button"

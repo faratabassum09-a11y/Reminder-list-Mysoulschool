@@ -7,7 +7,11 @@
     "start": "node server.js",
     "seed": "node seed.js",
     "seed:real": "node seed-real.js",
-    "seed:admin": "node seed-admin.js"
+    "seed:admin": "node seed-admin.js",
+    "seed:workshop-user": "node seed-workshop-user.js",
+    "seed:workshops": "node seed-workshop-data.js",
+    "reset": "node reset-data.js",
+    "seed:pdf-tasks": "node seed-pdf-tasks.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -16,7 +16,7 @@ import { rangeToParams } from "../utils/masterRanges.js";
 import { useDateFilter } from "../hooks/useDateFilter.js";
 import { QuickRangePills, DateRangeRow } from "../components/DateFilter.jsx";
 
-const emptyTask = { taskName: "", department: "", defaultAssignee: "", startDate: "" };
+const emptyTask = { taskName: "", department: "", defaultAssignee: "", startDate: "", startTime: "" };
 const DEFAULT_FREQ_INPUT = "Daily";
 
 // No approval step anymore — a completed row just shows its On Time /
@@ -334,6 +334,8 @@ export default function Master() {
             </select>
             <input required type="date" value={taskForm.startDate}
               onChange={(e) => setTaskForm({ ...taskForm, startDate: e.target.value })} />
+            <input required type="time" title="Time of day for each reminder (IST)" value={taskForm.startTime}
+              onChange={(e) => setTaskForm({ ...taskForm, startTime: e.target.value })} />
             <button type="submit" disabled={taskBusy || !freqParsed}>{taskBusy ? "Adding…" : "+ Add Task & Start Schedule"}</button>
           </form>
           {freqInput && (

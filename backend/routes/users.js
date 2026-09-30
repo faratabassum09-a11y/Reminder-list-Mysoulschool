@@ -2,6 +2,15 @@ import express from "express";
 import User from "../models/User.js";
 import { hashPassword } from "../utils/auth.js";
 import { clearAuthCache } from "../middleware/auth.js";
+import { appsOf, cleanApps } from "../utils/access.js";
+
+// Attach the effective app list so the Users page shows legacy accounts
+// (no stored value) as having both apps.
+const withApps = (u) => {
+  const o = u.toObject ? u.toObject() : u;
+  delete o.passwordHash;
+  return { ...o, apps: appsOf(o) };
+};
 
 const router = express.Router();
 // Every route here is mounted behind requireAuth + requireAdmin in
@@ -9,12 +18,14 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const users = await User.find().select("-passwordHash").sort({ name: 1 }).lean();
-  res.json(users);
+  res.json(users.map(withApps));
 });
 
 router.post("/", async (req, res) => {
   try {
-    const { name, email, password, role, slackId } = req.body;
+    const { name, email, password, role, slackId, canRequestWorkshops, apps } = req.body;
+    const cleaned = cleanApps(apps);
+    if (cleaned && cleaned.length === 0 && role !== "admin") return res.status(400).json({ error: "Pick at least one app (Reminder List or Workshop PMS)" });
     if (!name || !email || !password) return res.status(400).json({ error: "Name, email, and password required" });
     if (password.length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
 
@@ -25,10 +36,11 @@ router.post("/", async (req, res) => {
       passwordHash,
       role: role === "admin" ? "admin" : "member",
       slackId: slackId?.trim() || "",
+      canRequestWorkshops: !!canRequestWorkshops,
+      ...(cleaned ? { apps: cleaned } : {}),
     });
     clearAuthCache();
-    const { passwordHash: _, ...safe } = user.toObject();
-    res.status(201).json(safe);
+    res.status(201).json(withApps(user));
   } catch (err) {
     res.status(400).json({ error: err.code === 11000 ? "That email is already registered" : err.message });
   }
@@ -39,12 +51,18 @@ router.post("/", async (req, res) => {
 // field.
 router.put("/:id", async (req, res) => {
   try {
-    const { name, role, active, password, slackId } = req.body;
+    const { name, role, active, password, slackId, canRequestWorkshops, apps } = req.body;
     const updates = {};
+    if (apps !== undefined) {
+      const cleaned = cleanApps(apps);
+      if (!cleaned || cleaned.length === 0) return res.status(400).json({ error: "Pick at least one app (Reminder List or Workshop PMS)" });
+      updates.apps = cleaned;
+    }
     if (name !== undefined) updates.name = name;
     if (role !== undefined) updates.role = role === "admin" ? "admin" : "member";
     if (active !== undefined) updates.active = active;
     if (slackId !== undefined) updates.slackId = slackId.trim();
+    if (canRequestWorkshops !== undefined) updates.canRequestWorkshops = !!canRequestWorkshops;
     if (password) {
       if (password.length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
       updates.passwordHash = await hashPassword(password);
@@ -69,7 +87,7 @@ router.put("/:id", async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select("-passwordHash");
     if (!user) return res.status(404).json({ error: "User not found" });
     clearAuthCache();
-    res.json(user);
+    res.json(withApps(user));
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

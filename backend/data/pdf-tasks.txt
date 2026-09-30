@@ -1,0 +1,410 @@
+UTW - Publish & Verify Launch Shift|Aravind|Operations|W|16/6/2025 22:00:00
+Submit Daily End Report|Aravind|Operations|D|04/07/2025 22:00:00
+Create Monthly Calendar in Calendar Sheet|Tanvi Negi|Customer Support|E3rd|18/07/2025 22:00:00
+Create Weekly Calls in membership area|Tanvi Negi|Customer Support|E3rd|18/07/2025 22:00:00
+SUPER/RGM EMI Follow-up Calls|Tanvi Negi|Customer Support|M|08/07/2025 22:00:00
+UTW Giveaway|Megha Chanda|Social Media|W|10/07/2025 22:00:00
+Promote UTW|Megha Chanda|Social Media|E1st|07/07/2025 22:00:00
+Approve Facebook Post & Members|Megha Chanda|Social Media|D|04/07/2025 22:00:00
+Upload Reiki L4 L5 live Recording in Tagmango & Youtube|Tanvi Negi|Customer Support|W|10/07/2025 22:00:00
+Assign ICP attendee leads to Sales Team|Aravind|Operations|W|05/07/2025 22:00:00
+UTW - Fill Performance Sheet|Aravind|Operations|D|12/6/2025 22:00:00
+Acknowledge all WhatsApp Chats - 12PM|Paridhi|Customer Support|D|04/08/2025 22:00:00
+Monitor - New Order FMS|Dolly|Admin|D|04/07/2025 22:00:00
+Resolve - Help Ticket|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor - Aisensy|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor - Helpdesk|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor - Student Record Sheet Data|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor - Team Checklist from PC Dashboard|Dolly|Admin|D|04/07/2025 22:00:00
+Check Huddle timings in Support-Daily- Huddle Channel|Dolly|Admin|D|04/07/2025 22:00:00
+Send Report - O2D|Dolly|Admin|W|07/07/2025 22:00:00
+Monitor - Weekly Live Class FMS|Dolly|Admin|D|04/07/2025 22:00:00
+Send Daily EOD Report|Dolly|Admin|D|04/07/2025 22:00:00
+Take the registration Numbers of every launch 15 minutes prior to the launch starts from Zoom|Tanvi Negi|Customer Support|W|05/07/2025 22:00:00
+Send reminder to Mentors for Calendar schedule|Tanvi Negi|Customer Support|M|15/07/2025 22:00:00
+Super (Dec) EMI Follow-up Calls|Tanvi Negi|Customer Support|M|08/07/2025 22:00:00
+Schedule ICP Roles & Responsibilities for tomorrow's Launch|Tanvi Negi|Customer Support|W|04/07/2025 22:00:00
+Keep a check over the Whatapp - Wati & AIsensy Number Quality|Aravind|Operations|D|04/07/2025 22:00:00
+Share Thursday Full Day Class Recording with students by Saturday Max|Tanvi Negi|Customer Support|W|05/07/2025 22:00:00
+SUPPORT - Evening Huddle with CREs|Tanvi Negi|Customer Support|D|04/07/2025 22:00:00
+Daily audit any one team members task|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor Super PMS|Dolly|Admin|D|04/07/2025 22:00:00
+Follow Onboarding FMS|Blessy|Customer Support|D|04/08/2025 22:00:00
+Follow Due Payment FMS|Blessy|Customer Support|D|04/07/2025 22:00:00
+Submit MOM After Evening Huddle|Muskan|Customer Support|D|04/07/2025 22:00:00
+Follow Old Due Payments FMS|Muskan|Customer Support|W|10/07/2025 22:00:00
+Follow Old Due Payments FMS|Muskan|Customer Support|W|05/07/2025 22:00:00
+Follow Old Due Payments FMS|Muskan|Customer Support|W|04/07/2025 22:00:00
+Send Reminder to Mentors to fill the Calendar for the Classes|Tanvi Negi|Customer Support|M|13/07/2025 22:00:00
+Create Monthly Classes in Tagmango/Zoom|Tanvi Negi|Customer Support|M|19/07/2025 22:00:00
+Update Full Day Event Calendar and share in groups|Tanvi Negi|Customer Support|E1st|05/07/2025 22:00:00
+Remove previous day duplicates from Student Dashboard|Dolly|Admin|D|04/07/2025 22:00:00
+Update UTW Invitation Calls|Ruchi|Operations|W|04/07/2025 22:00:00
+Clear Duplicate Entries in Tarot - Dashboard|Ruchi|Operations|D|04/07/2025 22:00:00
+Resolve Technical Queries raised via Help - Ticket|Ruchi|Operations|D|04/07/2025 22:00:00
+Attend Ops - Daily Huddle at 1pm|Ruchi|Operations|D|04/07/2025 22:00:00
+Update Day 1 Attendee Calls|Ruchi|Operations|W|01/07/2025 22:00:00
+Update Day 2 Attendee calls|Ruchi|Operations|W|02/07/2025 22:00:00
+Update UTW Invitation Calls|Ruchi|Operations|W|05/07/2025 22:00:00
+Update due payment for RGM & SUPER|Tanvi Negi|Customer Support|W|04/07/2025 22:00:00
+Monitor - Refund FMS|Dolly|Admin|D|04/07/2025 22:00:00
+Monitor - Query Management FMS|Dolly|Admin|D|04/07/2025 22:00:00
+Update due payments Status from Student Dashboard Sheet|Blessy|Customer Support|D|04/07/2025 22:00:00
+Send UTW Whatsapp Community Messages|Chandrika Pathak|Customer Support|D|04/07/2025 22:00:00
+Send Weekly Class Reminder (Only if Needed)|Chandrika Pathak|Customer Support|D|04/07/2025 22:00:00
+Start & Attend Business Coaching Call|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Start & Attend Leadership Call|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Start & Attend Business Coaching Call|Chandrika Pathak|Customer Support|W|08/07/2025 22:00:00
+SUPER Dec Batch Accountability Calls|Chandrika Pathak|Customer Support|W|08/07/2025 22:00:00
+SUPER August Batch Accountability Calls|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Share Super March Homework in Groups|Chandrika Pathak|Customer Support|W|09/07/2025 22:00:00
+Share Super/PRO Full Day Class Replay in Groups (If Needed)|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Post EMI Reminder in SUPER Dec Whatsapp Group|Chandrika Pathak|Customer Support|M|05/08/2025 22:00:00
+Take SUPER Dec Batch EMI Followups|Chandrika Pathak|Customer Support|M|08/08/2025 22:00:00
+Take SUPER March Batch EMI Followups|Chandrika Pathak|Customer Support|M|08/08/2025 22:00:00
+Take RGM EMI Followups|Chandrika Pathak|Customer Support|M|08/08/2025 22:00:00
+Give access to all students Giveaway winning students.|Ruchi|Operations|W|10/04/2025 22:00:00
+Take 2nd EMI Followups from SUPER/RGM Students - Monthly Every 15th & share Report by EOD|Chandrika Pathak|Customer Support|M|15/08/2025 22:00:00
+Update RGM and SUPER payments|Tanvi Negi|Customer Support|W|10/07/2025 22:00:00
+Resolve all PRO/SUPER Queries on Aisensy/Helpdesk ( Resolve over Call & then respond to query by mentioning the Solution as discussed over Call)|Chandrika Pathak|Customer Support|D|04/07/2025 22:00:00
+Fill the PMS workshop form before every WAM for the next 15 days|Tanvi Negi|Customer Support|W|04/07/2025 22:00:00
+Submit a report upon queries received last week and on repetitive queries|Ruchi|Operations|W|05/07/2025 22:00:00
+Update Testimonials Sheet|Chandrika Pathak|Customer Support|W|05/07/2025 22:00:00
+Share Daily Report by EOD of all the Tasks done for the Day with Tanvi|Chandrika Pathak|Customer Support|D|04/07/2025 16:00:00
+Share SUPER Homework in WhatsApp Groups|Chandrika Pathak|Customer Support|W|05/07/2025 22:00:00
+Share SUPER Homework in WhatsApp Groups|Chandrika Pathak|Customer Support|W|10/07/2025 22:00:00
+Monitor Event Reschedule & Cancellation FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Monitor Leave FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Share all recharge and top up details With Namita for the next week|Aravind|Operations|W|07/07/2025 22:00:00
+Send EMI Reminder in Super - March in Whatsapp Groups|Chandrika Pathak|Customer Support|M|05/08/2025 22:00:00
+Take daily EMI Followups from all RGM/SUPER for the next 10 days and share a proper report|Chandrika Pathak|Customer Support|M|11/08/2025 22:00:00
+Send EMI Reminder in RGM - April Batch Whatsapp Group starting from May|Chandrika Pathak|Customer Support|M|05/08/2025 22:00:00
+Submit Lead Quality Report on every Thursday|Aravind|Operations|W|10/07/2025 22:00:00
+Share upcoming week Launch Calendar|Tanvi Negi|Customer Support|W|04/07/2025 22:00:00
+Take SUPER March & Dec EMI Followups via Call & take a timeline from them|Chandrika Pathak|Customer Support|M|08/08/2025 22:00:00
+Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack|Tanvi Negi|Customer Support|M|01/08/2025 18:00:00
+UTW Payment Reminder for Current Launch in AiSensy - Schedule for Thurday 4PM|Aravind|Operations|W|09/07/2025 22:00:00
+UTW Payment Reminder for Current Launch in AiSensy - Schedule for Friday 11AM 3PM|Aravind|Operations|W|25/04/2025 18:00:00
+Share Reiki L4/L5 "Monthly Healers Meet" Class Reminder in RGM (Nov) WA Community|Chandrika Pathak|Customer Support|E1st|06/08/2025 18:00:00
+Resolve Aisensy Queries|Ishika|Customer Support|D|04/07/2025 22:00:00
+Resolve Email Queries|Ishika|Customer Support|D|04/07/2025 22:00:00
+Fill & Follow New Lead FMS|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Discuss pending queries in Evening Huddle with Senior|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Maintain Account Locked sheet|Ishika|Customer Support|W|07/07/2025 22:00:00
+Share Reiki L4/L5 - Monthly Healers Meet Class Reminder in RGM (Nov Group)|Chandrika Pathak|Customer Support|E1st|03/08/2025 18:00:00
+Ask to the interns for planning any leave in up coming week|Riya|Admin|W|09/07/2025 18:00:00
+Send good morning message with the sheet link in intern channel|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Inform about the number of UTW Leads to be assigned between Interns in UTW Channel before 6 p.m|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Send EOD report of sales team to Nitin sir if there is less then 50 calls|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack|Paridhi|Customer Support|M|01/08/2025 18:00:00
+Schedule Morning Draft And Google Forms in Interns channel for Sunday|Paridhi|Customer Support|W|05/07/2025 22:00:00
+Update UTW Sales Analytic Sheet [2]|Aravind|Operations|W|09/07/2025 22:00:00
+Review all tools and inform EA about the recharge for the current week. [3]|Aravind|Operations|W|07/07/2025 22:00:00
+Empty all task - Quick Note|Riya|Admin|D|04/07/2025 22:00:00
+Morning Huddle with Mehakleen Ma'am|Riya|Admin|D|04/07/2025 22:00:00
+Check Emails|Riya|Admin|W|07/07/2025 16:00:00
+Update Team Attendance Sheet|Riya|Admin|D|07/07/2025 16:00:00
+Send EOD Report|Riya|Admin|D|04/07/2025 16:00:00
+Assign New Leads queries to Paridhi|Riya|Admin|D|04/07/2025 22:00:00
+Candidate shortlisting|Riya|Admin|D|04/07/2025 22:00:00
+Update Suruchi's Attendance|Riya|Admin|W|05/05/2025 22:00:00
+Update Suruchi's Attendance|Tanvi Negi|Customer Support|W|04/07/2025 22:00:00
+Monitor - Student Access Update FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Monitor - Certificate Issuance & Update FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Monitor - Student Information Update FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Do Interns Meeting Every Wednesday|Tanvi Negi|Customer Support|W|09/07/2025 22:00:00
+Create Invitation Calls Plan For Interns and Share With Aravind & Deesha|Tanvi Negi|Customer Support|D|04/07/2025 22:00:00
+Monitor - New Order FMS|Riya|Admin|D|04/07/2025 22:00:00
+Share Mehakleen's calendar tasks and meetings list|Riya|Admin|D|04/07/2025 22:00:00
+Check Youtube & Instagram Post|Riya|Admin|D|04/07/2025 22:00:00
+Ask Organic Growth to share New Topics|Riya|Admin|W|09/05/2025 22:00:00
+Check Student Access Update FMS|Ruchi|Operations|D|04/07/2025 22:00:00
+Monitor - Content Creation FMS|Dolly|Admin|D|04/07/2025 18:00:00
+Monitor - RGM PMS|Dolly|Admin|D|04/07/2025 18:00:00
+Share UTW Whatsapp Group Messages scheduled after 8PM|Aravind|Operations|W|08/07/2025 22:00:00
+Extract & upload Testimonials of weekly Classes on YT & update the link in Testimonial Sheet|Chandrika Pathak|Customer Support|W|09/07/2025 22:00:00
+Spot Check Sales Team - Green & Red|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Approve or Reject Sales - Match Closing Screenshot & Proof of Sale|Paridhi|Customer Support|W|07/07/2025 22:00:00
+Send EMI notification|Chandrika Pathak|Customer Support|M|01/08/2025 18:00:00
+5 Scripts of IG|Megha Chanda|Social Media|W|07/07/2025 22:00:00
+10 Captions for IG|Megha Chanda|Social Media|W|09/07/2025 22:00:00
+5 Scripts of IG|Megha Chanda|Social Media|W|05/07/2025 22:00:00
+Promote UTW|Megha Chanda|Social Media|E3rd|14/07/2025 22:00:00
+Check Student Access Update FMS|Aravind|Operations|D|04/07/2025 22:00:00
+Check Student Information Update FMS|Aravind|Operations|D|04/07/2025 22:00:00
+Update & Share Weekly Live Class & Webinar Schedule with all the Mentors|Tanvi Negi|Customer Support|W|07/07/2025 20:00:00
+Monitor UTW reminders in all the groups.|Dolly|Admin|D|04/07/2025 20:00:00
+Mark Attendance of SUPER Students if they have attended the Class or not|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Mark Attendance of SUPER Students if they have attended the Class or not|Chandrika Pathak|Customer Support|W|09/07/2025 22:00:00
+Discuss important mails with seniors and escalate them if needed|Paridhi|Customer Support|D|04/07/2025 22:00:00
+Check UTW MSG in Comunity gruops|Dolly|Admin|D|09/06/2025 18:00:00
+Share class photo in Tag Mango after every weekly class / Full day class tagging mastery programs|Chandrika Pathak|Customer Support|W|04/07/2025 22:00:00
+Share class photo in Tag Mango after every weekly class / Full day class tagging mastery programs|Chandrika Pathak|Customer Support|W|10/07/2025 22:00:00
+Check Weekly Live Class FMS|Aravind|Operations|W|12/06/2025 22:00:00
+Verify the Tarot Workshop Created on Tagmango|Tanvi Negi|Customer Support|W|11/06/2025 22:00:00
+Verify the Tarot Workshop Created on Tagmango|Tanvi Negi|Customer Support|W|16/06/2025 22:00:00
+Verify the Tarot Workshop Created on Tagmango|Tanvi Negi|Customer Support|W|17/06/2025 22:00:00
+Review & Update Master Process Sheet Of My Soul School|Dolly|Admin|M|15/06/2025 22:00:00
+Review & Update Master Process Sheet Of My Soul School|Dolly|Admin|M|29/06/2025 22:00:00
+Update Tuesday File on Every Monday|Riya|Admin|W|23/06/2025 22:00:00
+Post 1 Story on IG|Megha Chanda|Social Media|D|23/06/2025 22:00:00
+Create Live Class for 30 Days Manifestation program - for First Saturday at 10AM {Manifestation - Live Masterclass (July)}|Tanvi Negi|Customer Support|M|29/06/2025 22:00:00
+Send Community Messages - Ig Channel, Tg at 10:30 a.m|Megha Chanda|Social Media|D|26/06/2025 22:00:00
+Query Time at 2 p.m|Megha Chanda|Social Media|D|26/06/2025 22:00:00
+Instagram Post + Instagram Engagment from 6 - 7 p.m|Megha Chanda|Social Media|D|26/06/2025 22:00:00
+Mark Script Done in Content Creation FMS|Megha Chanda|Social Media|W|01/07/2025 22:00:00
+5 Carousel Scripts|Megha Chanda|Social Media|W|01/07/2025 22:00:00
+YT Script + Training / Editing|Megha Chanda|Social Media|W|02/07/2025 22:00:00
+Idea Stacking - Reels & Carousel|Megha Chanda|Social Media|W|27/06/2025 22:00:00
+Fill Content Creation FMS - Topic + Caption + Reels|Megha Chanda|Social Media|W|27/06/2025 22:00:00
+Fill System Tickets & Update Response Sheet|Dolly|Admin|D|29/06/2025 22:00:00
+Monitor - System Update FMS|Dolly|Admin|D|29/06/2025 22:00:00
+Assign Query Tag to all Unresolved Chats - 6PM|Ishika|Customer Support|D|30/06/2025 22:00:00
+Update upcoming Launches in Webinar Calendar for Next Month|Tanvi Negi|Customer Support|M|25/07/2025 22:00:00
+Share Total Enrollments and Revenue Generated for Ho'ponopono & RGM with Namita|Tanvi Negi|Customer Support|M|01/07/2025 22:00:00
+Do evening huddle with Paridhi & Chandrika|Tanvi Negi|Customer Support|D|05/07/2025 22:00:00
+Review all the previous day enrollment enteries|Tanvi Negi|Customer Support|D|11/07/2025 22:00:00
+Upload call recordings of all the closing calls done by sales team in the performance sheet|Paridhi|Customer Support|W|12/07/2025 22:00:00
+Monitor - Access Revoke FMS|Dolly|Admin|D|14/07/2025 22:00:00
+Monitor - Sales FMS Super and RGM|Dolly|Admin|D|14/07/2025 22:00:00
+Fill Due payment form|Blessy|Customer Support|W|28/07/2025 22:00:00
+5 - reel scripts|Megha Chanda|Social Media|W|28/07/2025 22:00:00
+3 - carousels script - MK and design 1st page of all 3 carousels|Megha Chanda|Social Media|W|29/07/2025 22:00:00
+3 Carousels script-MSSP and design 1st page of all 3 carousels|Megha Chanda|Social Media|W|30/07/2025 22:00:00
+idea stacking - Reels, Carousels|Megha Chanda|Social Media|W|31/07/2025 22:00:00
+FREE SPACE TO CATCH & WIND THINGS UP review all 6 carousels of aditi|Megha Chanda|Social Media|W|18/07/2025 22:00:00
+5 Reel Scripts|Megha Chanda|Social Media|W|19/07/2025 22:00:00
+Add Closing Calls in Sheet|Paridhi|Customer Support|W|26/07/2025 22:00:00
+Fill all the Live Classes forms for the upcoming week|Tanvi Negi|Customer Support|W|26/07/2025 22:00:00
+Post Carousel at 12 PM - Daily Task|Megha Chanda|Social Media|D|23/07/2025 22:00:00
+Upload shorts on YT|Riya|Admin|D|25/07/2025 19:00:00
+Monitor System Creation FMS|Dolly|Admin|D|28/07/2025 22:00:00
+Review Program Details Sheet if any changes are required|Tanvi Negi|Customer Support|W|04/08/2025 22:00:00
+Meeting with Interns Every Wednesday|Tanvi Negi|Customer Support|W|06/08/2025 22:00:00
+Monitor New Lead FMS 2.0|Paridhi|Customer Support|D|31/07/2025 22:00:00
+Monitor Sales FMS|Paridhi|Customer Support|D|31/07/2025 22:00:00
+Check Tagmango Entries if any new payment rcvd for any Program & fill the New Booking before 7 p.m|Muskan|Customer Support|D|31/07/2025 22:00:00
+Plan upcoming Webinar & delegate Tasks accordingly|Tanvi Negi|Customer Support|W|04/08/2025 22:00:00
+Post msg to Calling team & Verify if the UTW Invitation Calls have been started or not by 11 a.m|Riya|Admin|D|01/08/2025 12:00:00
+Monitor UTW Invitation Calls at 2 p.m|Riya|Admin|D|01/08/2025 17:00:00
+Share updates with Tanvi on - UTW Calls by 6 p.m|Riya|Admin|D|01/08/2025 18:00:00
+Review Comments of Tagmango Feed Posts & delete negative comments|Chandrika Pathak|Customer Support|W|09/08/2025 22:00:00
+Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM|Tanvi Negi|Customer Support|W|08/08/2025 22:00:00
+Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM|Tanvi Negi|Customer Support|W|11/08/2025 22:00:00
+Meeting with Deesha, Varsha & Shivangi for MSSP FMS Review at 7PM|Tanvi Negi|Customer Support|W|13/08/2025 22:00:00
+Update Active and Inactive Team members Sheet|Riya|Admin|E1st|01/09/2025 19:00:00
+Check is there any class schedule for upcoming week|Chandrika Pathak|Customer Support|D|12/08/2025 22:00:00
+Create Weekly Schedule for next week|Tanvi Negi|Customer Support|W|20/08/2025 22:00:00
+Update next week's schedule on Google Calendar|Tanvi Negi|Customer Support|W|16/08/2025 22:00:00
+Review MSSP: GHL Heal Her 2.0 Calendar for Call Bookings|Tanvi Negi|Customer Support|W|20/08/2025 22:00:00
+Review Team Attendance response sheet|Riya|Admin|M|20/08/2025 22:00:00
+Review Team Attendance response sheet|Riya|Admin|M|30/08/2025 22:00:00
+Review Team Attendance response sheet|Riya|Admin|M|10/09/2025 22:00:00
+Take SUPER EMI (Aug batch)|Chandrika Pathak|Customer Support|M|28/08/2025 22:00:00
+Share RCA call calender with Tanvi|Riya|Admin|D|23/08/2025 19:00:00
+Drop Reminder To Tanvi and Client before logging out|Riya|Admin|D|23/08/2025 19:00:00
+Verify Tagmango Transactions of current week & see if any booking form is not filled|Paridhi|Customer Support|W|01/09/2025 22:00:00
+Fill New Booking Forms|Blessy|Customer Support|D|29/08/2025 18:00:00
+Get your Doubts Clarified in the huddle with Paridhi|Blessy|Customer Support|D|29/08/2025 18:00:00
+Share Daily Report of Onboarding & Due Payment status with Paridhi|Blessy|Customer Support|D|29/08/2025 18:00:00
+Get your Doubts Clarified in the huddle with Paridhi|Ishika|Customer Support|D|29/08/2025 18:00:00
+Share motivation message with sales team|Paridhi|Customer Support|W|02/09/2025 22:00:00
+MSSP - Upload & Share Yesterday evening SoulFit session in all client groups.|Riya|Admin|D|30/08/2025 11:00:00
+Download Yoga session from zoom and Upload it on YT playlist|Riya|Admin|D|30/08/2025 19:00:00
+Take RGM/Reiki testimonials list after every class from Sneha Mam|Chandrika Pathak|Customer Support|W|01/09/2025 22:00:00
+Take RGM/Reiki testimonials list after every class from Sneha Mam|Chandrika Pathak|Customer Support|W|02/09/2025 22:00:00
+Take RGM/Reiki testimonials list after every class from Sneha Mam|Chandrika Pathak|Customer Support|W|03/09/2025 22:00:00
+Upload MSSP Weekly Healing Session recordings on YT of Sneha Mam & Share with Students|Riya|Admin|W|06/09/2025 19:00:00
+Monitor Social Media Dashboard|Riya|Admin|D|01/09/2025 19:00:00
+Monitor Megha's Help -ticket , And Reminder List from PC Dashboard|Riya|Admin|D|01/09/2025 19:00:00
+Shift one month data from sales fms to backup sales FMS|Ruchi|Operations|E1st|01/09/2025 19:00:00
+Schedule 24 Hrs before & same day Reminders to all the Tarot Health Mastery students (Class timings are 1st Sat of every Month at 3PM - 5PM)|Aravind|Operations|E1st|02/10/2025 19:00:00
+Schedule 24 Hrs before & same day Reminders to all the Manifestation Program students (Class timings are 1st Sat of every Month at 10AM - 12PM)|Aravind|Operations|E1st|02/10/2025 19:00:00
+Start & Manage Inner Circle Call|Paridhi|Customer Support|W|12/09/2025 22:00:00
+Update EMI Defaulter list|Chandrika Pathak|Customer Support|W|15/09/2025 22:00:00
+Get the access Revoked of all the SUPER/RGM students if EMI is due|Chandrika Pathak|Customer Support|M|15/09/2025 22:00:00
+Update SUPER/RGM Defaulter sheet & check EA Notes as well properly|Chandrika Pathak|Customer Support|W|14/09/2025 19:00:00
+Monitor Aisensy & helpdesk if all the queries are being answered properly|Paridhi|Customer Support|D|12/09/2025 17:00:00
+Verify if all the Tagmango Community Msgs are being answered by EOD by 7p.m|Paridhi|Customer Support|D|12/09/2025 22:00:00
+Submit MOM After Morning & Evening Huddle|Ishika|Customer Support|D|12/09/2025 22:00:00
+Submit MOM After Morning & Evening Huddle|Blessy|Customer Support|D|12/09/2025 22:00:00
+Fill Due Payment Reminder Forms|Blessy|Customer Support|W|15/09/2025 11:00:00
+Share Support Team Draft with student's queries in Tagmango Community|Ishika|Customer Support|D|13/09/2025 18:00:00
+Verify if all the Tagmango Community Queries are acknowledged|Paridhi|Customer Support|D|13/09/2025 20:00:00
+Review Program Details Sheet and update it.|Paridhi|Customer Support|M|13/09/2025 22:00:00
+Review Program Details Sheet and update it.|Paridhi|Customer Support|M|28/09/2025 22:00:00
+Review Canned Responses and keep them updated|Paridhi|Customer Support|M|13/09/2025 22:00:00
+Review Canned Responses and keep them updated|Paridhi|Customer Support|M|28/09/2025 22:00:00
+Inform about Suruchi's ICC Call Attendance to Riya|Paridhi|Customer Support|W|13/09/2025 15:00:00
+Inform about Suruchi's ICC Call Attendance to Riya|Paridhi|Customer Support|W|20/09/2025 15:00:00
+Start & Manage Monthly Manifestation MasterClass at 10AM|Paridhi|Customer Support|E1st|04/10/2025 12:00:00
+Review Upcoming Webinar Messages on every Monday|Chandrika Pathak|Customer Support|D|15/09/2025 18:00:00
+Remind Mehakleen Mam in class about sharing Affiliation details in ICC Call|Paridhi|Customer Support|E1st|03/10/2025 22:00:00
+Review the Group Messages of all the webinars and workshops|Chandrika Pathak|Customer Support|W|22/09/2025 22:00:00
+Fill Defaulter Sheet|Chandrika Pathak|Customer Support|W|22/09/2025 22:00:00
+Update Sales Team Performance Sheet|Paridhi|Customer Support|W|15/09/2025 18:00:00
+Send all reminder At 11:30 am , 2:30 pm , 5:30 pm ONLY|Dolly|Admin|D|18/09/2025 22:00:00
+Call for due payments for Manifestation and Reiki L1/L2 from Student Record Sheet|Paridhi|Customer Support|W|25/09/2025 18:00:00
+Share the list of UTW which are not relevant to our workshop|Paridhi|Customer Support|W|27/09/2025 22:00:00
+Update FMS list Sheet|Dolly|Admin|W|25/09/2025 18:00:00
+Post Youtube Short Video|Megha Chanda|Social Media|D|19/09/2025 18:00:00
+Write 3 carousel script - Mk|Megha Chanda|Social Media|W|30/09/2025 22:00:00
+Write 3 carousel script - MSSP|Megha Chanda|Social Media|W|30/09/2025 22:00:00
+Design 3 carousel - Mk|Megha Chanda|Social Media|W|01/10/2025 22:00:00
+Design 3 carousel - MSSP|Megha Chanda|Social Media|W|02/10/2025 22:00:00
+Review Manifestation Due Payments status and Revoke Access|Tanvi Negi|Customer Support|M|30/09/2025 22:00:00
+Review Manifestation Due Payments status and Revoke Access|Tanvi Negi|Customer Support|M|25/10/2025 22:00:00
+Update Sales FMS Backup Sheet|Ruchi|Operations|W|29/10/2025 13:00:00
+Monitor Reminderlist update FMS|Dolly|Admin|D|04/10/2025 18:00:00
+Update Lead Qualification FMS Backup Sheet|Ruchi|Operations|W|06/10/2025 22:00:00
+Approve Joining & Posts Requests in Facebook Community at 12 PM|Paridhi|Customer Support|D|04/10/2025 12:30:00
+Approve Joining & Posts Requests in Facebook Community at 6 PM|Paridhi|Customer Support|D|04/10/2025 19:00:00
+Review UTW launch Sheet 2.0|Dolly|Admin|D|16/10/2025 18:00:00
+Turn on Off Hours message on Aisesny|Paridhi|Customer Support|W|25/10/2025 22:00:00
+Share the Current Week new system that we are going to work & implement|Aravind|Operations|W|26/10/2025 12:00:00
+Share IG Analytics with EA|Megha Chanda|Social Media|W|03/11/2025 22:00:00
+Check and Revert to Clients msgs in Whatsapp Groups|Akankshya|Customer Support|D|29/10/2025 11:00:00
+Check and Revert to Clients msgs in Whatsapp Groups|Akankshya|Customer Support|D|29/10/2025 15:00:00
+Check and Revert to Clients msgs in Whatsapp Groups|Akankshya|Customer Support|D|29/10/2025 17:00:00
+Share ICP Launch Data|Tanvi Negi|Customer Support|W|15/11/2025 22:00:00
+Share Health Mastery Launch Data|Tanvi Negi|Customer Support|Q|17/11/2025 22:00:00
+Share Reiki Launch Data|Tanvi Negi|Customer Support|Q|17/11/2025 22:00:00
+Share Mehakleen Ma'am calendar task daily.|Riya|Admin|D|21/11/2025 18:00:00
+Morning Huddle with Mehakleen Ma'am|Riya|Admin|D|01/12/2025 12:00:00
+Share Mehakleen's calendar tasks and meetings list|Riya|Admin|D|04/12/2025 18:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|01/01/2026 18:00:00
+Submit EOD Report in Admin Group|Riya|Admin|D|19/12/2025 18:00:00
+Share Aravind's Current Week Plan for New System Creation|Tanvi Negi|Customer Support|W|22/12/2025 22:00:00
+Review Sales Calls and share update on this Week's Launch - Lead Quality, Pickup Ratio, Pitch Quality.|Paridhi|Customer Support|W|25/12/2025 22:00:00
+Review the Affiliates of Current week and update Namita ma'am about the same.|Paridhi|Customer Support|W|02/02/2026 22:00:00
+Follow on onboarding & due payment FMS|Paridhi|Customer Support|D|25/02/2026 22:00:00
+Fill Due Payment Reminder Forms|Paridhi|Customer Support|W|02/03/2026 12:00:00
+Open & Check all the Messages in WATI if there is any Lead|Paridhi|Customer Support|D|31/03/2026 11:00:00
+Open & Check all the Messages in WATI if there is any Lead|Paridhi|Customer Support|D|31/03/2026 16:00:00
+Open & Check all the Messages in WATI if there is any Lead|Paridhi|Customer Support|D|31/03/2026 19:00:00
+Check TeamLogger Every Morning|Riya|Admin|D|31/03/2026 12:00:00
+Share 2-3 UTW Invitation Recordings of each Intern with Tanvi Personally|Paridhi|Customer Support|D|02/04/2026 19:00:00
+Share this week's Leadership Call Topic in SUPER Groups|Chandrika Pathak|Customer Support|W|02/04/2026 19:00:00
+Share this week's Leadership Call Topic in SUPER Groups|Chandrika Pathak|Customer Support|W|06/04/2026 19:00:00
+Share this week's Leadership Call Topic in SUPER Groups|Chandrika Pathak|Customer Support|W|07/04/2026 19:00:00
+Share a daily report of all the Accountability calls/Support Calls (batch-wise: total calls dialed, connected, not connected, along with student names|Chandrika Pathak|Customer Support|D|02/04/2026 21:00:00
+Share SUPER Monthly Calendar in Groups|Tanvi Negi|Customer Support|M|25/04/2026 21:00:00
+Share the number of Closings with Tanvi by 8pm|Paridhi|Customer Support|W|21/04/2026 21:00:00
+Share the number of Closings with Tanvi by 8pm|Paridhi|Customer Support|W|22/04/2026 21:00:00
+Share the number of Closings with Tanvi by 8pm|Paridhi|Customer Support|W|25/04/2026 21:00:00
+Conduct RGM April Accountability|Chandrika Pathak|Customer Support|M|30/04/2026 21:00:00
+Conduct RGM April Accountability|Chandrika Pathak|Customer Support|M|15/05/2026 21:00:00
+Conduct Super Accountability|Chandrika Pathak|Customer Support|W|24/04/2026 21:00:00
+Share BOD Report Daily in Admin Group|Riya|Admin|D|22/04/2026 10:30:00
+Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet|Ishika|Customer Support|W|24/04/2026 10:30:00
+Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet|Ishika|Customer Support|W|27/04/2026 10:30:00
+Post Message on every Alternate day in Whatsapp - MySoulSpace Community at 10AM from the WA Message Calendar Sheet|Ishika|Customer Support|W|29/04/2026 10:30:00
+Call Defaulter Every Monday, Thursday and Saturday|Chandrika Pathak|Customer Support|W|25/04/2026 21:00:00
+Call Defaulter Every Monday, Thursday and Saturday|Chandrika Pathak|Customer Support|W|27/04/2026 21:00:00
+Call Defaulter Every Monday, Thursday and Saturday|Chandrika Pathak|Customer Support|W|30/04/2026 21:00:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Paridhi|Customer Support|W|27/04/2026 19:30:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Paridhi|Customer Support|W|29/04/2026 19:30:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Paridhi|Customer Support|W|01/05/2026 19:30:00
+Review all FMS and dashboards to verify that all doer names and IDs are accurate and up to date|Dolly|Admin|M|30/05/2026 18:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|01/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|02/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|03/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|04/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|04/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|05/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|06/06/2026 21:00:00
+Do Monthly Accountability calls for all Super students whom batch is finished & share update in SUPER Queries Channel|Chandrika Pathak|Customer Support|M|07/06/2026 21:00:00
+Share this Week's FOCUS & Planning|Tanvi Negi|Customer Support|W|14/06/2026 21:00:00
+Share Daily Report on INVITE A FREIND & TAROT MASTERY Accountability (Referral)|Paridhi|Customer Support|D|09/06/2026 20:30:00
+Share Homework with students in Group after every Class|Chandrika Pathak|Customer Support|E1st|04/07/2026 21:00:00
+Share Due Payment Report|Paridhi|Customer Support|W|25/05/2026 21:00:00
+Share Due Payment Report|Paridhi|Customer Support|W|20/05/2026 21:00:00
+Share Due Payment Report|Paridhi|Customer Support|W|21/05/2026 21:00:00
+Share the UTW & Webinar message report on the channel|Dolly|Admin|D|20/05/2026 21:00:00
+Share EMI Defaulters of the particular batch in SUPER Channel & tag the Mentor who is taking the class|Chandrika Pathak|Customer Support|W|27/05/2026 21:00:00
+Share EMI Defaulters of the particular batch in SUPER Channel & tag the Mentor who is taking the class|Chandrika Pathak|Customer Support|W|22/05/2026 21:00:00
+Share EMI Defaulters of all the students SUPER Channel & tag the Mentor who is taking the class|Chandrika Pathak|Customer Support|W|28/05/2026 21:00:00
+Update the Due Payment Weekly Update sheet|Paridhi|Customer Support|W|30/05/2026 21:00:00
+Update the Invite a Friend Weekly Update sheet|Paridhi|Customer Support|W|29/05/2026 21:00:00
+Check ''Invite a Freind'' FMS|Tanvi Negi|Customer Support|W|30/05/2026 21:00:00
+Check ''Invite a Freind'' FMS|Tanvi Negi|Customer Support|W|04/06/2026 21:00:00
+Check ''Invite a Freind'' FMS|Tanvi Negi|Customer Support|W|05/06/2026 21:00:00
+Check if TMR/RME Banners needs to be created|Tanvi Negi|Customer Support|Y|02/02/2027 21:00:00
+Check if TMR/RME Banners needs to be created|Tanvi Negi|Customer Support|Y|02/05/2027 21:00:00
+Check if TMR/RME Banners needs to be created|Tanvi Negi|Customer Support|Y|02/08/2026 21:00:00
+Check if TMR/RME Banners needs to be created|Tanvi Negi|Customer Support|Y|02/11/2026 21:00:00
+Share Daily Intern Calls Report (Individually) in UTW Channel|Paridhi|Customer Support|D|18/06/2026 21:00:00
+Check if we need to get NEW SIM for Intern Calls|Paridhi|Customer Support|E1st|06/07/2026 21:00:00
+Check if we need to get NEW SIM for Intern Calls|Paridhi|Customer Support|E1st|10/07/2026 21:00:00
+Fill Ad Report Form|Siddhi|Marketing|D|03/07/2025 22:00:00
+Check UTM Parameters|Siddhi|Marketing|D|03/07/2025 22:00:00
+Review Internal Meta Campaigns|Siddhi|Marketing|D|03/07/2025 22:00:00
+Check Ad Account Funds & Add Funds (if required)|Siddhi|Marketing|D|03/07/2025 22:00:00
+Assign Invitation Calls to Interns in the Morning by 10AM|Deesha|Customer Support|D|04/07/2026 10:30:00
+Check Interns' Call Status form wheather submitted or not (12PM)|Deesha|Customer Support|D|04/07/2026 12:30:00
+Daily Morning Huddle with Interns by 10:30AM & align them to start with the calls|Deesha|Customer Support|D|04/07/2026 11:00:00
+Daily Morning Check-in for Sales Team & align them to start with the calls by 11AM|Deesha|Customer Support|D|04/07/2026 11:30:00
+Check for new Leads on WATI if any|Deesha|Customer Support|D|04/07/2026 13:00:00
+Update Call Numbers & all other tabs in Interns' Performance Sheet|Deesha|Customer Support|D|04/07/2026 19:00:00
+Update Sales Team's Performance Tracker Sheet before Daily Meeting|Deesha|Customer Support|D|04/07/2026 14:00:00
+Do Tarot Accountability Calls from New Order FMS Dashboard|Deesha|Customer Support|D|04/07/2026 17:00:00
+Discuss pending queries in afternoon Huddle with Senior|Deesha|Customer Support|D|04/07/2026 16:00:00
+Check the Connectivity Ratio + Calls Status Report of Interns' Invitation Calls|Deesha|Customer Support|D|04/07/2026 14:00:00
+Do Evening Huddle with Interns & review Call Recordings & give Feedback around 3PM|Deesha|Customer Support|D|04/07/2026 16:00:00
+Spot Check Sales Team (Recordings/Call History/Quality of Calls during the Morning Huddle|Deesha|Customer Support|D|04/07/2026 16:00:00
+Share Daily Intern Calls Report (Individually) in UTW Channel & in Interns Group|Deesha|Customer Support|D|04/07/2026 19:00:00
+Open & Check all the Messages in WATI if there is any Lead|Deesha|Customer Support|D|04/07/2026 12:00:00
+Open & Check all the Messages in WATI if there is any Lead|Deesha|Customer Support|D|04/07/2026 20:00:00
+Share 2-3 Tarot/Reiki Invitation Recordings of each Intern with Tanvi Personally|Deesha|Customer Support|D|04/07/2026 20:00:00
+Send EOD Report of Sales team to Nitin sir if there is less then 50 calls|Deesha|Customer Support|D|04/07/2026 20:00:00
+Monitor New Lead FMS 2.0|Deesha|Customer Support|D|04/07/2026 16:30:00
+Monitor Sales FMS|Deesha|Customer Support|D|04/07/2026 16:30:00
+Share Morning Message to Interns once the leads are assigned on SUNDAY|Deesha|Customer Support|W|05/07/2026 11:00:00
+Approve or Reject Sales - Match Closing Screenshot & Proof of Sale|Deesha|Customer Support|W|09/07/2026 19:00:00
+Upload Call Recordings in DRIVE for Sales Team & add in the Closers Perforrmance sheet|Deesha|Customer Support|W|09/07/2026 20:00:00
+Motivate Closers Team for the Closing|Deesha|Customer Support|W|07/07/2026 11:00:00
+Motivate Closers Team for the Closing|Deesha|Customer Support|W|04/07/2026 11:00:00
+Review/Verify Closers' Team Performance Sheet|Deesha|Customer Support|W|10/07/2026 15:00:00
+Share the Non Registrant Report from tarot Workshop which are not relevant to our workshop|Deesha|Customer Support|W|06/07/2026 12:00:00
+Review Sales Calls and share update on this Week's Launch - Lead Quality, Pickup Ratio, Pitch Quality.|Deesha|Customer Support|W|09/07/2026 19:00:00
+Share the number of Closings with Tanvi by 8pm|Deesha|Customer Support|W|07/07/2026 11:00:00
+Share the number of Closings with Tanvi by 8pm|Deesha|Customer Support|W|08/07/2026 11:00:00
+Share the number of Closings with Tanvi by 8pm|Deesha|Customer Support|W|04/07/2026 11:00:00
+Message in Interns' Channel if they are planning for leave in upcoming week|Deesha|Customer Support|W|04/07/2026 11:00:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Deesha|Customer Support|W|06/07/2026 12:00:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Deesha|Customer Support|W|09/07/2026 19:00:00
+Check NEW ORDER FMS for Tarot Mastery Accountability (Referral)|Deesha|Customer Support|W|04/07/2026 11:00:00
+Share all Interns Performance in terms of Accountability, Task Completion and Updates with Nitin Sir in slack|Deesha|Customer Support|E1st|03/08/2026 19:00:00
+Check if we need to allot NEW SIM for Intern Calls|Deesha|Customer Support|E1st|03/08/2026 20:00:00
+Check if we need to allot NEW SIM for Intern Calls|Deesha|Customer Support|E1st|03/08/2026 19:00:00
+Raise a Ticket for Namita to update Callyzer Subscription|Deesha|Customer Support|M|07/07/2026 18:00:00
+Tarot - Update Free Optin Page (MON)|Siddhi|Marketing|W|13/07/2026 18:00:00
+Tarot - Update Free TY Page (MON)|Siddhi|Marketing|W|13/07/2026 18:00:00
+Update date, time & timer on Reiki Landing Page. (THU)|Siddhi|Marketing|W|16/07/2026 18:00:00
+Update date, time, timer & WhatsApp link (from Arvind Sir) on Reiki Thank You Page.(THU)|Siddhi|Marketing|W|16/07/2026 18:00:00
+Update PABBLY – Reiki – FREE – Flexi Optin Step 5 (Webinar Date & Time).(THU)|Siddhi|Marketing|W|16/07/2026 18:00:00
+Update PABBLY – Reiki – FREE – Flexi Optin Step 8 (Webinar Date, Time & WhatsApp link).(THU)|Siddhi|Marketing|W|16/07/2026 18:00:00
+Register as a user and verify the complete flow. (THU)|Siddhi|Marketing|W|16/07/2026 18:00:00
+Share BOD by 10:00 AM|Siddhi|Marketing|D|11/07/2026 18:00:00
+Share EOD by 06:30 PM|Siddhi|Marketing|D|11/07/2026 18:00:00
+Share Daily Report of Accountability Calls (Referral) done today|Deesha|Customer Support|D|13/07/2026 20:00:00
+Fill Webinar Showup Form|Tanvi Negi|Customer Support|D|24/07/2026 20:00:00
+Share a proper Daily Report for Onboardings (Invite a Friend) & Due Payments in Support Channel|Deesha|Customer Support|D|05/08/2026 20:00:00
+Verify if the Msgs via Automation are correct via Aisensy - timings to be updated by 2pm|Deesha|Customer Support|D|05/08/2026 20:00:00
+Share Attunement Guidelines in Reiki Whatsapp & Telegram Groups - 29th & 1st of every Month|Chandrika Pathak|Customer Support|M|29/08/2026 20:00:00
+Share Attunement Guidelines in Reiki Whatsapp & Telegram Groups - 29th & 1st of every Month|Chandrika Pathak|Customer Support|M|01/09/2026 20:00:00
+Share a confirmation message confirming that all technical aspects (Zoom link, backend setup, permissions, recordings, etc.) have been verified to ensure the webinar runs smoothly without any issues (All the Next Week Webinars) - EV|Aravind|Operations|W|09/08/2026 20:00:00
+Verify all the Workshops of this week - Daily by 9:30PM|Tanvi Negi|Customer Support|D|07/08/2026 20:00:00
+Schedule 2 Reminders for Reiki L1/L2 & L3 Attunement in Telegram (48 Hrs before & Same day) - 27th & 30th of every month|Chandrika Pathak|Customer Support|M|27/08/2026 20:00:00
+Schedule 2 Reminders for Reiki L1/L2 & L3 Attunement in Telegram (48 Hrs before & Same day) - 27th & 30th of every month|Chandrika Pathak|Customer Support|M|30/08/2026 20:00:00
+Share Reiki L1/L2 & L3 Attunement Reminder in Reiki Groups - 1st of every Month|Chandrika Pathak|Customer Support|M|01/09/2026 20:00:00
+Share an update on Last week's Due Payments - every Saturday|Paridhi|Customer Support|W|22/08/2026 19:30:00
+Upload the IAF Call recordings of those who have not invited anyone in the IAF sheet|Deesha|Customer Support|W|05/09/2026 20:00:00
+Upload the IAF Call recordings of those who have not invited anyone in the IAF sheet|Paridhi|Customer Support|W|05/09/2026 20:00:00
+Fara - Test Task|Riya|Admin|Q|30/09/2026 20:00:00
+Upload Call Recordings on Callyzer by EOD|Deesha|Customer Support|D|15/09/2026 20:00:00
+Upload Call Recordings on Callyzer by EOD|Paridhi|Customer Support|D|15/09/2026 20:00:00
+Post Group message in Channel|Aravind|Operations|W|21/09/2026 20:00:00
+Share Total Tarot, Reiki & Health Sales|Tanvi Negi|Customer Support|W|20/09/2026 21:00:00
+Send Reminder of all the classes scheduled for the week|Chandrika Pathak|Customer Support|W|21/09/2026 18:00:00
+Send Reminder of all the classes scheduled for the week|Chandrika Pathak|Customer Support|W|24/09/2026 18:00:00

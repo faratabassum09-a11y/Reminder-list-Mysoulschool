@@ -33,6 +33,63 @@ mern-reminder-app/
 - **Notifications** — **Clear all** and per-item **×** dismiss (page and bell). **View task** now opens Master showing exactly that task (even if you're already on Master).
 - **Speed** — see "Performance notes" below.
 
+## Workshop PMS (sub-site)
+
+### Loading the Workshop history (one command)
+
+The whole Google-Sheets history is bundled in `backend/data/`:
+`workshops.csv` (206 workshops), `workshop-templates.json` (the 4 fixed task lists),
+`workshop-tasks.json` (10,715 tasks with planned / actual / on-time-or-delayed).
+
+```
+cd backend
+npm run seed:workshops -- --dry-run   # check the files only
+npm run seed:workshops                # load into MongoDB
+```
+
+It also creates one Response per completed task and sets the ID counters
+(next new UTW is UTW-97, ICP-85, R12-27, THW-22; task numbering continues after WTS-11340).
+Re-running replaces the workshop data; it refuses if workshops were created inside the app
+unless you add `--force`.
+
+
+After signing in you land on an **app chooser** (`/hub`): **Reminder List** (everything above, unchanged)
+or **Workshop PMS** (`/workshops`). "All apps" at the foot of either sidebar brings you back.
+
+**Flow** — replaces the Google Form + Apps Script:
+
+1. Anyone signed in opens **New Workshop** and submits type, start date/time and days. Start Day and the
+   Workshop ID (`UTW-17`, `ICP-4` …) are filled in automatically.
+2. It appears under **Approvals** as *Awaiting approval*. An **admin** approves or rejects (with a reason).
+3. On approval the type's **fixed task list** is copied into real tasks (`UTW-17-WTS-1204` …), each with an
+   owner, due time (start date + `T-7` / `T` / `T+2` offset, at the task's time, India time) and score.
+4. The workshop is POSTed to the **Launch Verification** Apps Script (`LAUNCH_WEBHOOK_URL`); the
+   **Launches** page shows what was sent, reads the remote feed back, and can resend anything missing.
+5. Owners tick tasks off under **Tasks** ("Done" → when they finished). Done before due = full score, after = 0.
+
+| Page | Who | What |
+|---|---|---|
+| Overview | all | upcoming workshops, your open tasks, on-time rate |
+| New Workshop | all | submit a request (admins can approve on the spot) |
+| Approvals | all see, admin acts | approve / reject / edit / delete |
+| Workshops → detail | all | progress, task table; admin: reschedule (re-times open tasks + re-sends launch), resend, delete |
+| Tasks | all | every task; filters, "only mine", CSV export; members can complete only their own |
+| Launches | admin | hand-off status + remote feed check |
+| Task Lists | admin | edit the 4 fixed lists, **paste straight from the Google Sheet** (columns B:F), ID numbering |
+
+**First-time setup**
+
+1. Set `LAUNCH_WEBHOOK_URL` in `backend/.env` (see `.env.example`).
+2. Sign in as admin → **Task Lists** → for each of UTW / ICP / R12 / THW use **Paste from Sheets** (copy columns
+   B:F of the old task-list tab: Task · Timeline · Time · Owner · Score) and **Save**. Owners are matched by name
+   against the Doer List. Check R12/THW "usual days / time" — those two are placeholders.
+3. Same page → **ID numbering**: enter the last number already used per series so new IDs continue from the sheet.
+
+New workshop types: pick **New workshop** on the New Workshop form (or POST `/api/workshops/templates` as admin) — no code change or restart needed. Add its tasks under Task Lists; they're created automatically for approved workshops of that type.
+
+Tasks page is server-paged (`GET /api/workshops/tasks?page=1&limit=100`).
+Collections added: `workshops`, `workshoptasks`, `workshoptemplates`, `workshopcounters`.
+
 ## Performance notes
 
 - Two-layer cache (`backend/utils/cache.js`): in-memory first (no network hop), Redis second (optional, shared).

@@ -9,7 +9,9 @@ import SearchInput from "../components/SearchInput.jsx";
 import { useToast } from "../components/Toast.jsx";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
 
-const empty = { name: "", email: "", password: "", role: "member", slackId: "" };
+const empty = { name: "", email: "", password: "", role: "member", slackId: "", canRequestWorkshops: false, apps: ["reminder", "workshop"] };
+
+const APP_LABEL = { reminder: "Reminder List", workshop: "Workshop PMS" };
 
 export default function Users() {
   const { user: currentUser } = useAuth();
@@ -23,6 +25,7 @@ export default function Users() {
   const [slackEditValue, setSlackEditValue] = useState("");
   const [slackSaving, setSlackSaving] = useState(false);
   const [q, setQ] = useState("");
+  const [appTab, setAppTab] = useState("all"); // all | reminder | workshop
   const toast = useToast();
 
   const load = () => api.getUsers().then(setUsers).catch((e) => setError(e.message));
@@ -32,6 +35,10 @@ export default function Users() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (form.role !== "admin" && form.apps.length === 0) {
+      toast("Pick at least one app for this user", "bad");
+      return;
+    }
     try {
       await api.createUser(form);
       setForm(empty);
@@ -63,6 +70,38 @@ export default function Users() {
       const updated = await api.updateUser(u._id, { role: nextRole });
       setUsers((prev) => prev.map((x) => (x._id === u._id ? updated : x)));
       toast(`${u.name} is now ${nextRole === "admin" ? "an Admin" : "a Member"}`, "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const toggleApp = async (u, app) => {
+    const has = u.apps.includes(app);
+    const next = has ? u.apps.filter((a) => a !== app) : [...u.apps, app];
+    if (next.length === 0) {
+      toast("A user needs at least one app — deactivate them instead", "bad");
+      return;
+    }
+    setBusyId(u._id);
+    try {
+      const updated = await api.updateUser(u._id, { apps: next });
+      setUsers((prev) => prev.map((x) => (x._id === u._id ? updated : x)));
+      toast(`${u.name}: ${APP_LABEL[app]} access ${has ? "removed" : "added"}`, "good");
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const toggleCoordinator = async (u) => {
+    setBusyId(u._id);
+    try {
+      const updated = await api.updateUser(u._id, { canRequestWorkshops: !u.canRequestWorkshops });
+      setUsers((prev) => prev.map((x) => (x._id === u._id ? updated : x)));
+      toast(`${u.name} ${updated.canRequestWorkshops ? "can now add new workshops" : "can no longer add new workshops"}`, "good");
     } catch (err) {
       toast(err.message, "bad");
     } finally {
@@ -114,13 +153,14 @@ export default function Users() {
   const needle = q.trim().toLowerCase();
   const filteredUsers = useMemo(() => {
     if (!users) return users;
-    if (!needle) return users;
-    return users.filter((u) =>
+    const byApp = appTab === "all" ? users : users.filter((u) => u.apps.includes(appTab));
+    if (!needle) return byApp;
+    return byApp.filter((u) =>
       u.name.toLowerCase().includes(needle) ||
       u.email.toLowerCase().includes(needle) ||
       u.role.toLowerCase().includes(needle)
     );
-  }, [users, needle]);
+  }, [users, needle, appTab]);
 
   return (
     <div className="page">
@@ -140,13 +180,41 @@ export default function Users() {
           <option value="admin">Admin</option>
         </select>
         <input placeholder="Slack ID (optional)" value={form.slackId} onChange={(e) => setForm({ ...form, slackId: e.target.value })} />
+        {form.role !== "admin" && ["reminder", "workshop"].map((app) => (
+          <label key={app} className="ws-inline-check" title={`Lets this person open ${APP_LABEL[app]}`}>
+            <input
+              type="checkbox"
+              checked={form.apps.includes(app)}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  apps: e.target.checked ? [...form.apps, app] : form.apps.filter((a) => a !== app),
+                })
+              }
+            /> {APP_LABEL[app]}
+          </label>
+        ))}
+        <label className="ws-inline-check" title="Lets this person fill the New Workshop form in Workshop PMS (admins approve)">
+          <input type="checkbox" checked={form.canRequestWorkshops} onChange={(e) => setForm({ ...form, canRequestWorkshops: e.target.checked })} /> Workshop coordinator
+        </label>
         <button type="submit">Add User</button>
       </form>
       <p className="form-hint">
         <strong>Admins</strong> can delete data, manage Settings, and manage other accounts. <strong>Members</strong> can
         do day-to-day work — add, edit, complete, export — but not delete anything or reach Settings/Users. Slack ID is
-        optional; people can also set their own from the Account page.
+        optional; people can also set their own from the Account page. <strong>App access</strong> decides which app a
+        person can open — Reminder List, Workshop PMS, or both (admins always get both). A Workshop-PMS-only person
+        never sees the Reminder List.
       </p>
+
+      <div className="range-pills" role="tablist" aria-label="Filter users by app" style={{ marginBottom: 10 }}>
+        {[["all", "All users"], ["reminder", "Reminder List users"], ["workshop", "Workshop PMS users"]].map(([id, label]) => (
+          <button key={id} type="button" role="tab" aria-selected={appTab === id}
+            className={"range-pill" + (appTab === id ? " range-pill-active" : "")} onClick={() => setAppTab(id)}>
+            {label}{users ? ` (${id === "all" ? users.length : users.filter((u) => u.apps.includes(id)).length})` : ""}
+          </button>
+        ))}
+      </div>
 
       <div className="toolbar">
         <SearchInput value={q} onChange={setQ} placeholder="Search by name, email, or role… (press /)" />
@@ -155,12 +223,12 @@ export default function Users() {
       <div className="table-wrap">
         <table className="table">
           <thead>
-            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>Slack ID</th><th>Status</th><th></th></tr>
+            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>App access</th><th>Slack ID</th><th>Status</th><th></th></tr>
           </thead>
           <tbody>
-            {!users && <TableSkeleton columns={7} rows={5} />}
+            {!users && <TableSkeleton columns={8} rows={5} />}
             {users && filteredUsers.length === 0 && (
-              <tr><td colSpan={7} className="empty-state">No users match "{q}".</td></tr>
+              <tr><td colSpan={8} className="empty-state">No users match "{q}".</td></tr>
             )}
             {filteredUsers?.map((u, i) => (
               <tr key={u._id} className={u.active === false ? "row-inactive" : ""}>
@@ -177,6 +245,29 @@ export default function Users() {
                     disabled={busyId === u._id} onClick={() => toggleRole(u)} title="Click to change role">
                     {u.role === "admin" ? "Admin" : "Member"}
                   </button>
+                  {u.role !== "admin" && (
+                    <button type="button" className={"role-toggle " + (u.canRequestWorkshops ? "role-admin" : "role-member")}
+                      style={{ marginLeft: 6 }} disabled={busyId === u._id} onClick={() => toggleCoordinator(u)}
+                      title="Click to allow / stop this person adding new workshops in Workshop PMS">
+                      {u.canRequestWorkshops ? "Workshop coordinator ✓" : "+ Coordinator"}
+                    </button>
+                  )}
+                </td>
+                <td>
+                  {["reminder", "workshop"].map((app) => {
+                    const on = u.apps.includes(app);
+                    const locked = u.role === "admin"; // admins always have both
+                    return (
+                      <button key={app} type="button"
+                        className={"role-toggle " + (on ? "role-admin" : "role-member")}
+                        style={{ marginRight: 6 }}
+                        disabled={busyId === u._id || locked}
+                        onClick={() => toggleApp(u, app)}
+                        title={locked ? "Admins always have both apps" : `Click to ${on ? "remove" : "give"} ${APP_LABEL[app]} access`}>
+                        {on ? "✓ " : "+ "}{APP_LABEL[app]}
+                      </button>
+                    );
+                  })}
                 </td>
                 <td>
                   {slackEditId === u._id ? (

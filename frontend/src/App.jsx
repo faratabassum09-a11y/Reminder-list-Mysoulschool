@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { Routes, Route, NavLink, Navigate } from "react-router-dom";
+import { Routes, Route, NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const DoerList = lazy(() => import("./pages/DoerList.jsx"));
 const TaskList = lazy(() => import("./pages/TaskList.jsx"));
@@ -10,6 +10,8 @@ const Users = lazy(() => import("./pages/Users.jsx"));
 const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 const Messages = lazy(() => import("./pages/Messages.jsx"));
 const Account = lazy(() => import("./pages/Account.jsx"));
+const Hub = lazy(() => import("./pages/Hub.jsx"));
+const WorkshopApp = lazy(() => import("./workshops/WorkshopApp.jsx"));
 import Login from "./pages/Login.jsx";
 import ShortcutsHelp from "./components/ShortcutsHelp.jsx";
 import Logo from "./components/Logo.jsx";
@@ -93,8 +95,10 @@ function AuthLoadingScreen({ slow }) {
 }
 
 export default function App() {
-  const { user, loading, slow, logout, isAdmin } = useAuth();
+  const { user, loading, slow, logout, isAdmin, hasReminder, hasWorkshop, canRequestWorkshops } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(
     () => localStorage.getItem("sidebar-collapsed") === "1"
   );
@@ -103,7 +107,7 @@ export default function App() {
   // Messages badge — same polling pattern as NotificationBell's count.
   const [msgUnread, setMsgUnread] = useState(0);
   const loadMsgUnread = () => {
-    if (!user) return;
+    if (!user || !hasReminder) return;
     api.getMessagesUnreadCount().then((r) => setMsgUnread(r.total)).catch(() => {});
   };
   useEffect(loadMsgUnread, [user]);
@@ -130,13 +134,57 @@ export default function App() {
   useSlashToFocusSearch();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !hasReminder) return;
     const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
     idle(prefetchPages);
   }, [user]);
 
   if (loading) return <AuthLoadingScreen slow={slow} />;
   if (!user) return <Login />;
+
+  // Separate access per app: a workshop-only account (e.g. the workshop
+  // coordinator) goes straight to Workshop PMS and never sees the Reminder
+  // List; a reminder-only account never sees Workshop PMS. Everyone with
+  // both still gets the app chooser below.
+  if (!hasReminder && hasWorkshop && !(pathname === "/workshops" || pathname.startsWith("/workshops/"))) {
+    // The workshop coordinator lands straight on the New Workshop form.
+    return <Navigate to={canRequestWorkshops ? "/workshops/new" : "/workshops"} replace />;
+  }
+  if (hasReminder && !hasWorkshop && (pathname === "/hub" || pathname === "/workshops" || pathname.startsWith("/workshops/"))) {
+    return <Navigate to="/" replace />;
+  }
+  if (!hasReminder && !hasWorkshop) {
+    return (
+      <div className="auth-loading">
+        <Logo size={56} className="auth-logo" />
+        <div className="auth-loading-text">Your account doesn't have access to any app yet.</div>
+        <div className="auth-loading-hint">Ask an admin to give you access.</div>
+        <button type="button" onClick={logout} style={{ marginTop: 16 }}>Sign out</button>
+      </div>
+    );
+  }
+
+  // After sign-in the person chooses an app: Reminder List (everything
+  // below) or the Workshop PMS sub-site (its own layout + routes).
+  if (pathname === "/hub") {
+    return (
+      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+        <Hub />
+      </Suspense>
+    );
+  }
+  if (pathname === "/workshops" || pathname.startsWith("/workshops/")) {
+    return (
+      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+        <Routes>
+          <Route path="/workshops/*" element={<WorkshopApp />} />
+        </Routes>
+      </Suspense>
+    );
+  }
+  // First landing of a session goes to the chooser; deep links (e.g. a
+  // notification pointing at /master) still open directly.
+  if (pathname === "/" && hasReminder && hasWorkshop && !sessionStorage.getItem("hubChosen")) return <Navigate to="/hub" replace />;
 
   const links = isAdmin ? [...baseLinks, ...adminLinks] : baseLinks;
 
@@ -220,6 +268,19 @@ export default function App() {
               )}
             </NavLink>
           ))}
+          {hasWorkshop && <button
+            type="button"
+            className="nav-link nav-link-switch"
+            title={collapsed ? "All apps" : undefined}
+            onClick={() => { sessionStorage.removeItem("hubChosen"); navigate("/hub"); }}
+          >
+            <span className="nav-icon-wrap">
+              <svg className="nav-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />
+              </svg>
+            </span>
+            {!collapsed && <span>All apps</span>}
+          </button>}
         </nav>
 
         <div className="sidebar-user">
