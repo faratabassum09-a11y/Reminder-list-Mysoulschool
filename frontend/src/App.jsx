@@ -39,11 +39,11 @@ const baseLinks = [
   { to: "/", label: "Dashboard", end: true, icon: "dashboard" },
   { to: "/master", label: "Master", icon: "master" },
   { to: "/tasks", label: "Task List", icon: "tasks" },
-  { to: "/doers", label: "Doer List", icon: "doers" },
   { to: "/submissions", label: "Submission Log", icon: "submissions" },
   { to: "/messages", label: "Messages", icon: "messages" },
 ];
 const adminLinks = [
+  { to: "/doers", label: "Doer List", icon: "doers" },
   { to: "/settings", label: "Settings", icon: "settings" },
   { to: "/users", label: "Users", icon: "users" },
 ];
@@ -304,7 +304,7 @@ export default function App() {
           <Route path="/consolidated" element={<Navigate to="/" replace />} />
           <Route path="/master" element={<Master />} />
           <Route path="/tasks" element={<TaskList />} />
-          <Route path="/doers" element={<DoerList />} />
+          <Route path="/doers" element={<AdminRoute isAdmin={isAdmin}><DoerList /></AdminRoute>} />
           <Route path="/submissions" element={<SubmissionLog />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/account" element={<Account />} />
