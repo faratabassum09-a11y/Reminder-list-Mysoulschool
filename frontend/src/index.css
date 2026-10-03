@@ -2598,3 +2598,49 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 :root[data-theme="dark"] .wsrole-coord { color: #ffa872; }
 .wsrole-approver { background: var(--accent-light); color: var(--accent-dark); border: 1px solid transparent; }
 .wsrole-owner { background: transparent; color: var(--muted); font-weight: 500; border: 1px dashed var(--line-strong); }
+
+/* ---------------------------------------------------------------------
+   Help Tickets
+------------------------------------------------------------------------*/
+.ticket-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.ticket-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+.ticket-card.ticket-new { border-left: 3px solid var(--bad); }
+.ticket-card.open { border-color: var(--line-strong); }
+.ticket-head {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 13px 16px;
+  background: none; border: none; color: var(--ink);
+  text-align: left; cursor: pointer; font: inherit;
+}
+.ticket-head:hover { background: var(--panel-alt); }
+.ticket-no { color: var(--muted); font-weight: 700; font-size: 13px; flex-shrink: 0; min-width: 34px; }
+.ticket-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.ticket-issue { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ticket-meta { color: var(--muted); font-size: 12.5px; }
+.ticket-meta strong { color: var(--ink); font-weight: 600; }
+.ticket-overdue { color: var(--bad); font-weight: 600; }
+.ticket-body { padding: 4px 16px 16px 64px; border-top: 1px solid var(--line); }
+.ticket-full { white-space: pre-wrap; word-break: break-word; margin: 12px 0; font-size: 14px; line-height: 1.55; }
+.ticket-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px 20px; margin: 0 0 14px; }
+.ticket-facts dt { font-size: 11.5px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.ticket-facts dd { margin: 2px 0 0; font-size: 13.5px; }
+.ticket-note { font-size: 13.5px; background: var(--panel-alt); border-radius: var(--radius-sm); padding: 9px 12px; }
+.ticket-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.ticket-when { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+.ticket-cell-issue { max-width: 340px; white-space: normal; word-break: break-word; }
+.ticket-cell-note { margin-top: 4px; font-size: 12px; color: var(--muted); }
+.ticket-status-select {
+  padding: 5px 8px; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  font: inherit; font-size: 13px;
+}
+@media (max-width: 640px) {
+  .ticket-body { padding-left: 16px; }
+  .ticket-when { grid-template-columns: 1fr; }
+}

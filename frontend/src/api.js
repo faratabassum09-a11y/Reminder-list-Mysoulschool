@@ -417,6 +417,18 @@ export const api = {
     }),
 
   // ============================================================
+  // HELP TICKETS
+  // ============================================================
+
+  getTicketMeta: () => request("/tickets/meta"),
+  getTicketCount: () => request("/tickets/count"),
+  // params: "?box=inbox|sent|all&status=&q=&page=&limit="
+  getTickets: (params = "") => request(`/tickets${params}`),
+  createTicket: (data) => request("/tickets", { method: "POST", body: JSON.stringify(data) }),
+  updateTicket: (id, data) => request(`/tickets/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
+  deleteTicket: (id) => request(`/tickets/${id}`, { method: "DELETE" }),
+
+  // ============================================================
   // MESSAGES
   // ============================================================
 

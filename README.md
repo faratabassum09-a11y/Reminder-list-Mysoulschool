@@ -183,3 +183,14 @@ and defaults to `gemini-3.8-flash`. If Google renames/retires that model again l
 Ask MySoul Assistant "who are you" / "who made you" and it answers "I'm MySoul Assistant, developed by Fara" — that's
 matched instantly on the frontend (no API call needed) and is also baked into the Gemini
 system prompt, so the answer is consistent whether or not the AI fallback is configured.
+
+## Help Tickets
+
+Replaces the "Help Ticket" Google Form. Any doer can raise a ticket to any other doer.
+
+- **Help Tickets** (sidebar, everyone): *Inbox* = tickets raised **to me** (only I can see these), *Raised by me* = tickets I raised. The assignee can mark a ticket In Progress / Resolved with a note; the raiser can withdraw it while it's still Open. A red badge shows how many unresolved tickets are waiting on you.
+- **Tickets Raised** (sidebar, admin only): every ticket between every pair of doers, with search, status filter, status change and delete.
+- Visibility is enforced on the server (`backend/routes/tickets.js`): a ticket is only returned to its assignee, its raiser, and admins.
+- A login is matched to a Doer by **email** (same as Master). A user with no matching Doer can't raise or receive tickets.
+- Form fields: Raised By, PC Accountable (Dolly / Paridhi — change with `TICKET_PC_NAMES=Dolly,Paridhi` in the backend env), Issue, Assigned To, Planned Date + Time of Resolution.
+- The assignee also gets an email when SMTP is configured (best effort; the ticket is created either way).
