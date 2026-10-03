@@ -48,19 +48,40 @@ export function AuthProvider({ children }) {
       setLoading(false);
       return;
     }
+    let cancelled = false;
+    let retryTimer;
     const slowTimer = setTimeout(() => setSlow(true), 3500);
-    api
-      .me()
-      .then((res) => {
-        setUser(res.user);
-        localStorage.setItem("authUser", JSON.stringify(res.user));
-      })
-      .catch(() => {})
-      .finally(() => {
-        clearTimeout(slowTimer);
-        setLoading(false);
-      });
-    return () => clearTimeout(slowTimer);
+    const finish = () => {
+      clearTimeout(slowTimer);
+      setLoading(false);
+    };
+    const attempt = () => {
+      api
+        .me()
+        .then((res) => {
+          if (cancelled) return;
+          setUser(res.user);
+          localStorage.setItem("authUser", JSON.stringify(res.user));
+          finish();
+        })
+        .catch((err) => {
+          if (cancelled) return;
+          // No connection (or the server isn't answering) is NOT the same as
+          // "not signed in" — keep the loading/offline screen up and keep
+          // trying, instead of dumping the person on the Login page.
+          if (err?.network && !cachedUser) {
+            retryTimer = setTimeout(attempt, 4000);
+            return;
+          }
+          finish();
+        });
+    };
+    attempt();
+    return () => {
+      cancelled = true;
+      clearTimeout(slowTimer);
+      clearTimeout(retryTimer);
+    };
   }, []);
 
   // Registered once — any API call anywhere that comes back 401 (expired

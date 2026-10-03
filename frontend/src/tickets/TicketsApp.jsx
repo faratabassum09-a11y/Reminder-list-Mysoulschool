@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate } from "react-router-dom";
 import TicketsLogo from "../components/TicketsLogo.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
@@ -6,25 +6,19 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 import { api } from "../api.js";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
+import { lazyRetry } from "../utils/lazyRetry.js";
+import PageLoader from "../components/PageLoader.jsx";
+import RouteBoundary from "../components/RouteBoundary.jsx";
 import "./tickets.css";
 
-const HelpTickets = lazy(() => import("../pages/HelpTickets.jsx"));
-const TicketsRaised = lazy(() => import("../pages/TicketsRaised.jsx"));
-const Account = lazy(() => import("../pages/Account.jsx"));
+const HelpTickets = lazyRetry(() => import("../pages/HelpTickets.jsx"));
+const TicketsRaised = lazyRetry(() => import("../pages/TicketsRaised.jsx"));
+const Account = lazyRetry(() => import("../pages/Account.jsx"));
 
 const I = {
   tickets: "M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8ZM9 6v12",
   raised: "M4 6h16M4 12h16M4 18h10",
 };
-
-function PageFallback() {
-  return (
-    <div className="page">
-      <div className="skeleton-bar" style={{ width: 200, height: 26, marginBottom: 18 }} />
-      <div className="skeleton-bar" style={{ width: "100%", height: 220 }} />
-    </div>
-  );
-}
 
 // The Help Tickets app: its own sidebar + routes (mounted at /tickets/*),
 // separate from the Reminder List. Any doer can raise a ticket to any other
@@ -135,7 +129,8 @@ export default function TicketsApp() {
       </aside>
 
       <main className="content">
-        <Suspense fallback={<PageFallback />}>
+        <RouteBoundary>
+        <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route index element={<HelpTickets onChanged={loadCount} />} />
             <Route path="raised" element={isAdmin ? <TicketsRaised onChanged={loadCount} /> : <Navigate to="/tickets" replace />} />
@@ -143,6 +138,7 @@ export default function TicketsApp() {
             <Route path="*" element={<Navigate to="/tickets" replace />} />
           </Routes>
         </Suspense>
+        </RouteBoundary>
       </main>
     </div>
   );

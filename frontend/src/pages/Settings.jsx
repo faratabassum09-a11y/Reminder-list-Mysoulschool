@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import InlineLoader from "../components/InlineLoader.jsx";
 import { api } from "../api.js";
 import PageHeader from "../components/PageHeader.jsx";
 import ToggleSwitch from "../components/ToggleSwitch.jsx";
@@ -132,7 +133,7 @@ export default function Settings() {
             <button type="submit">Add Holiday</button>
           </form>
           <ul className="holiday-list">
-            {holidays === null && <li className="muted">Loading…</li>}
+            {holidays === null && <li className="muted"><InlineLoader label="Loading holidays" /></li>}
             {holidays && holidays.length === 0 && <li className="muted">No holidays added.</li>}
             {holidays?.map((h) => (
               <li key={h._id}>

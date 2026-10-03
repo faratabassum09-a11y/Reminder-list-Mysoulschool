@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import InlineLoader from "../components/InlineLoader.jsx";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -342,7 +343,7 @@ export default function Messages() {
               {!!broadcastPreview?.unread && <span className="messages-badge">{broadcastPreview.unread > 9 ? "9+" : broadcastPreview.unread}</span>}
             </button>
 
-            {conversations === null && <div className="messages-list-empty">Loading conversations…</div>}
+            {conversations === null && <div className="messages-list-empty"><InlineLoader label="Loading conversations" /></div>}
 
             {conversations !== null && filteredConversations.map((c) => (
               <div className="messages-list-item-wrap" key={c.user._id}>
@@ -464,7 +465,7 @@ export default function Messages() {
               </div>
 
               <div className="messages-thread-body" ref={bodyRef}>
-                {loadingThread && messages === null && <div className="messages-list-empty">Loading…</div>}
+                {loadingThread && messages === null && <div className="messages-list-empty"><InlineLoader label="Loading messages" /></div>}
                 {messages !== null && messages.length === 0 && (
                   <div className="messages-list-empty">
                     {active.type === "broadcast" ? "No announcements yet." : `No messages yet — say hi to ${active.user.name}!`}

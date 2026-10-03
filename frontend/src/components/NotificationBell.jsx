@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import InlineLoader from "./InlineLoader.jsx";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api.js";
 import { usePolling } from "../hooks/usePolling.js";
@@ -114,7 +115,7 @@ export default function NotificationBell({ isAdmin }) {
             </span>
           </div>
           {!loaded ? (
-            <div className="notif-empty">Loading…</div>
+            <div className="notif-empty"><InlineLoader label="Loading" /></div>
           ) : items.length === 0 ? (
             <div className="notif-empty">Nothing new — you're all caught up.</div>
           ) : (

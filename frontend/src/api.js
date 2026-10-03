@@ -29,6 +29,26 @@ export function setUnauthorizedHandler(fn) {
   onUnauthorized = fn;
 }
 
+// fetch() only rejects when the request never reached the server (offline,
+// DNS failure, server down, CORS block). Turn that into a friendly error
+// flagged `.network = true` and tell the NetworkProvider so it can verify
+// the connection and show the right "offline" / "server unreachable" UI.
+async function netFetch(url, init) {
+  try {
+    return await fetch(url, init);
+  } catch (e) {
+    if (e?.name === "AbortError") throw e;
+    window.dispatchEvent(new CustomEvent("app:network-error"));
+    const err = new Error(
+      navigator.onLine === false
+        ? "You're offline. Check your internet connection and try again."
+        : "Can't reach the server right now. Please try again in a moment."
+    );
+    err.network = true;
+    throw err;
+  }
+}
+
 async function request(path, options = {}) {
   const headers = {
     "Content-Type": "application/json",
@@ -39,7 +59,7 @@ async function request(path, options = {}) {
     headers.Authorization = `Bearer ${authToken}`;
   }
 
-  const res = await fetch(`${BASE}${path}`, {
+  const res = await netFetch(`${BASE}${path}`, {
     ...options,
     headers,
   });
@@ -92,7 +112,7 @@ function writeThen(paths, path, options) {
 // Downloads a file from an authenticated endpoint (a plain <a href> can't
 // send the Authorization header, so it used to bounce with "Not signed in").
 export async function downloadFile(path, filename) {
-  const res = await fetch(`${BASE}${path}`, {
+  const res = await netFetch(`${BASE}${path}`, {
     headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
   });
   if (!res.ok) {

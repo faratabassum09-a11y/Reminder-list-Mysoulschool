@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate } from "react-router-dom";
 import WorkshopLogo from "../components/WorkshopLogo.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
@@ -6,19 +6,22 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { usePolling } from "../hooks/usePolling.js";
 import { api } from "../api.js";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
+import { lazyRetry } from "../utils/lazyRetry.js";
+import PageLoader from "../components/PageLoader.jsx";
+import RouteBoundary from "../components/RouteBoundary.jsx";
 import "./workshops.css";
 
-const WsOverview = lazy(() => import("./pages/WsOverview.jsx"));
-const WsDashboard = lazy(() => import("./pages/WsDashboard.jsx"));
-const WsNew = lazy(() => import("./pages/WsNew.jsx"));
-const WsRequests = lazy(() => import("./pages/WsRequests.jsx"));
-const WsWorkshops = lazy(() => import("./pages/WsWorkshops.jsx"));
-const WsWorkshopDetail = lazy(() => import("./pages/WsWorkshopDetail.jsx"));
-const WsTasks = lazy(() => import("./pages/WsTasks.jsx"));
-const WsLaunches = lazy(() => import("./pages/WsLaunches.jsx"));
-const WsTemplates = lazy(() => import("./pages/WsTemplates.jsx"));
-const WsResponses = lazy(() => import("./pages/WsResponses.jsx"));
-const Account = lazy(() => import("../pages/Account.jsx"));
+const WsOverview = lazyRetry(() => import("./pages/WsOverview.jsx"));
+const WsDashboard = lazyRetry(() => import("./pages/WsDashboard.jsx"));
+const WsNew = lazyRetry(() => import("./pages/WsNew.jsx"));
+const WsRequests = lazyRetry(() => import("./pages/WsRequests.jsx"));
+const WsWorkshops = lazyRetry(() => import("./pages/WsWorkshops.jsx"));
+const WsWorkshopDetail = lazyRetry(() => import("./pages/WsWorkshopDetail.jsx"));
+const WsTasks = lazyRetry(() => import("./pages/WsTasks.jsx"));
+const WsLaunches = lazyRetry(() => import("./pages/WsLaunches.jsx"));
+const WsTemplates = lazyRetry(() => import("./pages/WsTemplates.jsx"));
+const WsResponses = lazyRetry(() => import("./pages/WsResponses.jsx"));
+const Account = lazyRetry(() => import("../pages/Account.jsx"));
 
 const I = {
   dashboard: "M4 20V10M10 20V4M16 20v-7M22 20H2",
@@ -31,15 +34,6 @@ const I = {
   templates: "M4 5h16M4 10h16M4 15h10M4 20h7",
   responses: "M4 4h16v12H8l-4 4V4Zm4 4h8M8 12h5",
 };
-
-function PageFallback() {
-  return (
-    <div className="page">
-      <div className="skeleton-bar" style={{ width: 200, height: 26, marginBottom: 18 }} />
-      <div className="skeleton-bar" style={{ width: "100%", height: 220 }} />
-    </div>
-  );
-}
 
 export default function WorkshopApp() {
   const { user, logout, isAdmin, canRequestWorkshops, hasReminder, hasTickets } = useAuth();
@@ -157,7 +151,8 @@ export default function WorkshopApp() {
       </aside>
 
       <main className="content">
-        <Suspense fallback={<PageFallback />}>
+        <RouteBoundary>
+        <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route index element={<WsOverview stats={stats} />} />
             <Route path="dashboard" element={<WsDashboard />} />
@@ -173,6 +168,7 @@ export default function WorkshopApp() {
             <Route path="*" element={<Navigate to="/workshops" replace />} />
           </Routes>
         </Suspense>
+        </RouteBoundary>
       </main>
     </div>
   );

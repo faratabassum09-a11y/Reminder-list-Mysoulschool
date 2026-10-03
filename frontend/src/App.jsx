@@ -1,29 +1,33 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
-const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
-const DoerList = lazy(() => import("./pages/DoerList.jsx"));
-const TaskList = lazy(() => import("./pages/TaskList.jsx"));
-const Master = lazy(() => import("./pages/Master.jsx"));
-const SubmissionLog = lazy(() => import("./pages/SubmissionLog.jsx"));
-const Settings = lazy(() => import("./pages/Settings.jsx"));
-const Users = lazy(() => import("./pages/Users.jsx"));
-const Notifications = lazy(() => import("./pages/Notifications.jsx"));
-const Messages = lazy(() => import("./pages/Messages.jsx"));
-const Account = lazy(() => import("./pages/Account.jsx"));
-const TicketsApp = lazy(() => import("./tickets/TicketsApp.jsx"));
-const Hub = lazy(() => import("./pages/Hub.jsx"));
-const WorkshopApp = lazy(() => import("./workshops/WorkshopApp.jsx"));
+import { lazyRetry } from "./utils/lazyRetry.js";
+const Dashboard = lazyRetry(() => import("./pages/Dashboard.jsx"));
+const DoerList = lazyRetry(() => import("./pages/DoerList.jsx"));
+const TaskList = lazyRetry(() => import("./pages/TaskList.jsx"));
+const Master = lazyRetry(() => import("./pages/Master.jsx"));
+const SubmissionLog = lazyRetry(() => import("./pages/SubmissionLog.jsx"));
+const Settings = lazyRetry(() => import("./pages/Settings.jsx"));
+const Users = lazyRetry(() => import("./pages/Users.jsx"));
+const Notifications = lazyRetry(() => import("./pages/Notifications.jsx"));
+const Messages = lazyRetry(() => import("./pages/Messages.jsx"));
+const Account = lazyRetry(() => import("./pages/Account.jsx"));
+const TicketsApp = lazyRetry(() => import("./tickets/TicketsApp.jsx"));
+const Hub = lazyRetry(() => import("./pages/Hub.jsx"));
+const WorkshopApp = lazyRetry(() => import("./workshops/WorkshopApp.jsx"));
 import Login from "./pages/Login.jsx";
 import ShortcutsHelp from "./components/ShortcutsHelp.jsx";
 import Logo from "./components/Logo.jsx";
 import NotificationBell from "./components/NotificationBell.jsx";
-const Chatbot = lazy(() => import("./components/Chatbot.jsx"));
+const Chatbot = lazyRetry(() => import("./components/Chatbot.jsx"));
 import { useTheme } from "./context/ThemeContext.jsx";
 import { useSlashToFocusSearch } from "./hooks/useSlashToFocusSearch.js";
 import { usePolling } from "./hooks/usePolling.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { api } from "./api.js";
 import { avatarStyleFromString, initials } from "./utils/colorFromString.js";
+import LoadingScreen from "./components/LoadingScreen.jsx";
+import PageLoader from "./components/PageLoader.jsx";
+import RouteBoundary, { SilentBoundary } from "./components/RouteBoundary.jsx";
 
 const icons = {
   dashboard: <path d="M3 13h7V3H3v10Zm0 8h7v-6H3v6Zm11 0h7V11h-7v10Zm0-18v6h7V3h-7Z" />,
@@ -71,30 +75,6 @@ const prefetchPages = () => {
   import("./components/Chatbot.jsx");
 };
 
-function PageFallback() {
-  return (
-    <div className="page">
-      <div className="skeleton-bar" style={{ width: 180, height: 26, marginBottom: 18 }} />
-      <div className="skeleton-bar" style={{ width: "100%", height: 220 }} />
-    </div>
-  );
-}
-
-function AuthLoadingScreen({ slow }) {
-  return (
-    <div className="auth-loading">
-      <Logo size={56} className="auth-logo" />
-      <div className="auth-loading-spinner" aria-hidden="true" />
-      <div className="auth-loading-text">{slow ? "Waking up the server…" : "Loading…"}</div>
-      {slow && (
-        <div className="auth-loading-hint">
-          First load after a while can take up to a minute on a free-tier server. It'll be quick from here on.
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function App() {
   const { user, loading, slow, logout, isAdmin, hasReminder, hasWorkshop, hasTickets, canRequestWorkshops } = useAuth();
   const { pathname } = useLocation();
@@ -136,7 +116,7 @@ export default function App() {
     idle(prefetchPages);
   }, [user]);
 
-  if (loading) return <AuthLoadingScreen slow={slow} />;
+  if (loading) return <LoadingScreen slow={slow} />;
   if (!user) return <Login />;
 
   // Separate access per app: Reminder List, Workshop PMS and Help Tickets
@@ -171,14 +151,14 @@ export default function App() {
   // each have their own layout + routes; Reminder List is everything below.
   if (pathname === "/hub") {
     return (
-      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+      <Suspense fallback={<LoadingScreen message="Opening your apps" />}>
         <Hub />
       </Suspense>
     );
   }
   if (inWorkshops) {
     return (
-      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+      <Suspense fallback={<LoadingScreen app="workshop" message="Opening Workshop PMS" />}>
         <Routes>
           <Route path="/workshops/*" element={<WorkshopApp />} />
         </Routes>
@@ -187,7 +167,7 @@ export default function App() {
   }
   if (inTickets) {
     return (
-      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+      <Suspense fallback={<LoadingScreen app="tickets" message="Opening Help Tickets" />}>
         <Routes>
           <Route path="/tickets/*" element={<TicketsApp />} />
         </Routes>
@@ -315,7 +295,8 @@ export default function App() {
         </div>
       </aside>
       <main className="content">
-        <Suspense fallback={<PageFallback />}>
+        <RouteBoundary>
+        <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/consolidated" element={<Navigate to="/" replace />} />
@@ -330,11 +311,14 @@ export default function App() {
           <Route path="/notifications" element={<AdminRoute isAdmin={isAdmin}><Notifications /></AdminRoute>} />
         </Routes>
         </Suspense>
+        </RouteBoundary>
       </main>
       <ShortcutsHelp />
-      <Suspense fallback={null}>
-        <Chatbot />
-      </Suspense>
+      <SilentBoundary>
+        <Suspense fallback={null}>
+          <Chatbot />
+        </Suspense>
+      </SilentBoundary>
     </div>
   );
 }
