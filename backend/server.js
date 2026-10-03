@@ -18,6 +18,7 @@ import notificationRoutes from "./routes/notifications.js";
 import chatbotRoutes from "./routes/chatbot.js";
 import messageRoutes from "./routes/messages.js";
 import workshopRoutes from "./routes/workshops.js";
+import ticketRoutes from "./routes/tickets.js";
 import { getSettings } from "./models/Settings.js";
 import { sendDailyReminders } from "./utils/sendDailyReminders.js";
 import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
@@ -108,6 +109,10 @@ app.use("/api/chatbot", requireAuth, requireApp("reminder"), chatbotRoutes);
 // exception is posting a Doer-list broadcast, which the router itself
 // gates behind requireAdmin (see routes/messages.js).
 app.use("/api/messages", requireAuth, requireApp("reminder"), messageRoutes);
+// Help Tickets — member-level (any doer can raise one to any other doer).
+// Who may see a given ticket is enforced inside the router: only the doer
+// it is assigned to, the doer who raised it, and admins.
+app.use("/api/tickets", requireAuth, requireApp("reminder"), ticketRoutes);
 // Workshop PMS sub-site. Member-level (anyone signed in can submit a workshop
 // request and complete their own tasks); approving, rejecting, deleting,
 // templates and the Launch Verification hand-off are admin-only inside the
