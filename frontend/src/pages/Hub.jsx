@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo.jsx";
 import WorkshopLogo from "../components/WorkshopLogo.jsx";
+import TicketsLogo from "../components/TicketsLogo.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import SchoolBrand from "../components/SchoolLogo.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -14,16 +15,18 @@ const greeting = () => {
 };
 
 export default function Hub() {
-  const { user, logout, isAdmin, hasReminder, hasWorkshop } = useAuth();
+  const { user, logout, isAdmin, hasReminder, hasWorkshop, hasTickets } = useAuth();
   const navigate = useNavigate();
   const [wsStats, setWsStats] = useState(null);
   const [remStats, setRemStats] = useState(null);
+  const [tkCount, setTkCount] = useState(null);
 
   // Light "what's waiting for you" numbers on each card. Failures are silent —
   // the chooser must always open, even if a stat can't load.
   useEffect(() => {
     if (hasWorkshop) api.wsStats().then(setWsStats).catch(() => {});
     if (hasReminder) api.getMyPerformance?.().then(setRemStats).catch(() => {});
+    if (hasTickets) api.getTicketCount().then(setTkCount).catch(() => {});
   }, []);
 
   const open = (to) => {
@@ -92,6 +95,26 @@ export default function Hub() {
                 <span className="hub-pill">{wsStats.myOpen} open task{wsStats.myOpen === 1 ? "" : "s"} for you</span>
               )}
               {!wsStats && <span className="hub-pill hub-pill-quiet">Open</span>}
+            </div>
+          </button>}
+
+          {hasTickets && <button type="button" className="hub-card hub-card-tickets" onClick={() => open("/tickets")}>
+            <div className="hub-card-head">
+              <TicketsLogo size={54} />
+              <span className="hub-card-arrow" aria-hidden="true">→</span>
+            </div>
+            <h2>Help Tickets</h2>
+            <p>Raise a problem to a teammate and track it until it's resolved.</p>
+            <ul className="hub-card-points">
+              <li>Raise a ticket to any doer</li>
+              <li>Your inbox — only you see tickets sent to you</li>
+              {isAdmin && <li>Tickets Raised overview (admin)</li>}
+            </ul>
+            <div className="hub-card-foot">
+              {tkCount?.inbox > 0 && <span className="hub-pill hub-pill-bad">{tkCount.inbox} waiting on you</span>}
+              {isAdmin && tkCount?.open > 0 && <span className="hub-pill hub-pill-alert">{tkCount.open} open across the team</span>}
+              {tkCount && !tkCount.inbox && !(isAdmin && tkCount.open > 0) && <span className="hub-pill">Nothing waiting on you</span>}
+              {!tkCount && <span className="hub-pill hub-pill-quiet">Open</span>}
             </div>
           </button>}
         </div>

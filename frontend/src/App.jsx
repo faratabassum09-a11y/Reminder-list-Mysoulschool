@@ -10,8 +10,7 @@ const Users = lazy(() => import("./pages/Users.jsx"));
 const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 const Messages = lazy(() => import("./pages/Messages.jsx"));
 const Account = lazy(() => import("./pages/Account.jsx"));
-const HelpTickets = lazy(() => import("./pages/HelpTickets.jsx"));
-const TicketsRaised = lazy(() => import("./pages/TicketsRaised.jsx"));
+const TicketsApp = lazy(() => import("./tickets/TicketsApp.jsx"));
 const Hub = lazy(() => import("./pages/Hub.jsx"));
 const WorkshopApp = lazy(() => import("./workshops/WorkshopApp.jsx"));
 import Login from "./pages/Login.jsx";
@@ -34,7 +33,6 @@ const icons = {
   submissions: <path d="M4 6h16M4 12h10M4 18h13" />,
   settings: <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19.4 13a7.4 7.4 0 0 0 .1-1 7.4 7.4 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1l-.4-2.5H9.1l-.4 2.5a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2L2.6 15l2 3.4 2.4-1a7.6 7.6 0 0 0 1.7 1l.4 2.5h5.8l.4-2.5a7.6 7.6 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6Z" />,
   users: <path d="M9 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3 0-8 1.5-8 4.5V21h16v-2.5c0-3-5-4.5-8-4.5Zm8.5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 2c-.6 0-1.5.08-2.4.3 1.5 1 2.4 2.4 2.4 4.2V21h5v-2.5c0-2.6-3-4.5-5-4.5Z" />,
-  tickets: <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8ZM9 6v12" />,
   messages: <path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4.4 3.5A.6.6 0 0 1 3.6 20V6a1 1 0 0 1 1-1Z" />,
 };
 
@@ -44,10 +42,8 @@ const baseLinks = [
   { to: "/tasks", label: "Task List", icon: "tasks" },
   { to: "/submissions", label: "Submission Log", icon: "submissions" },
   { to: "/messages", label: "Messages", icon: "messages" },
-  { to: "/tickets", label: "Help Tickets", icon: "tickets" },
 ];
 const adminLinks = [
-  { to: "/tickets-raised", label: "Tickets Raised", icon: "tickets" },
   { to: "/doers", label: "Doer List", icon: "doers" },
   { to: "/settings", label: "Settings", icon: "settings" },
   { to: "/users", label: "Users", icon: "users" },
@@ -71,7 +67,6 @@ const prefetchPages = () => {
   import("./pages/DoerList.jsx");
   import("./pages/SubmissionLog.jsx");
   import("./pages/Messages.jsx");
-  import("./pages/HelpTickets.jsx");
   import("./pages/Account.jsx");
   import("./components/Chatbot.jsx");
 };
@@ -101,7 +96,7 @@ function AuthLoadingScreen({ slow }) {
 }
 
 export default function App() {
-  const { user, loading, slow, logout, isAdmin, hasReminder, hasWorkshop, canRequestWorkshops } = useAuth();
+  const { user, loading, slow, logout, isAdmin, hasReminder, hasWorkshop, hasTickets, canRequestWorkshops } = useAuth();
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -118,15 +113,6 @@ export default function App() {
   };
   useEffect(loadMsgUnread, [user]);
   usePolling(loadMsgUnread, 12000);
-  // Help Tickets badges: `inbox` = tickets waiting on me, `open` (admins)
-  // = every unresolved ticket, shown on the admin "Tickets Raised" link.
-  const [ticketCount, setTicketCount] = useState({ inbox: 0, open: 0 });
-  const loadTicketCount = () => {
-    if (!user || !hasReminder) return;
-    api.getTicketCount().then(setTicketCount).catch(() => {});
-  };
-  useEffect(loadTicketCount, [user]);
-  usePolling(loadTicketCount, 15000);
   useEffect(() => {
     localStorage.setItem("sidebar-collapsed", collapsed ? "1" : "0");
   }, [collapsed]);
@@ -153,18 +139,19 @@ export default function App() {
   if (loading) return <AuthLoadingScreen slow={slow} />;
   if (!user) return <Login />;
 
-  // Separate access per app: a workshop-only account (e.g. the workshop
-  // coordinator) goes straight to Workshop PMS and never sees the Reminder
-  // List; a reminder-only account never sees Workshop PMS. Everyone with
-  // both still gets the app chooser below.
-  if (!hasReminder && hasWorkshop && !(pathname === "/workshops" || pathname.startsWith("/workshops/"))) {
-    // The workshop coordinator lands straight on the New Workshop form.
-    return <Navigate to={canRequestWorkshops ? "/workshops/new" : "/workshops"} replace />;
-  }
-  if (hasReminder && !hasWorkshop && (pathname === "/hub" || pathname === "/workshops" || pathname.startsWith("/workshops/"))) {
-    return <Navigate to="/" replace />;
-  }
-  if (!hasReminder && !hasWorkshop) {
+  // Separate access per app: Reminder List, Workshop PMS and Help Tickets
+  // are three independent apps. A person only ever sees the ones their
+  // account was given; someone with a single app goes straight into it and
+  // never sees the chooser, everyone else picks from the chooser (/hub).
+  const apps = { reminder: hasReminder, workshop: hasWorkshop, tickets: hasTickets };
+  const appCount = Object.values(apps).filter(Boolean).length;
+  const onlyApp = appCount === 1 ? Object.keys(apps).find((k) => apps[k]) : null;
+  const homeOf = { reminder: "/", workshop: canRequestWorkshops ? "/workshops/new" : "/workshops", tickets: "/tickets" };
+  const inWorkshops = pathname === "/workshops" || pathname.startsWith("/workshops/");
+  const inTickets = pathname === "/tickets" || pathname.startsWith("/tickets/");
+  const currentApp = inWorkshops ? "workshop" : inTickets ? "tickets" : "reminder";
+
+  if (appCount === 0) {
     return (
       <div className="auth-loading">
         <Logo size={56} className="auth-logo" />
@@ -174,9 +161,14 @@ export default function App() {
       </div>
     );
   }
+  if (pathname === "/hub") {
+    if (onlyApp) return <Navigate to={homeOf[onlyApp]} replace />;
+  } else if (!apps[currentApp]) {
+    return <Navigate to={onlyApp ? homeOf[onlyApp] : "/hub"} replace />;
+  }
 
-  // After sign-in the person chooses an app: Reminder List (everything
-  // below) or the Workshop PMS sub-site (its own layout + routes).
+  // After sign-in the person chooses an app. Workshop PMS and Help Tickets
+  // each have their own layout + routes; Reminder List is everything below.
   if (pathname === "/hub") {
     return (
       <Suspense fallback={<AuthLoadingScreen slow={false} />}>
@@ -184,7 +176,7 @@ export default function App() {
       </Suspense>
     );
   }
-  if (pathname === "/workshops" || pathname.startsWith("/workshops/")) {
+  if (inWorkshops) {
     return (
       <Suspense fallback={<AuthLoadingScreen slow={false} />}>
         <Routes>
@@ -193,13 +185,21 @@ export default function App() {
       </Suspense>
     );
   }
+  if (inTickets) {
+    return (
+      <Suspense fallback={<AuthLoadingScreen slow={false} />}>
+        <Routes>
+          <Route path="/tickets/*" element={<TicketsApp />} />
+        </Routes>
+      </Suspense>
+    );
+  }
   // First landing of a session goes to the chooser; deep links (e.g. a
   // notification pointing at /master) still open directly.
-  if (pathname === "/" && hasReminder && hasWorkshop && !sessionStorage.getItem("hubChosen")) return <Navigate to="/hub" replace />;
+  if (pathname === "/" && appCount > 1 && !sessionStorage.getItem("hubChosen")) return <Navigate to="/hub" replace />;
 
   const links = isAdmin ? [...baseLinks, ...adminLinks] : baseLinks;
-  const badgeFor = (to) =>
-    to === "/messages" ? msgUnread : to === "/tickets" ? ticketCount.inbox : to === "/tickets-raised" ? ticketCount.open : 0;
+  const badgeFor = (to) => (to === "/messages" ? msgUnread : 0);
 
   return (
     <div className={"layout" + (collapsed ? " sidebar-collapsed" : "")}>
@@ -281,7 +281,7 @@ export default function App() {
               )}
             </NavLink>
           ))}
-          {hasWorkshop && <button
+          {appCount > 1 && <button
             type="button"
             className="nav-link nav-link-switch"
             title={collapsed ? "All apps" : undefined}
@@ -324,8 +324,6 @@ export default function App() {
           <Route path="/doers" element={<AdminRoute isAdmin={isAdmin}><DoerList /></AdminRoute>} />
           <Route path="/submissions" element={<SubmissionLog />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/tickets" element={<HelpTickets onChanged={loadTicketCount} />} />
-          <Route path="/tickets-raised" element={<AdminRoute isAdmin={isAdmin}><TicketsRaised onChanged={loadTicketCount} /></AdminRoute>} />
           <Route path="/account" element={<Account />} />
           <Route path="/settings" element={<AdminRoute isAdmin={isAdmin}><Settings /></AdminRoute>} />
           <Route path="/users" element={<AdminRoute isAdmin={isAdmin}><Users /></AdminRoute>} />

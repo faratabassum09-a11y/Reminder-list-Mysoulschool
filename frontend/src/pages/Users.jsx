@@ -9,9 +9,10 @@ import SearchInput from "../components/SearchInput.jsx";
 import { useToast } from "../components/Toast.jsx";
 import { avatarStyleFromString, initials } from "../utils/colorFromString.js";
 
-const empty = { name: "", email: "", password: "", role: "member", slackId: "", canRequestWorkshops: false, apps: ["reminder", "workshop"] };
+const empty = { name: "", email: "", password: "", role: "member", slackId: "", canRequestWorkshops: false, apps: ["reminder", "workshop", "tickets"] };
 
-const APP_LABEL = { reminder: "Reminder List", workshop: "Workshop PMS" };
+const APP_LABEL = { reminder: "Reminder List", workshop: "Workshop PMS", tickets: "Help Tickets" };
+const APPS = ["reminder", "workshop", "tickets"];
 
 export default function Users() {
   const { user: currentUser } = useAuth();
@@ -180,7 +181,7 @@ export default function Users() {
           <option value="admin">Admin</option>
         </select>
         <input placeholder="Slack ID (optional)" value={form.slackId} onChange={(e) => setForm({ ...form, slackId: e.target.value })} />
-        {form.role !== "admin" && ["reminder", "workshop"].map((app) => (
+        {form.role !== "admin" && APPS.map((app) => (
           <label key={app} className="ws-inline-check" title={`Lets this person open ${APP_LABEL[app]}`}>
             <input
               type="checkbox"
@@ -203,12 +204,12 @@ export default function Users() {
         <strong>Admins</strong> can delete data, manage Settings, and manage other accounts. <strong>Members</strong> can
         do day-to-day work — add, edit, complete, export — but not delete anything or reach Settings/Users. Slack ID is
         optional; people can also set their own from the Account page. <strong>App access</strong> decides which app a
-        person can open — Reminder List, Workshop PMS, or both (admins always get both). A Workshop-PMS-only person
-        never sees the Reminder List.
+        person can open — Reminder List, Workshop PMS, Help Tickets, or any mix (admins always get all). A person with only one app
+        goes straight into it and never sees the others.
       </p>
 
       <div className="range-pills" role="tablist" aria-label="Filter users by app" style={{ marginBottom: 10 }}>
-        {[["all", "All users"], ["reminder", "Reminder List users"], ["workshop", "Workshop PMS users"]].map(([id, label]) => (
+        {[["all", "All users"], ["reminder", "Reminder List users"], ["workshop", "Workshop PMS users"], ["tickets", "Help Tickets users"]].map(([id, label]) => (
           <button key={id} type="button" role="tab" aria-selected={appTab === id}
             className={"range-pill" + (appTab === id ? " range-pill-active" : "")} onClick={() => setAppTab(id)}>
             {label}{users ? ` (${id === "all" ? users.length : users.filter((u) => u.apps.includes(id)).length})` : ""}
@@ -272,7 +273,7 @@ export default function Users() {
                   )}
                 </td>
                 <td>
-                  {["reminder", "workshop"].map((app) => {
+                  {APPS.map((app) => {
                     const on = u.apps.includes(app);
                     const locked = u.role === "admin"; // admins always have both
                     return (
@@ -281,7 +282,7 @@ export default function Users() {
                         style={{ marginRight: 6 }}
                         disabled={busyId === u._id || locked}
                         onClick={() => toggleApp(u, app)}
-                        title={locked ? "Admins always have both apps" : `Click to ${on ? "remove" : "give"} ${APP_LABEL[app]} access`}>
+                        title={locked ? "Admins always have every app" : `Click to ${on ? "remove" : "give"} ${APP_LABEL[app]} access`}>
                         {on ? "✓ " : "+ "}{APP_LABEL[app]}
                       </button>
                     );

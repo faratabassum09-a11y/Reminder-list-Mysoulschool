@@ -8,6 +8,8 @@ import RaiseTicketModal from "../components/RaiseTicketModal.jsx";
 import { StatusBadge, fmtDateTime, isOverdue, STATUS_FILTERS } from "../components/TicketStatus.jsx";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import { usePolling } from "../hooks/usePolling.js";
+import { useDateFilter } from "../hooks/useDateFilter.js";
+import TicketDateFilter, { addTicketDateParams, dateKey } from "../components/TicketDateFilter.jsx";
 
 // The member-facing page. Two tabs:
 //   Inbox          -> tickets other doers raised TO me (only I can see these)
@@ -25,19 +27,24 @@ export default function HelpTickets({ onChanged }) {
   const [raising, setRaising] = useState(false);
   const [openId, setOpenId] = useState(null);
   const debouncedQ = useDebouncedValue(q, 250);
+  const dateFilter = useDateFilter(() => setPage(1));
+  const [dateBy, setDateBy] = useState("createdAt");
+  const dKey = dateKey(dateFilter, dateBy);
   const limit = 20;
 
   useEffect(() => { api.getTicketMeta().then(setMeta).catch((e) => setError(e.message)); }, []);
 
   const load = () => {
+    if (dateFilter.error) return;
     const p = new URLSearchParams({ box, page, limit });
     if (status) p.set("status", status);
     if (debouncedQ.trim()) p.set("q", debouncedQ.trim());
+    addTicketDateParams(p, dateFilter, dateBy);
     api.getTickets(`?${p}`).then((d) => { setData(d); setError(""); }).catch((e) => setError(e.message));
   };
-  useEffect(load, [box, status, page, debouncedQ]);
+  useEffect(load, [box, status, page, debouncedQ, dKey]);
   usePolling(load, 20000);
-  useEffect(() => { setPage(1); }, [box, status, debouncedQ]);
+  useEffect(() => { setPage(1); }, [box, status, debouncedQ, dKey]);
 
   const switchBox = (b) => { setBox(b); setData((d) => ({ ...d, rows: null })); setOpenId(null); };
   const refresh = () => { load(); onChanged?.(); };
@@ -49,7 +56,7 @@ export default function HelpTickets({ onChanged }) {
       <PageHeader
         title="Help Tickets"
         subtitle="Raise a problem to a teammate — it appears only to them"
-        meta={canRaise && <button type="button" onClick={() => setRaising(true)}>＋ Raise ticket</button>}
+        meta={canRaise && <button type="button" className="btn-raise" onClick={() => setRaising(true)}>＋ Raise ticket</button>}
       />
       {error && <p className="error">{error}</p>}
       {meta && !meta.me && !meta.canPickRaiser && (
@@ -83,11 +90,13 @@ export default function HelpTickets({ onChanged }) {
         </div>
       </div>
 
+      <TicketDateFilter filter={dateFilter} dateBy={dateBy} setDateBy={setDateBy} />
+
       <div className="ticket-list">
         {!data.rows && <TableSkeleton columns={1} rows={5} />}
         {data.rows && data.rows.length === 0 && (
           <div className="empty-state">
-            {q.trim() || status
+            {q.trim() || status || dateFilter.active
               ? "No tickets match those filters."
               : box === "inbox"
                 ? "Nothing here — no one has raised a ticket to you."

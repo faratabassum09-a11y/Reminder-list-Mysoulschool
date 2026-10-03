@@ -2644,3 +2644,5 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
   .ticket-body { padding-left: 16px; }
   .ticket-when { grid-template-columns: 1fr; }
 }
+.ticket-date-filter { margin: 8px 0 6px; display: flex; flex-direction: column; gap: 8px; }
+.ticket-date-filter .filter-row { gap: 10px; }

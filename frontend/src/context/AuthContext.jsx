@@ -22,7 +22,7 @@ function readCachedUser() {
 // value, so they keep both until /auth/me refreshes them.
 function userApps(user) {
   if (!user) return [];
-  if (user.role === "admin" || !Array.isArray(user.apps)) return ["reminder", "workshop"];
+  if (user.role === "admin" || !Array.isArray(user.apps)) return ["reminder", "workshop", "tickets"];
   return user.apps;
 }
 
@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
     });
 
   return (
-    <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin", hasReminder: userApps(user).includes("reminder"), hasWorkshop: userApps(user).includes("workshop"), canRequestWorkshops: user?.role === "admin" || user?.canRequestWorkshops === true }}>
+    <AuthContext.Provider value={{ user, loading, slow, login, logout, updateProfile, isAdmin: user?.role === "admin", hasReminder: userApps(user).includes("reminder"), hasWorkshop: userApps(user).includes("workshop"), hasTickets: userApps(user).includes("tickets"), canRequestWorkshops: user?.role === "admin" || user?.canRequestWorkshops === true }}>
       {children}
     </AuthContext.Provider>
   );

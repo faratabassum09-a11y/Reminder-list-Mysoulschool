@@ -109,7 +109,7 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
           {error && <p className="error">{error}</p>}
           <div className="modal-actions">
             <button type="button" className="btn-ghost" onClick={onClose}>Cancel</button>
-            <button type="submit" disabled={busy}>{busy ? "Raising…" : "Raise ticket"}</button>
+            <button type="submit" className="btn-raise" disabled={busy}>{busy ? "Raising…" : "Raise ticket"}</button>
           </div>
         </form>
       </div>

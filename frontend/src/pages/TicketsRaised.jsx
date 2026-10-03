@@ -7,6 +7,8 @@ import TableSkeleton from "../components/TableSkeleton.jsx";
 import { StatusBadge, fmtDateTime, isOverdue, STATUS_FILTERS } from "../components/TicketStatus.jsx";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
 import { usePolling } from "../hooks/usePolling.js";
+import { useDateFilter } from "../hooks/useDateFilter.js";
+import TicketDateFilter, { addTicketDateParams, dateKey } from "../components/TicketDateFilter.jsx";
 
 // Admin-only overview of EVERY help ticket raised by anyone to anyone
 // (GET /api/tickets?box=all is rejected for non-admins on the server).
@@ -19,17 +21,22 @@ export default function TicketsRaised({ onChanged }) {
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
   const debouncedQ = useDebouncedValue(q, 250);
+  const dateFilter = useDateFilter(() => setPage(1));
+  const [dateBy, setDateBy] = useState("createdAt");
+  const dKey = dateKey(dateFilter, dateBy);
   const limit = 25;
 
   const load = () => {
+    if (dateFilter.error) return;
     const p = new URLSearchParams({ box: "all", page, limit });
     if (status) p.set("status", status);
     if (debouncedQ.trim()) p.set("q", debouncedQ.trim());
+    addTicketDateParams(p, dateFilter, dateBy);
     api.getTickets(`?${p}`).then((d) => { setData(d); setError(""); }).catch((e) => setError(e.message));
   };
-  useEffect(load, [status, page, debouncedQ]);
+  useEffect(load, [status, page, debouncedQ, dKey]);
   usePolling(load, 20000);
-  useEffect(() => { setPage(1); }, [status, debouncedQ]);
+  useEffect(() => { setPage(1); }, [status, debouncedQ, dKey]);
 
   const total = STATUS_FILTERS.reduce((n, s) => n + (data.summary?.[s] || 0), 0);
 
@@ -66,7 +73,7 @@ export default function TicketsRaised({ onChanged }) {
       <PageHeader
         title="Tickets Raised"
         subtitle="Every help ticket raised between doers, newest first"
-        meta={data.rows && <span className="chip"><strong>{total.toLocaleString()}</strong> {debouncedQ || status ? "in view" : "total"}</span>}
+        meta={data.rows && <span className="chip"><strong>{total.toLocaleString()}</strong> {debouncedQ || status || dateFilter.active ? "in view" : "total"}</span>}
       />
       {error && <p className="error">{error}</p>}
 
@@ -87,6 +94,8 @@ export default function TicketsRaised({ onChanged }) {
         </div>
       </div>
 
+      <TicketDateFilter filter={dateFilter} dateBy={dateBy} setDateBy={setDateBy} />
+
       <div className="table-panel">
         <div className="table-wrap">
           <table className="table">
@@ -106,7 +115,7 @@ export default function TicketsRaised({ onChanged }) {
             <tbody>
               {!data.rows && <TableSkeleton columns={9} rows={8} />}
               {data.rows && data.rows.length === 0 && (
-                <tr><td colSpan={9} className="empty-state">{q.trim() || status ? "No tickets match those filters." : "No tickets have been raised yet."}</td></tr>
+                <tr><td colSpan={9} className="empty-state">{q.trim() || status || dateFilter.active ? "No tickets match those filters." : "No tickets have been raised yet."}</td></tr>
               )}
               {data.rows?.map((t) => (
                 <tr key={t._id}>

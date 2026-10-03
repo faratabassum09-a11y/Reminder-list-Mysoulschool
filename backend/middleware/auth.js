@@ -58,7 +58,7 @@ export function requireAdmin(req, res, next) {
 export function requireApp(app) {
   return (req, res, next) => {
     if (!hasApp(req.user, app)) {
-      return res.status(403).json({ error: `Your account doesn't have access to ${app === "workshop" ? "Workshop PMS" : "the Reminder List"}` });
+      return res.status(403).json({ error: `Your account doesn't have access to ${{ workshop: "Workshop PMS", tickets: "Help Tickets" }[app] || "the Reminder List"}` });
     }
     next();
   };

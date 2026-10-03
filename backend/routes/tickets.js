@@ -115,6 +115,20 @@ router.get("/", async (req, res) => {
       match[box === "inbox" ? "assignedTo" : "raisedBy"] = me._id;
     }
     if (status) match.status = status;
+
+    // Calendar filter: ?dateFrom=<ISO>&dateTo=<ISO> (from inclusive, to
+    // exclusive — same convention as Master). dateField picks which date
+    // it applies to: when the ticket was raised, or its planned resolution.
+    const dateField = req.query.dateField === "plannedResolution" ? "plannedResolution" : "createdAt";
+    const from = req.query.dateFrom ? new Date(String(req.query.dateFrom)) : null;
+    const to = req.query.dateTo ? new Date(String(req.query.dateTo)) : null;
+    if ((from && isNaN(from)) || (to && isNaN(to))) return res.status(400).json({ error: "Invalid date filter" });
+    if (from || to) {
+      match[dateField] = {};
+      if (from) match[dateField].$gte = from;
+      if (to) match[dateField].$lt = to;
+    }
+
     if (q) {
       const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
       match.$or = [{ issue: re }, { raisedByName: re }, { assignedToName: re }, { pcAccountableName: re }];

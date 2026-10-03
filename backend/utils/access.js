@@ -1,6 +1,6 @@
 // Which apps a user may open. Admins always get both; legacy accounts with no
 // `apps` value keep both so nothing breaks for existing people.
-export const ALL_APPS = ["reminder", "workshop"];
+export const ALL_APPS = ["reminder", "workshop", "tickets"];
 
 export function appsOf(user) {
   if (!user) return [];

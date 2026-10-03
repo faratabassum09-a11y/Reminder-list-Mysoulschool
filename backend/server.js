@@ -23,6 +23,26 @@ import { getSettings } from "./models/Settings.js";
 import { sendDailyReminders } from "./utils/sendDailyReminders.js";
 import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
 import TaskInstance from "./models/TaskInstance.js";
+import User from "./models/User.js";
+import WorkshopCounter from "./models/WorkshopCounter.js";
+import { clearAuthCache } from "./middleware/auth.js";
+
+// Help Tickets became its own app AFTER accounts were created with an
+// explicit apps list (e.g. ["reminder","workshop"]), which would lock
+// everyone out of it. Runs exactly once per database (guarded by a marker
+// document): gives every existing account the Help Tickets app. After that
+// an admin can switch it on/off per person on the Users page and it sticks.
+async function grantTicketsAccessOnce() {
+  const prev = await WorkshopCounter.findOneAndUpdate(
+    { _id: "migration:tickets-access" },
+    { $setOnInsert: { seq: 1 } },
+    { upsert: true, new: false }
+  );
+  if (prev) return; // already done on an earlier start
+  const r = await User.updateMany({ apps: { $type: "array" } }, { $addToSet: { apps: "tickets" } });
+  clearAuthCache();
+  console.log(`[migration] Granted Help Tickets access to ${r.modifiedCount} existing account(s)`);
+}
 
 // TaskInstance.status is computed once, on save (see the model's pre-save
 // hook) — a row created weeks ago with nobody having touched it since
@@ -109,10 +129,11 @@ app.use("/api/chatbot", requireAuth, requireApp("reminder"), chatbotRoutes);
 // exception is posting a Doer-list broadcast, which the router itself
 // gates behind requireAdmin (see routes/messages.js).
 app.use("/api/messages", requireAuth, requireApp("reminder"), messageRoutes);
-// Help Tickets — member-level (any doer can raise one to any other doer).
+// Help Tickets — its own app ("tickets" access, separate from the Reminder
+// List). Member-level: any doer can raise one to any other doer.
 // Who may see a given ticket is enforced inside the router: only the doer
 // it is assigned to, the doer who raised it, and admins.
-app.use("/api/tickets", requireAuth, requireApp("reminder"), ticketRoutes);
+app.use("/api/tickets", requireAuth, requireApp("tickets"), ticketRoutes);
 // Workshop PMS sub-site. Member-level (anyone signed in can submit a workshop
 // request and complete their own tasks); approving, rejecting, deleting,
 // templates and the Launch Verification hand-off are admin-only inside the
@@ -169,6 +190,7 @@ mongoose
   })
   .then(() => {
     console.log("MongoDB connected");
+    grantTicketsAccessOnce().catch((err) => console.error("[migration] tickets access failed:", err.message));
     refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     startKeepAlive();

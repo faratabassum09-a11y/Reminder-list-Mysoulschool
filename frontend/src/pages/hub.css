@@ -23,7 +23,10 @@
 .hub-title { margin: 0; font-size: clamp(30px, 5vw, 44px); letter-spacing: -0.02em; line-height: 1.1; }
 .hub-sub { margin: 10px 0 34px; font-size: 16px; color: var(--muted); }
 
-.hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+/* Flex (not grid) so a leftover card on the last row — e.g. the third app
+   when only two fit across — sits in the MIDDLE instead of hugging the left. */
+.hub-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+.hub-grid > .hub-card { flex: 1 1 300px; max-width: 470px; }
 .hub-card {
   --tone: var(--accent-2);
   position: relative; text-align: left; font: inherit; color: inherit; cursor: pointer;
@@ -55,3 +58,5 @@
 .hub-pill-bad { background: var(--bad-bg); color: var(--bad); }
 
 @keyframes hub-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.hub-card-tickets { --tone: #0e9aa7; animation-delay: 0.16s; }

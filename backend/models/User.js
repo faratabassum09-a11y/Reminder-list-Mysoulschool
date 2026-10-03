@@ -28,10 +28,10 @@ const userSchema = new mongoose.Schema(
     // admins — can fill the New Workshop form. Admins (e.g. Nitin) approve.
     canRequestWorkshops: { type: Boolean, default: false },
     // Which apps this account may open: "reminder" (Reminder List) and/or
-    // "workshop" (Workshop PMS). Accounts created before this field existed
+    // "workshop" (Workshop PMS) and/or "tickets" (Help Tickets). Accounts created before this field existed
     // have no value and are treated as having BOTH (see utils/access.js), so
     // nothing changes for existing people. Admins always get both.
-    apps: { type: [String], enum: ["reminder", "workshop"], default: undefined },
+    apps: { type: [String], enum: ["reminder", "workshop", "tickets"], default: undefined },
   },
   { timestamps: true }
 );

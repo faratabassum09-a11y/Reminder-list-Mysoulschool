@@ -1,0 +1,37 @@
+/* ---------------------------------------------------------------------
+   Help Tickets app — reuses the app's tokens, table, card and modal
+   styles. `.tk-scope` re-tints the accent to teal so it reads as its own
+   place next to the purple Reminder List and the amber Workshop PMS.
+------------------------------------------------------------------------*/
+.tk-scope {
+  --accent: #0e8a96;
+  --accent-dark: #0a6670;
+  --accent-light: #dcf3f5;
+  --accent-2: #0e9aa7;
+}
+:root[data-theme="dark"] .tk-scope {
+  --accent: #46c6d2;
+  --accent-dark: #7ddbe4;
+  --accent-light: rgba(70, 198, 210, 0.16);
+  --accent-2: #5ccfda;
+}
+.tk-scope .sidebar { background: linear-gradient(190deg, #12262a, #0a1517); }
+.tk-scope .nav-link.active { background: rgba(53, 196, 207, 0.20); }
+.tk-scope .nav-link.tk-switch { width: 100%; background: none; border: none; font: inherit; text-align: left; cursor: pointer; margin-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.08); border-radius: 0 0 8px 8px; padding-top: 12px; opacity: 0.85; }
+
+/* "Raise ticket" — a warm coral/orange call-to-action that stands out
+   against the teal app instead of blending into it. */
+.btn-raise,
+.btn-raise:not(:disabled):hover {
+  background: linear-gradient(135deg, #ff8a4c, #e8455f);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 9px 20px;
+  box-shadow: 0 3px 12px rgba(232, 69, 95, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+.btn-raise:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(232, 69, 95, 0.45); filter: brightness(1.04); }
+.btn-raise:not(:disabled):active { transform: translateY(0); }
+.btn-raise:disabled { opacity: 0.6; cursor: wait; box-shadow: none; }
