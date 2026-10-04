@@ -27,7 +27,11 @@ const taskSchema = new mongoose.Schema(
     nextAnchor: { type: Date },
     // Time of day (IST, 24h "HH:MM") each generated reminder is planned for.
     // Empty = legacy default of 11:00 AM.
-    startTime: { type: String, default: "", match: /^$|^([01]\d|2[0-3]):[0-5]\d$/ },
+    // startTime = when the task opens for the doer (default 09:00, work starts
+    // at 9 AM); dueTime = deadline on that day (default 23:59). A task only
+    // turns Delayed after dueTime. Both are IST "HH:MM".
+    startTime: { type: String, default: "09:00", match: /^$|^([01]\d|2[0-3]):[0-5]\d$/ },
+    dueTime: { type: String, default: "23:59", match: /^$|^([01]\d|2[0-3]):[0-5]\d$/ },
     // Advisory lock so two concurrent generation calls for this task can't
     // race each other and double-insert the same Master rows.
     generating: { type: Boolean, default: false },

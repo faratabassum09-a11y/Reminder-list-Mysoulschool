@@ -17,7 +17,7 @@ import { rangeToParams } from "../utils/masterRanges.js";
 import { useDateFilter } from "../hooks/useDateFilter.js";
 import { QuickRangePills, DateRangeRow } from "../components/DateFilter.jsx";
 
-const emptyTask = { taskName: "", department: "", defaultAssignee: "", startDate: "", startTime: "" };
+const emptyTask = { taskName: "", department: "", defaultAssignee: "", startDate: "", startTime: "09:00", dueTime: "23:59" };
 const DEFAULT_FREQ_INPUT = "Daily";
 
 // No approval step anymore — a completed row just shows its On Time /
@@ -332,8 +332,10 @@ export default function Master() {
             </select>
             <input required type="date" value={taskForm.startDate}
               onChange={(e) => setTaskForm({ ...taskForm, startDate: e.target.value })} />
-            <input required type="time" title="Time of day for each reminder (IST)" value={taskForm.startTime}
+            <input required type="time" title="Start time (IST) — when the task opens each day" value={taskForm.startTime}
               onChange={(e) => setTaskForm({ ...taskForm, startTime: e.target.value })} />
+            <input required type="time" title="Due time (IST) — the task is Delayed after this" value={taskForm.dueTime}
+              onChange={(e) => setTaskForm({ ...taskForm, dueTime: e.target.value })} />
             <button type="submit" disabled={taskBusy || !freqParsed}>{taskBusy ? "Adding…" : "+ Add Task & Start Schedule"}</button>
           </form>
           {freqInput && (
@@ -401,7 +403,7 @@ export default function Master() {
                 <FilterableTh label="Doer" filterKey="doer" filterValue={colFilters.doer} onFilterChange={setColFilter} />
                 <FilterableTh label="Task" className="col-task" filterKey="task" filterValue={colFilters.task} onFilterChange={setColFilter} />
                 <FilterableTh label="Department" filterKey="department" filterValue={colFilters.department} onFilterChange={setColFilter} />
-                <th>Planned</th><th>Actual</th><th>Status</th><th></th>
+                <th>Due by</th><th>Actual</th><th>Status</th><th></th>
               </tr>
             </thead>
             <tbody>

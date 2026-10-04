@@ -25,6 +25,7 @@ import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
 import TaskInstance from "./models/TaskInstance.js";
 import User from "./models/User.js";
 import { TRACKING_START } from "./utils/trackingStart.js";
+import { migrateTaskTimes, generateAllUpcoming } from "./utils/generateOccurrences.js";
 import WorkshopCounter from "./models/WorkshopCounter.js";
 import { clearAuthCache } from "./middleware/auth.js";
 
@@ -192,6 +193,11 @@ mongoose
   .then(() => {
     console.log("MongoDB connected");
     grantTicketsAccessOnce().catch((err) => console.error("[migration] tickets access failed:", err.message));
+    // Nothing may sit past the Schedule Horizon: drop unfinished rows beyond it.
+    getSettings()
+      .then((st) => st.scheduleHorizon && TaskInstance.deleteMany({ planned: { $gte: new Date(new Date(st.scheduleHorizon).getTime() + 24 * 3600 * 1000) }, actual: null }))
+      .then((r) => r && r.deletedCount && console.log(`[horizon] removed ${r.deletedCount} unfinished row(s) past the Schedule Horizon`))
+      .catch((err) => console.error("[horizon] cleanup failed:", err.message));
     // One-time-style cleanup (safe to repeat): drop unfinished Master rows planned before the
     // tracking start date so they can never show as Delayed. Finished rows are kept as history
     // (they are hidden from the Dashboard/Master by the date floor anyway).
@@ -199,6 +205,11 @@ mongoose
       .then((r) => r.deletedCount && console.log(`[tracking-start] removed ${r.deletedCount} unfinished row(s) before ${TRACKING_START.toISOString()}`))
       .catch((err) => console.error("[tracking-start] cleanup failed:", err.message))
       .finally(() => refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message)));
+    // Move existing tasks to start 09:00 / due 23:59 (once), then rebuild their rows.
+    migrateTaskTimes()
+      .then((r) => (r.migrated ? (console.log(`[times] ${r.migrated} task(s) moved to 09:00 start / 23:59 due`), generateAllUpcoming()) : null))
+      .then((g) => g && console.log(`[times] regenerated ${g.created} Master row(s)`))
+      .catch((err) => console.error("[times] migration failed:", err.message));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     startKeepAlive();
   })

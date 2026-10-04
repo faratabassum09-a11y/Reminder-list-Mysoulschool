@@ -7,7 +7,8 @@ const taskInstanceSchema = new mongoose.Schema(
   {
     doer: { type: mongoose.Schema.Types.ObjectId, ref: "Doer", required: true },
     task: { type: mongoose.Schema.Types.ObjectId, ref: "Task", required: true },
-    planned: { type: Date, required: true },
+    planned: { type: Date, required: true }, // the DEADLINE (due time, default 23:59 IST)
+    startsAt: { type: Date, default: null }, // when the task opens (default 09:00 IST)
     actual: { type: Date, default: null },
     status: {
       type: String,

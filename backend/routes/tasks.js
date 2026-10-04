@@ -108,7 +108,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
   try {
     // taskId is immutable once assigned — ignore it even if sent.
     const { taskId, ...updates } = req.body;
-    const scheduleChanged = "startDate" in updates || "frequency" in updates || "startTime" in updates;
+    const scheduleChanged = "startDate" in updates || "frequency" in updates || "startTime" in updates || "dueTime" in updates;
     const assigneeChanged = "defaultAssignee" in updates;
     // A new/changed startDate or frequency means "restart the schedule from
     // here" — reset the resume bookmark so generation begins clean instead

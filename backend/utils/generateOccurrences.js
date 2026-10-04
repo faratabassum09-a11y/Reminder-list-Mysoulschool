@@ -107,16 +107,17 @@ function makeDoc(task, date) {
   // on the correct calendar day in India regardless of server timezone.
   // The task's own time of day (IST, "HH:MM") wins; blank falls back to the
   // old 11:00 AM IST default. IST = UTC+5:30, so subtract that offset.
-  const [hh, mm] = /^\d{2}:\d{2}$/.test(task.startTime || "")
-    ? task.startTime.split(":").map(Number)
-    : [11, 0];
-  const planned = new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), hh, mm) - (5 * 60 + 30) * 60000
-  );
+  const clock = (v, fallback) => (/^\d{2}:\d{2}$/.test(v || "") ? v : fallback).split(":").map(Number);
+  const at = ([h, m]) =>
+    new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), h, m) - (5 * 60 + 30) * 60000);
+  // Work starts 09:00 IST and every task is due by 23:59 IST unless the task says otherwise.
+  const startsAt = at(clock(task.startTime, "09:00"));
+  const planned = at(clock(task.dueTime, "23:59"));
   return {
     doer: task.defaultAssignee,
     task: task._id,
     planned,
+    startsAt,
     actual: null,
     status: now > planned ? "Delayed" : "Pending",
   };
@@ -159,8 +160,6 @@ export async function generateOccurrencesForTask(task, settings, holidaySet, opt
     // 3-4 rows (this year if still upcoming, plus the next 3), no horizon
     // check and no working-day shift at all — not an ongoing rolling series.
     if (claimed.frequency === "Y") {
-      const existing = await TaskInstance.countDocuments({ task: claimed._id });
-      if (existing > 0) return { created: 0 };
       const docs = [];
       let anchor = new Date(claimed.startDate);
       const now = new Date();
@@ -172,10 +171,17 @@ export async function generateOccurrencesForTask(task, settings, holidaySet, opt
       if (skipBefore) {
         for (let i = docs.length - 1; i >= 0; i--) if (docs[i].planned < skipBefore) docs.splice(i, 1);
       }
-      if (options.clampToHorizon && settings.scheduleHorizon) {
-        // Horizon is end-of-day of the chosen date.
+      // Never past the Schedule Horizon (end-of-day of the chosen date). Raising
+      // the horizon later and clicking Generate Upcoming adds the next yearly row.
+      if (settings.scheduleHorizon) {
         const limit = new Date(new Date(settings.scheduleHorizon).getTime() + 24 * 3600 * 1000);
         for (let i = docs.length - 1; i >= 0; i--) if (docs[i].planned >= limit) docs.splice(i, 1);
+      }
+      // Skip years that already have a row.
+      if (docs.length) {
+        const dayOf = (d) => new Date(d.getTime() + (5 * 60 + 30) * 60000).toISOString().slice(0, 10);
+        const have = new Set((await TaskInstance.find({ task: claimed._id }).select("planned").lean()).map((r) => dayOf(new Date(r.planned))));
+        for (let i = docs.length - 1; i >= 0; i--) if (have.has(dayOf(docs[i].planned))) docs.splice(i, 1);
       }
       if (docs.length) await TaskInstance.insertMany(docs);
       return { created: docs.length };
@@ -249,6 +255,13 @@ export async function generateOccurrencesForTask(task, settings, holidaySet, opt
       anchor = nextAnchor;
     }
 
+    // Never create a second row for a day that already has one (e.g. a finished
+    // occurrence kept as history when the schedule is rebuilt).
+    if (docs.length) {
+      const dayOf = (d) => new Date(d.getTime() + (5 * 60 + 30) * 60000).toISOString().slice(0, 10);
+      const have = new Set((await TaskInstance.find({ task: claimed._id }).select("planned").lean()).map((r) => dayOf(new Date(r.planned))));
+      for (let i = docs.length - 1; i >= 0; i--) if (have.has(dayOf(docs[i].planned))) docs.splice(i, 1);
+    }
     if (docs.length) await TaskInstance.insertMany(docs);
     await Task.findByIdAndUpdate(claimed._id, { nextAnchor: anchor });
     console.log(
@@ -304,17 +317,15 @@ export async function generateAllUpcoming() {
   // (nextAnchor) is already past the horizon is fully generated, so it is
   // skipped without touching the database at all — that is what made this
   // button slow (every one of ~400 tasks was locked/unlocked one by one).
-  // Yearly tasks never set nextAnchor, so those are skipped when they already
-  // have at least one Master row.
+  // Yearly tasks never set nextAnchor, so they are always checked (only 4 tasks).
   const horizon = new Date(settings.scheduleHorizon);
-  const haveRows = new Set((await TaskInstance.distinct("task")).map(String));
   const candidates = await Task.find({
     active: { $ne: false },
     startDate: { $ne: null },
     defaultAssignee: { $ne: null },
     $or: [{ nextAnchor: null }, { nextAnchor: { $exists: false } }, { nextAnchor: { $lte: horizon } }],
   });
-  const tasks = candidates.filter((t) => !(t.frequency === "Y" && haveRows.has(String(t._id))));
+  const tasks = candidates;
 
   let created = 0;
   let horizonMissing = false;
@@ -335,4 +346,20 @@ export async function generateAllUpcoming() {
   }
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, tasks.length) }, worker));
   return { created, tasksChecked: tasks.length, horizonMissing };
+}
+
+// One-time migration to the 09:00 start / 23:59 due times. Tasks created
+// before this change (no dueTime yet) get start 09:00 + due 23:59, their
+// unfinished Master rows are removed and regenerated with the new times.
+// Finished rows are never touched. Does nothing once every task has dueTime.
+export async function migrateTaskTimes() {
+  const stale = await Task.find({ dueTime: { $exists: false } }).select("_id").lean();
+  if (!stale.length) return { migrated: 0 };
+  const ids = stale.map((t) => t._id);
+  await TaskInstance.deleteMany({ task: { $in: ids }, actual: null });
+  await Task.updateMany(
+    { _id: { $in: ids } },
+    { $set: { startTime: "09:00", dueTime: "23:59", nextAnchor: null, generating: false } }
+  );
+  return { migrated: ids.length };
 }

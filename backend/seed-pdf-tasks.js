@@ -90,7 +90,9 @@ function parseRows() {
       // Every task begins on the same start date (default 2 Oct 2026), pinned to
       // UTC midnight like the app's own date inputs.
       startDate: START_DATE,
-      startTime: `${String(hh).padStart(2, "0")}:${String(mi).padStart(2, "0")}`,
+      // Work starts 09:00 IST and every task is due by 23:59 IST (the PDF time is only used for the Submission Log).
+      startTime: "09:00",
+      dueTime: "23:59",
       // The exact moment shown in the PDF (India time) - used for the Submission Log.
       stamp: new Date(Date.UTC(yyyy, mo - 1, dd, hh, mi) - IST_MS),
     };
@@ -100,8 +102,9 @@ function parseRows() {
 const dayKey = (d) => d.toISOString().slice(0, 10);
 // Identity of a task = name + doer + frequency + time. The start date is NOT part
 // of it, so re-running with a new start date updates tasks instead of duplicating.
-const baseKey = (name, doerId, freq, time) =>
-  [name.toLowerCase(), String(doerId), freq, time].join("|");
+// (The time of day is NOT part of it: every task uses 09:00 start / 23:59 due.)
+const baseKey = (name, doerId, freq) =>
+  [name.toLowerCase(), String(doerId), freq].join("|");
 // Same holiday-key convention the recurrence engine uses.
 const engineDateKey = (d) => d.toISOString().slice(0, 10); // UTC calendar day, same as the engine
 
@@ -193,7 +196,7 @@ async function main() {
   const existingCount = new Map();
   for (const t of existingTasks) {
     if (!t.defaultAssignee) continue;
-    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency, t.startTime || "");
+    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency);
     existingCount.set(k, (existingCount.get(k) || 0) + 1);
   }
   const last = await Task.findOne().sort({ taskId: -1 }).lean();
@@ -204,7 +207,7 @@ async function main() {
   const rowToKey = [];
   for (const r of rows) {
     const doer = doerByName.get(r.doerName.toLowerCase());
-    const k = baseKey(r.taskName, doer._id, r.frequency, r.startTime);
+    const k = baseKey(r.taskName, doer._id, r.frequency);
     const nth = (seenInFile.get(k) || 0) + 1;
     seenInFile.set(k, nth);
     rowToKey.push({ r, doer, k, nth });
@@ -216,6 +219,7 @@ async function main() {
       frequency: r.frequency,
       startDate: r.startDate,
       startTime: r.startTime,
+      dueTime: r.dueTime,
       defaultAssignee: doer._id,
       active: true,
     });
@@ -242,7 +246,7 @@ async function main() {
   const toRestart = [];
   for (const t of existingTasks) {
     if (!t.defaultAssignee) continue;
-    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency, t.startTime || "");
+    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency);
     if (!pdfKeys.has(k)) continue;
     const idx = (seenExisting.get(k) || 0) + 1;
     seenExisting.set(k, idx);
@@ -288,14 +292,14 @@ async function main() {
   // Map each PDF row to the taskId it now has (new ones by insertion order, existing ones by match).
   const newIdQueue = new Map();
   for (const t of toInsert) {
-    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency, t.startTime);
+    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency);
     if (!newIdQueue.has(k)) newIdQueue.set(k, []);
     newIdQueue.get(k).push(t.taskId);
   }
   const existingIdQueue = new Map();
   for (const t of existingTasks) {
     if (!t.defaultAssignee) continue;
-    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency, t.startTime || "");
+    const k = baseKey(t.taskName, t.defaultAssignee, t.frequency);
     if (!existingIdQueue.has(k)) existingIdQueue.set(k, []);
     existingIdQueue.get(k).push(t.taskId);
   }

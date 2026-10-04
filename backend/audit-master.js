@@ -64,24 +64,23 @@ console.log(`  rows whose Task no longer exists: ${orphans}`);
 
 // ---- which Task List entries are NOT in the PDF? ------------------------
 const doers = new Map((await Doer.find().lean()).map((d) => [String(d._id), d.name]));
-const key = (n, d, f, t) => [String(n).trim().toLowerCase(), String(d).trim().toLowerCase(), f, t || ""].join("|");
+const key = (n, d, f) => [String(n).trim().toLowerCase(), String(d).trim().toLowerCase(), f].join("|");
 const pdf = new Map();
 for (const line of fs.readFileSync(new URL("./data/pdf-tasks.txt", import.meta.url), "utf-8").split(/\r?\n/).filter((l) => l.trim())) {
   const [n, d, , f, dt] = line.split("|").map((x) => x.trim());
-  const m = dt.match(/(\d{2}):(\d{2}):\d{2}$/);
-  const k = key(n, d, f, m ? `${m[1]}:${m[2]}` : "");
+  const k = key(n, d, f);
   pdf.set(k, (pdf.get(k) || 0) + 1);
 }
 const used = new Map();
 console.log("\nTasks in Task List that are NOT in the PDF (or are extra copies):");
 let extras = 0;
 for (const t of tasks) {
-  const k = key(t.taskName, doers.get(String(t.defaultAssignee)) || "?", t.frequency, t.startTime);
+  const k = key(t.taskName, doers.get(String(t.defaultAssignee)) || "?", t.frequency);
   const n = (used.get(k) || 0) + 1;
   used.set(k, n);
   if (n > (pdf.get(k) || 0)) {
     extras++;
-    console.log(`  #${t.taskId}  [${t.frequency}] "${t.taskName}"  doer=${doers.get(String(t.defaultAssignee)) || "?"}  time=${t.startTime || "-"}  start=${t.startDate ? ist(new Date(t.startDate)) : "-"}`);
+    console.log(`  #${t.taskId}  [${t.frequency}] "${t.taskName}"  doer=${doers.get(String(t.defaultAssignee)) || "?"}  start=${t.startTime || "-"} due=${t.dueTime || "-"}  from=${t.startDate ? ist(new Date(t.startDate)) : "-"}`);
   }
 }
 if (!extras) console.log("  none");

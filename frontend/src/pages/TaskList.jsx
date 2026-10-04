@@ -23,7 +23,7 @@ import { usePolling } from "../hooks/usePolling.js";
 
 // "HH:MM" (24h, IST) -> "11:00 AM"; blank = legacy default 11:00 AM.
 function fmtTime(hhmm) {
-  const [h, m] = /^\d{2}:\d{2}$/.test(hhmm || "") ? hhmm.split(":").map(Number) : [11, 0];
+  const [h, m] = /^\d{2}:\d{2}$/.test(hhmm || "") ? hhmm.split(":").map(Number) : [9, 0];
   return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
 }
 
@@ -122,7 +122,7 @@ export default function TaskList() {
         t.department,
         freqLabels[t.frequency] || t.frequency,
         t.defaultAssignee?.name || "",
-        t.startDate ? `${new Date(t.startDate).toLocaleDateString()} ${fmtTime(t.startTime)}` : "",
+        t.startDate ? `${new Date(t.startDate).toLocaleDateString()} ${fmtTime(t.startTime)}–${fmtTime(t.dueTime || "23:59")}` : "",
         t.active !== false ? "Yes" : "No",
       ])
     );
@@ -195,7 +195,7 @@ export default function TaskList() {
                   <td>
                     {t.startDate ? (
                       <span className="badge badge-neutral" title="Master reminders auto-generate from this date">
-                        {new Date(t.startDate).toLocaleDateString()} · {fmtTime(t.startTime)} · Auto
+                        {new Date(t.startDate).toLocaleDateString()} · {fmtTime(t.startTime)}–{fmtTime(t.dueTime || "23:59")} · Auto
                       </span>
                     ) : "-"}
                   </td>
