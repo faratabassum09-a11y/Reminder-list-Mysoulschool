@@ -24,6 +24,7 @@ import { sendDailyReminders } from "./utils/sendDailyReminders.js";
 import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
 import TaskInstance from "./models/TaskInstance.js";
 import User from "./models/User.js";
+import { TRACKING_START } from "./utils/trackingStart.js";
 import WorkshopCounter from "./models/WorkshopCounter.js";
 import { clearAuthCache } from "./middleware/auth.js";
 
@@ -191,7 +192,13 @@ mongoose
   .then(() => {
     console.log("MongoDB connected");
     grantTicketsAccessOnce().catch((err) => console.error("[migration] tickets access failed:", err.message));
-    refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
+    // One-time-style cleanup (safe to repeat): drop unfinished Master rows planned before the
+    // tracking start date so they can never show as Delayed. Finished rows are kept as history
+    // (they are hidden from the Dashboard/Master by the date floor anyway).
+    TaskInstance.deleteMany({ planned: { $lt: TRACKING_START }, actual: null })
+      .then((r) => r.deletedCount && console.log(`[tracking-start] removed ${r.deletedCount} unfinished row(s) before ${TRACKING_START.toISOString()}`))
+      .catch((err) => console.error("[tracking-start] cleanup failed:", err.message))
+      .finally(() => refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message)));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     startKeepAlive();
   })

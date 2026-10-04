@@ -5,6 +5,7 @@ import WeeklyArchive from "../models/WeeklyArchive.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { memo, getDataVersion } from "../utils/cache.js";
 import { getDoerMaps } from "../utils/lookups.js";
+import { withTrackingFloor } from "../utils/trackingStart.js";
 
 const router = express.Router();
 
@@ -79,15 +80,18 @@ function getDateRange(key) {
 // no scored tasks rather than a misleading 0%.
 async function computeRollup(rangeKey, { scoreMode = false } = {}) {
   const range = getDateRange(rangeKey);
-  let matchStage = [];
+  // Nothing planned before the tracking start date (5 Oct 2026) is ever counted.
+  let matchStage;
   if (scoreMode) {
     const cutoff = addDays(startOfDay(new Date()), 1); // end of today, exclusive
     const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
     const plannedFilter = { $lt: end };
     if (range) plannedFilter.$gte = range.start;
-    matchStage = [{ $match: { planned: plannedFilter } }];
+    matchStage = [{ $match: { planned: withTrackingFloor(plannedFilter) } }];
   } else if (range) {
-    matchStage = [{ $match: { planned: { $gte: range.start, $lt: range.end } } }];
+    matchStage = [{ $match: { planned: withTrackingFloor({ $gte: range.start, $lt: range.end }) } }];
+  } else {
+    matchStage = [{ $match: { planned: withTrackingFloor() } }];
   }
 
   const [{ byId: doerMap }, statusCounts] = await Promise.all([
@@ -178,7 +182,7 @@ router.get("/me", async (req, res) => {
   const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
   const plannedFilter = { $lt: end };
   if (range) plannedFilter.$gte = range.start;
-  const match = { doer: doer._id, planned: plannedFilter };
+  const match = { doer: doer._id, planned: withTrackingFloor(plannedFilter) };
 
   const [row] = await TaskInstance.aggregate([
     { $match: match },

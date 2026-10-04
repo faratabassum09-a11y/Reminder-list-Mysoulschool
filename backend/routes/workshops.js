@@ -7,6 +7,7 @@ import WorkshopResponse from "../models/WorkshopResponse.js";
 import WorkshopCounter, { reserveSeq } from "../models/WorkshopCounter.js";
 import Doer from "../models/Doer.js";
 import { requireAdmin } from "../middleware/auth.js";
+import { TRACKING_START, withTrackingFloor } from "../utils/trackingStart.js";
 import {
   WORKSHOP_TYPES,
   TZ_NAME,
@@ -93,16 +94,19 @@ router.get("/stats", async (req, res) => {
   const now = new Date();
   const soon = new Date(now.getTime() + 7 * 86_400_000);
   const mine = { ownerEmail: req.user.email };
+  // Workshop PMS is tracked from the tracking start date (5 Oct 2026) only:
+  // tasks planned before it are never counted, scored or flagged overdue.
+  const live = { $gte: TRACKING_START };
   const [pendingApproval, upcoming, open, overdue, done, onTime, myOpen, myOverdue, dueThisWeek] = await Promise.all([
     isAdminUser(req.user) ? Workshop.countDocuments({ status: "pending" }) : Promise.resolve(0),
     Workshop.countDocuments({ status: "approved", startDate: { $gte: new Date(now.toISOString().slice(0, 10)) } }),
-    WorkshopTask.countDocuments({ actual: null }),
-    WorkshopTask.countDocuments({ actual: null, planned: { $lt: now } }),
-    WorkshopTask.countDocuments({ actual: { $ne: null } }),
-    WorkshopTask.countDocuments({ outcome: "On Time" }),
-    WorkshopTask.countDocuments({ ...mine, actual: null }),
-    WorkshopTask.countDocuments({ ...mine, actual: null, planned: { $lt: now } }),
-    WorkshopTask.countDocuments({ actual: null, planned: { $gte: now, $lte: soon } }),
+    WorkshopTask.countDocuments({ actual: null, planned: live }),
+    WorkshopTask.countDocuments({ actual: null, planned: { ...live, $lt: now } }),
+    WorkshopTask.countDocuments({ actual: { $ne: null }, planned: live }),
+    WorkshopTask.countDocuments({ outcome: "On Time", planned: live }),
+    WorkshopTask.countDocuments({ ...mine, actual: null, planned: live }),
+    WorkshopTask.countDocuments({ ...mine, actual: null, planned: { ...live, $lt: now } }),
+    WorkshopTask.countDocuments({ actual: null, planned: withTrackingFloor({ $gte: now, $lte: soon }) }),
   ]);
   res.json({
     pendingApproval,
@@ -146,6 +150,7 @@ router.get("/dashboard", async (req, res) => {
     const end = range ? new Date(Math.min(range.end.getTime(), cutoff.getTime())) : cutoff;
     const planned = { $lt: end };
     if (range) planned.$gte = range.start;
+    planned.$gte = withTrackingFloor(planned).$gte; // nothing before 5 Oct 2026
 
     const facet = (key) => [
       { $group: { _id: key, total: { $sum: 1 },
@@ -170,7 +175,7 @@ router.get("/dashboard", async (req, res) => {
     let rank = 0, last = null, seen = 0;
     for (const p of byPerson) { seen++; if (p.onTimePercent !== last) { rank = seen; last = p.onTimePercent; } p.rank = p.total ? rank : null; }
 
-    const overdue = await WorkshopTask.countDocuments({ actual: null, planned: { $lt: now, ...(range ? { $gte: range.start } : {}) } });
+    const overdue = await WorkshopTask.countDocuments({ actual: null, planned: { $lt: now, $gte: withTrackingFloor(range ? { $gte: range.start } : {}).$gte } });
     const [workshopsApproved, workshopsUpcoming, workshopsPending] = await Promise.all([
       Workshop.countDocuments({ status: "approved" }),
       Workshop.countDocuments({ status: "approved", startDate: { $gte: new Date(now.toISOString().slice(0, 10)) } }),
@@ -323,6 +328,8 @@ router.get("/tasks", async (req, res) => {
     case "Delayed": filter.outcome = "Delayed"; break;
     default: break;
   }
+  // Nothing planned before the tracking start date (5 Oct 2026) is listed.
+  filter.planned = withTrackingFloor(filter.planned);
   if (q) {
     const rx = new RegExp(String(q).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
     filter.$or = [{ task: rx }, { taskId: rx }, { workshopId: rx }, { owner: rx }];
@@ -457,7 +464,7 @@ async function progressByWorkshop() {
         _id: "$workshop",
         total: { $sum: 1 },
         done: { $sum: { $cond: [{ $ne: ["$actual", null] }, 1, 0] } },
-        overdue: { $sum: { $cond: [{ $and: [{ $eq: ["$actual", null] }, { $lt: ["$planned", now] }] }, 1, 0] } },
+        overdue: { $sum: { $cond: [{ $and: [{ $eq: ["$actual", null] }, { $lt: ["$planned", now] }, { $gte: ["$planned", TRACKING_START] }] }, 1, 0] } },
         score: { $sum: { $ifNull: ["$ownerScore", 0] } },
         maxScore: { $sum: { $cond: [{ $ne: ["$actual", null] }, "$score", 0] } },
       },

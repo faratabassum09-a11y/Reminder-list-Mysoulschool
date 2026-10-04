@@ -8,7 +8,7 @@
 //                     ever dropped.
 //   2. Task List    - one Task per PDF row (duplicates included), keeping its
 //                     Task / Doer / Department / Frequency. EVERY task starts on
-//                     2 October 2026 (override with --start=YYYY-MM-DD); the
+//                     5 October 2026 (override with --start=YYYY-MM-DD); the
 //                     time of day comes from the PDF's Day/Date column.
 //                     Tasks already in the Task List (e.g. from an earlier run
 //                     with other start dates) are moved to the new start date
@@ -23,11 +23,15 @@
 // Safe to re-run: rows that already exist are skipped, never duplicated.
 //
 // Usage (from /backend):
-//   npm run seed:pdf-tasks                     add everything, every task starting 2 Oct 2026
-//   npm run seed:pdf-tasks -- --start=2026-10-05   use a different start date for all tasks
+//   npm run reload:tasks                       RELOAD: every task starts 5 Oct 2026, Master rebuilt from each task's occurrences
+//   npm run seed:pdf-tasks                     same thing (default start date is 5 Oct 2026)
+//   npm run seed:pdf-tasks -- --start=2026-10-12   use a different start date for all tasks
 //   npm run seed:pdf-tasks -- --horizon=2026-12-31   also set the Schedule Horizon
 //   npm run seed:pdf-tasks -- --fresh          FIRST wipe Task List, Master and Submission
 //                                              Log (doers/logins/settings are kept)
+//   npm run seed:pdf-tasks -- --fresh-master   Dashboard fresh start: wipe ALL Master rows (incl. done) and the
+//                                              Dashboard archive, rebuild Master from the start date.
+//                                              Task List and Submission Log are LEFT AS THEY ARE.
 //   npm run seed:pdf-tasks -- --dry-run        show what would happen, write nothing
 import fs from "fs";
 import path from "path";
@@ -39,6 +43,7 @@ import Task from "./models/Task.js";
 import TaskInstance from "./models/TaskInstance.js";
 import SubmissionLog from "./models/SubmissionLog.js";
 import Holiday from "./models/Holiday.js";
+import WeeklyArchive from "./models/WeeklyArchive.js";
 import Settings, { getSettings } from "./models/Settings.js";
 import { generateOccurrencesForTask } from "./utils/generateOccurrences.js";
 import { cacheDel } from "./utils/cache.js";
@@ -52,7 +57,10 @@ const has = (f) => args.includes(f);
 const argVal = (k) => args.find((a) => a.startsWith(`--${k}=`))?.split("=")[1];
 const DRY = has("--dry-run");
 const FRESH = has("--fresh");
-const START_ARG = argVal("start") || "2026-10-02";
+// --fresh-master: dashboard fresh start. Deletes EVERY Master row (done ones too) and the
+// Dashboard weekly archive, then rebuilds Master from 5 Oct. Task List and Submission Log are kept.
+const FRESH_MASTER = has("--fresh-master");
+const START_ARG = argVal("start") || "2026-10-05";
 const START_DATE = new Date(`${START_ARG}T00:00:00Z`);
 const HORIZON_ARG = argVal("horizon");
 
@@ -95,10 +103,10 @@ const dayKey = (d) => d.toISOString().slice(0, 10);
 const baseKey = (name, doerId, freq, time) =>
   [name.toLowerCase(), String(doerId), freq, time].join("|");
 // Same holiday-key convention the recurrence engine uses.
-const engineDateKey = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
+const engineDateKey = (d) => d.toISOString().slice(0, 10); // UTC calendar day, same as the engine
 
 async function main() {
-  if (isNaN(START_DATE)) throw new Error(`--start must look like 2026-10-02 (got "${START_ARG}")`);
+  if (isNaN(START_DATE)) throw new Error(`--start must look like 2026-10-05 (got "${START_ARG}")`);
   const rows = parseRows();
   console.log(`Read ${rows.length} task rows from data/pdf-tasks.txt`);
 
@@ -128,6 +136,16 @@ async function main() {
       if (!DRY) await Model.deleteMany({});
       console.log(`  ${DRY ? "would delete" : "deleted"} ${n} ${label}`);
     }
+  }
+
+  if (FRESH_MASTER) {
+    for (const [label, Model] of [["Master rows", TaskInstance], ["Dashboard archive rows", WeeklyArchive]]) {
+      const n = await Model.countDocuments();
+      if (!DRY) await Model.deleteMany({});
+      console.log(`  ${DRY ? "would delete" : "deleted"} ${n} ${label}`);
+    }
+    if (!DRY) await Task.updateMany({}, { nextAnchor: null, generating: false });
+    console.log("  Submission Log and Task List kept as they are.");
   }
 
   // ---- 1. doers ----------------------------------------------------------
@@ -229,7 +247,7 @@ async function main() {
     const idx = (seenExisting.get(k) || 0) + 1;
     seenExisting.set(k, idx);
     if (idx > seenInFile.get(k)) continue; // an extra copy beyond what the PDF lists - leave alone
-    if (!t.startDate || dayKey(new Date(t.startDate)) !== dayKey(START_DATE)) toRestart.push(t);
+    if (FRESH_MASTER || !t.startDate || dayKey(new Date(t.startDate)) !== dayKey(START_DATE)) toRestart.push(t);
   }
 
   if (!DRY) {

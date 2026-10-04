@@ -2,6 +2,7 @@ import Task from "../models/Task.js";
 import TaskInstance from "../models/TaskInstance.js";
 import Holiday from "../models/Holiday.js";
 import { getSettings } from "../models/Settings.js";
+import { TRACKING_START } from "./trackingStart.js";
 
 // Safety cap so a bad startDate (e.g. a Daily task starting years ago)
 // can't insert an unbounded backlog in a single call — mirrors having a
@@ -18,31 +19,36 @@ const MAX_BACKSHIFT_DAYS = 30;
 // start date up to the Schedule Horizon set in Settings — nothing is
 // throttled to a rolling window. MAX_PER_TASK above is only a safety net.
 
+// ALL date math below is done in UTC. Anchors are UTC-midnight calendar days
+// (that's how makeDoc reads them), so using the server's local time zone here
+// made results depend on where the server runs: on an IST machine "1st/3rd
+// Monday" rows landed on Sunday and Monthly rows on the 4th. UTC everywhere
+// gives identical results on any server.
 function dateKey(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())).toISOString().slice(0, 10);
 }
 
 function addDays(date, n) {
   const d = new Date(date);
-  d.setDate(d.getDate() + n);
+  d.setUTCDate(d.getUTCDate() + n);
   return d;
 }
 
 // Adds `months` calendar months, clamping to the last valid day of the
 // target month (Jan 31 + 1 month -> Feb 28/29, not Mar 3).
 function addMonthsClamped(date, months) {
-  const day = date.getDate();
-  const target = new Date(date.getFullYear(), date.getMonth() + months, 1);
-  const daysInTarget = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
-  target.setDate(Math.min(day, daysInTarget));
+  const day = date.getUTCDate();
+  const target = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1, date.getUTCHours(), date.getUTCMinutes()));
+  const daysInTarget = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0)).getUTCDate();
+  target.setUTCDate(Math.min(day, daysInTarget));
   return target;
 }
 
 function addYearsClamped(date, years) {
-  const day = date.getDate();
-  const target = new Date(date.getFullYear() + years, date.getMonth(), 1);
-  const daysInTarget = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
-  target.setDate(Math.min(day, daysInTarget));
+  const day = date.getUTCDate();
+  const target = new Date(Date.UTC(date.getUTCFullYear() + years, date.getUTCMonth(), 1, date.getUTCHours(), date.getUTCMinutes()));
+  const daysInTarget = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0)).getUTCDate();
+  target.setUTCDate(Math.min(day, daysInTarget));
   return target;
 }
 
@@ -50,7 +56,7 @@ function addYearsClamped(date, years) {
 // or it's in the Holiday list — the stand-in for the original's
 // "Working Day Calendar" sheet (an explicit enumerated list of valid dates).
 function isWorkingDay(date, holidaySet, skipSundays) {
-  if (skipSundays && date.getDay() === 0) return false;
+  if (skipSundays && date.getUTCDay() === 0) return false;
   if (holidaySet.has(dateKey(date))) return false;
   return true;
 }
@@ -74,15 +80,15 @@ function shiftBackToWorkingDay(date, holidaySet, skipSundays) {
 // instead — we'd rather degrade gracefully than crash a live app).
 function nthWeekdayOfMonth(year, month, weekday, n) {
   if (n === -1) {
-    const last = new Date(year, month + 1, 0);
-    const diff = (last.getDay() - weekday + 7) % 7;
-    last.setDate(last.getDate() - diff);
+    const last = new Date(Date.UTC(year, month + 1, 0));
+    const diff = (last.getUTCDay() - weekday + 7) % 7;
+    last.setUTCDate(last.getUTCDate() - diff);
     return last;
   }
-  const first = new Date(year, month, 1);
-  const diffToWeekday = (weekday - first.getDay() + 7) % 7;
-  const occurrence = new Date(year, month, 1 + diffToWeekday + (n - 1) * 7);
-  if (occurrence.getMonth() !== month) return nthWeekdayOfMonth(year, month, weekday, -1);
+  const first = new Date(Date.UTC(year, month, 1));
+  const diffToWeekday = (weekday - first.getUTCDay() + 7) % 7;
+  const occurrence = new Date(Date.UTC(year, month, 1 + diffToWeekday + (n - 1) * 7));
+  if (occurrence.getUTCMonth() !== month) return nthWeekdayOfMonth(year, month, weekday, -1);
   return occurrence;
 }
 
@@ -90,9 +96,9 @@ function nthWeekdayOfMonth(year, month, weekday, n) {
 // the Nth occurrence of *that same weekday* in the following month —
 // matches `Date.parse(frozenDate).next().month().first().monday()` etc.
 function nextAnchorForNthWeekday(frozen, n) {
-  const weekday = frozen.getDay();
-  const nextMonth = new Date(frozen.getFullYear(), frozen.getMonth() + 1, 1);
-  return nthWeekdayOfMonth(nextMonth.getFullYear(), nextMonth.getMonth(), weekday, n);
+  const weekday = frozen.getUTCDay();
+  const nextMonth = new Date(Date.UTC(frozen.getUTCFullYear(), frozen.getUTCMonth() + 1, 1));
+  return nthWeekdayOfMonth(nextMonth.getUTCFullYear(), nextMonth.getUTCMonth(), weekday, n);
 }
 
 function makeDoc(task, date) {
@@ -129,7 +135,12 @@ function makeDoc(task, date) {
 // multi-year burst to the Schedule Horizon) — used by the PDF importer to load only today-onward
 // reminders instead of a year of already-past, never-marked rows.
 export async function generateOccurrencesForTask(task, settings, holidaySet, options = {}) {
-  const skipBefore = options.skipBefore ? new Date(options.skipBefore) : null;
+  // Never generate anything before the tracking start date (5 Oct 2026), even
+  // for tasks whose own start date is earlier.
+  const skipBefore =
+    options.skipBefore && new Date(options.skipBefore) > TRACKING_START
+      ? new Date(options.skipBefore)
+      : TRACKING_START;
   if (!task.startDate || !task.defaultAssignee || task.active === false) {
     return { created: 0 };
   }
@@ -207,7 +218,7 @@ export async function generateOccurrencesForTask(task, settings, holidaySet, opt
             // past the 28th and we're in January, jump 2 months (skipping
             // February) instead of letting the clamp collapse the
             // day-of-month down to 28 for the rest of the year.
-            nextAnchor = frozen.getMonth() === 0 && frozen.getDate() > 28
+            nextAnchor = frozen.getUTCMonth() === 0 && frozen.getUTCDate() > 28
               ? addMonthsClamped(frozen, 2)
               : addMonthsClamped(frozen, 1);
             break;
@@ -285,18 +296,43 @@ export async function generateAllUpcoming() {
   const holidays = await Holiday.find().lean();
   const holidaySet = new Set(holidays.map((h) => dateKey(new Date(h.date))));
 
-  const tasks = await Task.find({
+  if (!settings.scheduleHorizon) {
+    return { created: 0, tasksChecked: 0, horizonMissing: true };
+  }
+
+  // Only look at tasks that can still need rows. A task whose resume point
+  // (nextAnchor) is already past the horizon is fully generated, so it is
+  // skipped without touching the database at all — that is what made this
+  // button slow (every one of ~400 tasks was locked/unlocked one by one).
+  // Yearly tasks never set nextAnchor, so those are skipped when they already
+  // have at least one Master row.
+  const horizon = new Date(settings.scheduleHorizon);
+  const haveRows = new Set((await TaskInstance.distinct("task")).map(String));
+  const candidates = await Task.find({
     active: { $ne: false },
     startDate: { $ne: null },
     defaultAssignee: { $ne: null },
+    $or: [{ nextAnchor: null }, { nextAnchor: { $exists: false } }, { nextAnchor: { $lte: horizon } }],
   });
+  const tasks = candidates.filter((t) => !(t.frequency === "Y" && haveRows.has(String(t._id))));
 
   let created = 0;
   let horizonMissing = false;
-  for (const task of tasks) {
-    const result = await generateOccurrencesForTask(task, settings, holidaySet);
-    created += result.created;
-    if (result.horizonMissing) horizonMissing = true;
+  // A few tasks at a time instead of strictly one after another.
+  const CONCURRENCY = 8;
+  let next = 0;
+  async function worker() {
+    while (next < tasks.length) {
+      const task = tasks[next++];
+      try {
+        const result = await generateOccurrencesForTask(task, settings, holidaySet);
+        created += result.created || 0;
+        if (result.horizonMissing) horizonMissing = true;
+      } catch (err) {
+        console.error(`[generate] task #${task.taskId} failed:`, err.message);
+      }
+    }
   }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, tasks.length) }, worker));
   return { created, tasksChecked: tasks.length, horizonMissing };
 }

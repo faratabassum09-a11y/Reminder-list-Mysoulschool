@@ -1,3 +1,4 @@
+import { withTrackingFloor } from "../utils/trackingStart.js";
 import express from "express";
 import mongoose from "mongoose";
 import TaskInstance from "../models/TaskInstance.js";
@@ -139,6 +140,9 @@ async function buildListFilter(req) {
     end.setDate(end.getDate() + 1);
     filter.planned = { $gte: start, $lt: end };
   }
+
+  // Nothing before the tracking start date (5 Oct 2026) is shown in Master.
+  filter.planned = withTrackingFloor(filter.planned);
 
   // Column filters (the small pin icon in each Master header). These search
   // EVERY row, not just the page on screen: ?doerName= / ?taskName= /
