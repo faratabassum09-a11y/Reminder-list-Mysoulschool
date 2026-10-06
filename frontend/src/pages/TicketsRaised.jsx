@@ -10,6 +10,30 @@ import { usePolling } from "../hooks/usePolling.js";
 import { useDateFilter } from "../hooks/useDateFilter.js";
 import TicketDateFilter, { addTicketDateParams, dateKey } from "../components/TicketDateFilter.jsx";
 
+// Inline "update note" box — the admin writes why/what changed (e.g. "waiting
+// for vendor", "fixed, please re-check") and it is saved on the ticket, so
+// the doer reading the ticket can understand the update.
+function NoteCell({ ticket, busy, onSave }) {
+  const saved = ticket.resolutionNote || "";
+  const [text, setText] = useState(saved);
+  useEffect(() => { setText(saved); }, [saved, ticket._id]);
+  const dirty = text.trim() !== saved.trim();
+  return (
+    <div className="ticket-note-cell">
+      <textarea rows={2} maxLength={2000} value={text} disabled={busy}
+        placeholder="Add a note to explain this update…"
+        onChange={(e) => setText(e.target.value)}
+        aria-label={`Update note for ticket ${ticket.ticketNo}`} />
+      {dirty && (
+        <div className="ticket-note-actions">
+          <button type="button" className="btn-pill" disabled={busy} onClick={() => onSave(ticket, text)}>Save note</button>
+          <button type="button" className="link-btn" disabled={busy} onClick={() => setText(saved)}>Cancel</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Admin-only overview of EVERY help ticket raised by anyone to anyone
 // (GET /api/tickets?box=all is rejected for non-admins on the server).
 export default function TicketsRaised({ onChanged }) {
@@ -46,6 +70,19 @@ export default function TicketsRaised({ onChanged }) {
       await api.updateTicket(t._id, { status: next });
       load();
       onChanged?.();
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const saveNote = async (t, resolutionNote) => {
+    setBusyId(t._id);
+    try {
+      await api.updateTicket(t._id, { resolutionNote });
+      toast("Note saved", "good");
+      load();
     } catch (err) {
       toast(err.message, "bad");
     } finally {
@@ -109,13 +146,14 @@ export default function TicketsRaised({ onChanged }) {
                 <th className="col-task">Issue</th>
                 <th>Planned Resolution</th>
                 <th>Status</th>
+                <th className="col-note">Note (for update)</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {!data.rows && <TableSkeleton columns={9} rows={8} />}
+              {!data.rows && <TableSkeleton columns={10} rows={8} />}
               {data.rows && data.rows.length === 0 && (
-                <tr><td colSpan={9} className="empty-state">{q.trim() || status || dateFilter.active ? "No tickets match those filters." : "No tickets have been raised yet."}</td></tr>
+                <tr><td colSpan={10} className="empty-state">{q.trim() || status || dateFilter.active ? "No tickets match those filters." : "No tickets have been raised yet."}</td></tr>
               )}
               {data.rows?.map((t) => (
                 <tr key={t._id}>
@@ -126,7 +164,6 @@ export default function TicketsRaised({ onChanged }) {
                   <td>{t.pcAccountable?.name || <span className="muted">—</span>}</td>
                   <td className="col-task ticket-cell-issue" title={t.issue}>
                     {t.issue}
-                    {t.resolutionNote && <div className="ticket-cell-note">Note: {t.resolutionNote}</div>}
                   </td>
                   <td className={isOverdue(t) ? "ticket-overdue" : ""}>{fmtDateTime(t.plannedResolution)}</td>
                   <td>
@@ -134,6 +171,9 @@ export default function TicketsRaised({ onChanged }) {
                       onChange={(e) => changeStatus(t, e.target.value)} aria-label={`Status of ticket ${t.ticketNo}`}>
                       {STATUS_FILTERS.map((s) => <option key={s}>{s}</option>)}
                     </select>
+                  </td>
+                  <td className="col-note">
+                    <NoteCell ticket={t} busy={busyId === t._id} onSave={saveNote} />
                   </td>
                   <td>
                     <button type="button" className="link-btn danger" disabled={busyId === t._id} onClick={() => remove(t)} title="Delete ticket">🗑</button>

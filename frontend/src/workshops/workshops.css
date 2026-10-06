@@ -311,7 +311,9 @@
 
 /* sheet-style task table */
 .ws-sheet-wrap { overflow-x: auto; }
-.ws-sheet { min-width: 1500px; font-size: 12.5px; }
+.ws-sheet { min-width: 1150px; font-size: 12.5px; }
+.ws-actions-front { text-align: left; min-width: 96px; }
+.ws-actions-front > * { margin-left: 0; margin-right: 8px; }
 .ws-sheet th { white-space: nowrap; position: sticky; top: 0; background: var(--panel-alt); z-index: 1; }
 .ws-sheet-task { min-width: 260px; max-width: 360px; }
 

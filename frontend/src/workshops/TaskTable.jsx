@@ -113,8 +113,9 @@ export default function TaskTable({ tasks, onChange, showWorkshop = true, compac
           <table className="table ws-table ws-sheet">
             <thead>
               <tr>
-                <th>Workshop ID</th><th>Workshop Date</th><th>Workshop Task ID</th><th>Task</th><th>Timeline</th><th>Task Owner</th><th>Email</th><th>Department</th>
-                <th className="ws-num">Task Score</th><th>Planned Date</th><th>Actual Date</th><th>Status</th><th className="ws-num">Owner Score</th><th className="ws-num">Workshop Score</th><th>Buddy Email</th><th />
+                <th />
+                <th>Workshop Task ID</th><th>Workshop Date</th><th>Task</th><th>Timeline</th><th>Task Owner</th>
+                <th className="ws-num">Task Score</th><th>Planned Date</th><th>Actual Date</th><th>Status</th><th className="ws-num">Owner Score</th>
               </tr>
             </thead>
             <tbody>
@@ -123,29 +124,24 @@ export default function TaskTable({ tasks, onChange, showWorkshop = true, compac
                 const canComplete = !t.actual && (isAdmin || mine);
                 return (
                   <tr key={t._id} className={t.status === "Overdue" ? "ws-row-overdue" : t.actual ? "ws-row-done" : ""}>
-                    <td className="ws-nowrap"><TypeChip code={t.workshopType} /> <strong>{t.workshopId}</strong></td>
+                    <td className="ws-actions ws-actions-front">
+                      {canComplete && <button type="button" className="btn-pill" onClick={() => setCompleting(t)}>Done</button>}
+                      {isAdmin && !t.actual && <button type="button" className="link-btn" onClick={() => setEditingDue(t)}>Reschedule</button>}
+                      {isAdmin && t.actual && <button type="button" className="link-btn" onClick={() => reopen(t)}>Re-open</button>}
+                    </td>
+                    <td className="ws-mono ws-nowrap"><TypeChip code={t.workshopType} /> {t.taskId}</td>
                     <td className="ws-nowrap">{dmy(t.workshopDate)}</td>
-                    <td className="ws-mono ws-nowrap">{t.taskId}</td>
                     <td className="ws-sheet-task" title={t.description || t.task}>
                       <span className="ws-task-name">{t.task}</span>
                       {t.description && <div className="muted wst-desc">{t.description}</div>}
                     </td>
                     <td><span className="ws-timeline">{t.timeline}</span></td>
                     <td className="ws-nowrap">{t.owner || <span className="muted">Unassigned</span>}{mine && <em className="ws-you"> you</em>}</td>
-                    <td className="ws-nowrap muted">{t.ownerEmail}</td>
-                    <td className="ws-nowrap">{t.department}</td>
                     <td className="ws-num">{t.score}</td>
                     <td className="ws-nowrap">{dmyhms(t.planned)}</td>
                     <td className="ws-nowrap">{t.actual ? dmyhms(t.actual) : <span className="muted">—</span>}</td>
                     <td><TaskStatus status={t.status} /></td>
                     <td className="ws-num">{t.actual ? <strong className={t.ownerScore ? "ws-pos" : "ws-zero"}>{t.ownerScore}</strong> : <span className="muted">—</span>}</td>
-                    <td className="ws-num">{t.actual ? (t.workshopScore ?? t.score) : <span className="muted">—</span>}</td>
-                    <td className="ws-nowrap muted">{t.buddyEmail || "—"}</td>
-                    <td className="ws-actions">
-                      {canComplete && <button type="button" className="btn-pill" onClick={() => setCompleting(t)}>Done</button>}
-                      {isAdmin && !t.actual && <button type="button" className="link-btn" onClick={() => setEditingDue(t)}>Reschedule</button>}
-                      {isAdmin && t.actual && <button type="button" className="link-btn" onClick={() => reopen(t)}>Re-open</button>}
-                    </td>
                   </tr>
                 );
               })}

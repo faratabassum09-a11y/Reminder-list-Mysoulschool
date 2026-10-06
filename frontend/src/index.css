@@ -2646,3 +2646,8 @@ button:not(.link-btn):not(.collapse-btn):not(.modal-x):not(.btn-ghost):not(.btn-
 }
 .ticket-date-filter { margin: 8px 0 6px; display: flex; flex-direction: column; gap: 8px; }
 .ticket-date-filter .filter-row { gap: 10px; }
+
+/* Tickets Raised — inline update note */
+.col-note { min-width: 220px; max-width: 280px; }
+.ticket-note-cell textarea { width: 100%; resize: vertical; font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel-alt); color: inherit; }
+.ticket-note-actions { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
