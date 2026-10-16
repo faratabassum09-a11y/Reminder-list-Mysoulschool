@@ -5,6 +5,7 @@ import Doer from "../models/Doer.js";
 import { reserveSeq } from "../models/WorkshopCounter.js";
 import { getDoerMaps } from "../utils/lookups.js";
 import { sendMail } from "../utils/mailer.js";
+import { notifyTicketSlack } from "../utils/slack.js";
 
 const router = express.Router();
 // Mounted behind requireAuth + requireApp("reminder") in server.js.
@@ -238,6 +239,16 @@ router.post("/", async (req, res) => {
           `<p>Open the Reminder List app and go to <em>Help Tickets</em> to respond.</p>`,
       }).catch((err) => console.warn("[tickets] email failed:", err.message));
     }
+
+    // Post the full ticket to the Slack channel — also best effort.
+    notifyTicketSlack({
+      ticketNo,
+      raisedBy: raiser.name,
+      assignedTo: assignee.name,
+      pc: pc?.name || "",
+      issue: text,
+      plannedResolution: planned,
+    });
 
     res.status(201).json(shape(ticket.toObject(), byId));
   } catch (err) {
