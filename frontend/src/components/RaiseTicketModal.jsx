@@ -9,7 +9,7 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
   const [raisedBy, setRaisedBy] = useState(meta.me?._id || "");
   const [pc, setPc] = useState("");
   const [issue, setIssue] = useState("");
-  const [assignedTo, setAssignedTo] = useState("");
+  const [assignedName, setAssignedName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [busy, setBusy] = useState(false);
@@ -27,6 +27,16 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
   const submit = async (e) => {
     e.preventDefault();
     setError("");
+    // Match the typed name to a doer (case-insensitive; full name or first name if unique).
+    const typed = assignedName.trim().toLowerCase();
+    const exact = assignees.filter((d) => d.name.trim().toLowerCase() === typed);
+    const partial = assignees.filter((d) => d.name.trim().toLowerCase().split(/\s+/)[0] === typed);
+    const match = exact.length === 1 ? exact[0] : exact.length === 0 && partial.length === 1 ? partial[0] : null;
+    if (!match) {
+      setError(partial.length > 1 ? "More than one person has that name — type the full name" : "No person found with that name — pick one from the suggestions");
+      return;
+    }
+    const assignedTo = match._id;
     setBusy(true);
     try {
       // Date + time are entered in the person's local time; send as an instant.
@@ -71,12 +81,19 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
           </label>
 
           <label className="modal-field">Problem Assigned To *
-            <select value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)} required>
-              <option value="">Choose</option>
+            <input
+              list="assignee-options"
+              value={assignedName}
+              onChange={(e) => setAssignedName(e.target.value)}
+              placeholder="Type a name"
+              autoComplete="off"
+              required
+            />
+            <datalist id="assignee-options">
               {assignees.map((d) => (
-                <option key={d._id} value={d._id}>{d.name}{d.department ? ` — ${d.department}` : ""}</option>
+                <option key={d._id} value={d.name}>{d.department || ""}</option>
               ))}
-            </select>
+            </datalist>
           </label>
 
           <label className="modal-field">Issue *
