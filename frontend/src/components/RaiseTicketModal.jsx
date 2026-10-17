@@ -4,10 +4,23 @@ import { useToast } from "./Toast.jsx";
 
 // Same fields as the Google "Help Ticket" form: Raised By, PC Accountable,
 // Issue, Problem Assigned To, Planned Date + Time of Resolution.
+// Match a typed name to a person: exact full name, else a unique first name.
+// Returns { match } on success or { error } when nothing/too many match.
+function resolveName(list, text, label) {
+  const typed = text.trim().toLowerCase();
+  const full = (d) => d.name.trim().toLowerCase();
+  const exact = list.filter((d) => full(d) === typed);
+  if (exact.length === 1) return { match: exact[0] };
+  const partial = list.filter((d) => full(d).split(/\s+/)[0] === typed);
+  if (exact.length === 0 && partial.length === 1) return { match: partial[0] };
+  if (exact.length > 1 || partial.length > 1) return { error: `More than one person matches "${text.trim()}" in ${label} — type the full name` };
+  return { error: `No person named "${text.trim()}" found in ${label}` };
+}
+
 export default function RaiseTicketModal({ meta, onClose, onCreated }) {
   const toast = useToast();
-  const [raisedBy, setRaisedBy] = useState(meta.me?._id || "");
-  const [pc, setPc] = useState("");
+  const [raisedName, setRaisedName] = useState("");
+  const [pcName, setPcName] = useState("");
   const [issue, setIssue] = useState("");
   const [assignedName, setAssignedName] = useState("");
   const [date, setDate] = useState("");
@@ -21,30 +34,38 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  // Can't raise to yourself, so drop the raiser from the assignee list.
-  const assignees = meta.doers.filter((d) => d._id !== raisedBy);
-
   const submit = async (e) => {
     e.preventDefault();
     setError("");
-    // Match the typed name to a doer (case-insensitive; full name or first name if unique).
-    const typed = assignedName.trim().toLowerCase();
-    const exact = assignees.filter((d) => d.name.trim().toLowerCase() === typed);
-    const partial = assignees.filter((d) => d.name.trim().toLowerCase().split(/\s+/)[0] === typed);
-    const match = exact.length === 1 ? exact[0] : exact.length === 0 && partial.length === 1 ? partial[0] : null;
-    if (!match) {
-      setError(partial.length > 1 ? "More than one person has that name — type the full name" : "No person found with that name — pick one from the suggestions");
-      return;
+
+    // Raised By: admins type any name; everyone else is themselves.
+    let raisedBy = meta.me?._id;
+    if (meta.canPickRaiser) {
+      const r = resolveName(meta.doers, raisedName, "Raised By");
+      if (r.error) return setError(r.error);
+      raisedBy = r.match._id;
     }
-    const assignedTo = match._id;
+
+    // Can't raise to yourself, so the raiser is excluded from Assigned To.
+    const a = resolveName(meta.doers.filter((d) => d._id !== raisedBy), assignedName, "Assigned To");
+    if (a.error) return setError(a.error);
+
+    // PC Accountable is optional.
+    let pcAccountable = null;
+    if (pcName.trim()) {
+      const p = resolveName(meta.pcDoers, pcName, "PC Accountable");
+      if (p.error) return setError(p.error);
+      pcAccountable = p.match._id;
+    }
+
     setBusy(true);
     try {
       // Date + time are entered in the person's local time; send as an instant.
       const plannedResolution = date ? new Date(`${date}T${time || "18:00"}`).toISOString() : null;
       const ticket = await api.createTicket({
         raisedBy: raisedBy || undefined,
-        assignedTo,
-        pcAccountable: pc || null,
+        assignedTo: a.match._id,
+        pcAccountable,
         issue,
         plannedResolution,
       });
@@ -71,10 +92,19 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
         <form onSubmit={submit}>
           <label className="modal-field">Raised By *
             {meta.canPickRaiser ? (
-              <select value={raisedBy} onChange={(e) => setRaisedBy(e.target.value)} required>
-                <option value="">Choose</option>
-                {meta.doers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
-              </select>
+              <>
+                <input
+                  list="raised-options"
+                  value={raisedName}
+                  onChange={(e) => setRaisedName(e.target.value)}
+                  placeholder="Type a name"
+                  autoComplete="off"
+                  required
+                />
+                <datalist id="raised-options">
+                  {meta.doers.map((d) => <option key={d._id} value={d.name} />)}
+                </datalist>
+              </>
             ) : (
               <input value={meta.me?.name || ""} disabled readOnly />
             )}
@@ -90,9 +120,7 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
               required
             />
             <datalist id="assignee-options">
-              {assignees.map((d) => (
-                <option key={d._id} value={d.name}>{d.department || ""}</option>
-              ))}
+              {meta.doers.map((d) => <option key={d._id} value={d.name}>{d.department || ""}</option>)}
             </datalist>
           </label>
 
@@ -108,10 +136,16 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
           </label>
 
           <label className="modal-field">PC Accountable For Help Ticket
-            <select value={pc} onChange={(e) => setPc(e.target.value)}>
-              <option value="">Choose</option>
-              {meta.pcDoers.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
-            </select>
+            <input
+              list="pc-options"
+              value={pcName}
+              onChange={(e) => setPcName(e.target.value)}
+              placeholder="Type a name"
+              autoComplete="off"
+            />
+            <datalist id="pc-options">
+              {meta.pcDoers.map((d) => <option key={d._id} value={d.name} />)}
+            </datalist>
           </label>
 
           <div className="ticket-when">
