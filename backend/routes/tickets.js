@@ -18,10 +18,10 @@ const router = express.Router();
 // Members are matched to a Doer by email, same pairing Master uses.
 
 const STATUSES = ["Open", "In Progress", "Resolved"];
-// "PC Accountable For Help Ticket" on the form only offers these two people.
+// "PC Accountable For Help Ticket" on the form only offers these people.
 // Matched on first name, case-insensitive. Override with TICKET_PC_NAMES
 // (comma-separated) if the accountable people ever change.
-const PC_NAMES = (process.env.TICKET_PC_NAMES || "Dolly,Paridhi")
+const PC_NAMES = (process.env.TICKET_PC_NAMES || "Dolly,Paridhi,Megha")
   .split(",")
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
