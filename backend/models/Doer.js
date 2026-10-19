@@ -11,6 +11,9 @@ const doerSchema = new mongoose.Schema(
       default: [],
     },
     active: { type: Boolean, default: true },
+    // Slack member ID (looks like U01ABCDEF — NOT the @handle). Used to
+    // really @-mention this person when a Help Ticket is posted to Slack.
+    slackId: { type: String, trim: true, default: "" },
   },
   { timestamps: true }
 );

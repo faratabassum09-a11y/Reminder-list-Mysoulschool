@@ -244,8 +244,8 @@ router.post("/", async (req, res) => {
     notifyTicketSlack({
       ticketNo,
       raisedBy: raiser.name,
-      assignedTo: assignee.name,
-      pc: pc?.name || "",
+      assignedTo: { name: assignee.name, slackId: assignee.slackId },
+      pc: pc ? { name: pc.name, slackId: pc.slackId } : null,
       issue: text,
       plannedResolution: planned,
     });
