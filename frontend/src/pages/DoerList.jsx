@@ -15,7 +15,7 @@ import { avatarStyleFromString, chipStyleFromString, initials } from "../utils/c
 import { downloadCsv } from "../utils/csv.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const empty = { name: "", email: "", department: "", buddyEmailsText: "" };
+const empty = { name: "", email: "", department: "", buddyEmailsText: "", slackId: "" };
 
 // "a@x.com, b@x.com" -> ["a@x.com", "b@x.com"]
 function parseBuddyEmails(text) {
@@ -90,6 +90,7 @@ export default function DoerList() {
       email: d.email,
       department: d.department,
       buddyEmailsText: (d.buddyEmails || []).join(", "),
+      slackId: d.slackId || "",
     });
   };
 
@@ -130,8 +131,8 @@ export default function DoerList() {
   const exportCsv = () => {
     downloadCsv(
       "doer-list.csv",
-      ["Name", "Email", "Department", "Buddy Emails", "Active"],
-      visibleDoers.map((d) => [d.name, d.email, d.department, (d.buddyEmails || []).join("; "), d.active !== false ? "Yes" : "No"])
+      ["Name", "Email", "Department", "Buddy Emails", "Slack ID", "Active"],
+      visibleDoers.map((d) => [d.name, d.email, d.department, (d.buddyEmails || []).join("; "), d.slackId || "", d.active !== false ? "Yes" : "No"])
     );
   };
 
@@ -154,6 +155,9 @@ export default function DoerList() {
             onChange={(e) => setForm({ ...form, department: e.target.value })} />
           <input placeholder="Buddy Emails (comma-separated)" value={form.buddyEmailsText}
             onChange={(e) => setForm({ ...form, buddyEmailsText: e.target.value })} />
+          <input placeholder="Slack Member ID (e.g. U01ABCDEF)" value={form.slackId}
+            title="Slack profile → ⋮ → Copy member ID. Needed so Help Tickets can @-ping this person."
+            onChange={(e) => setForm({ ...form, slackId: e.target.value })} />
           <button type="submit">Add Doer</button>
         </form>
       )}
@@ -175,14 +179,15 @@ export default function DoerList() {
                 <th>Email</th>
                 <SortableTh label="Department" sortKey="department" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <th className="col-buddy">Buddy Emails</th>
+                <th>Slack ID</th>
                 <SortableTh label="Status" sortKey="active" sort={sort} onSort={(k) => setSort((s) => toggleSort(s, k))} />
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {!doers && <TableSkeleton columns={7} rows={8} />}
+              {!doers && <TableSkeleton columns={8} rows={8} />}
               {doers && visibleDoers.length === 0 && (
-                <tr><td colSpan={7} className="empty-state">
+                <tr><td colSpan={8} className="empty-state">
                   {debouncedQ ? `No doers match “${debouncedQ}”.` : "No doers added yet — add one above."}
                 </td></tr>
               )}
@@ -222,6 +227,16 @@ export default function DoerList() {
                           onChange={(e) => setEditForm({ ...editForm, buddyEmailsText: e.target.value })} />
                       ) : (
                         d.buddyEmails && d.buddyEmails.length ? d.buddyEmails.join(", ") : "-"
+                      )}
+                    </td>
+                    <td>
+                      {isEditing ? (
+                        <input className="cell-edit-input" placeholder="U01ABCDEF" value={editForm.slackId}
+                          onChange={(e) => setEditForm({ ...editForm, slackId: e.target.value })} />
+                      ) : d.slackId ? (
+                        <code>{d.slackId}</code>
+                      ) : (
+                        <span title="No Slack ID — this person will not be pinged on Help Tickets">⚠ missing</span>
                       )}
                     </td>
                     <td>
