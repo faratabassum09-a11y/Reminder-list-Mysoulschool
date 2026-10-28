@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate } from "react-router-dom";
 import TicketsLogo from "../components/TicketsLogo.jsx";
+import TicketAlerts from "../components/TicketAlerts.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { usePolling } from "../hooks/usePolling.js";
@@ -34,7 +35,7 @@ export default function TicketsApp() {
 
   const loadCount = () => api.getTicketCount().then(setCount).catch(() => {});
   useEffect(() => { loadCount(); }, []);
-  usePolling(loadCount, 15000);
+  usePolling(loadCount, 8000);
   useEffect(() => { localStorage.setItem("tk-sidebar-collapsed", collapsed ? "1" : "0"); }, [collapsed]);
 
   const links = [
@@ -129,6 +130,7 @@ export default function TicketsApp() {
       </aside>
 
       <main className="content">
+        <TicketAlerts />
         <RouteBoundary>
         <Suspense fallback={<PageLoader />}>
           <Routes>

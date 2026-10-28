@@ -442,6 +442,7 @@ export const api = {
 
   getTicketMeta: () => request("/tickets/meta"),
   getTicketCount: () => request("/tickets/count"),
+  getTicketAlerts: () => request("/tickets/alerts"),
   // params: "?box=inbox|sent|all&status=&q=&page=&limit="
   getTickets: (params = "") => request(`/tickets${params}`),
   createTicket: (data) => request("/tickets", { method: "POST", body: JSON.stringify(data) }),

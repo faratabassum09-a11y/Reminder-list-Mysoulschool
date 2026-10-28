@@ -47,6 +47,8 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
     }
 
     // Can't raise to yourself, so the raiser is excluded from Assigned To.
+    const sameAsRaiser = resolveName(meta.doers.filter((d) => d._id === raisedBy), assignedName, "Assigned To");
+    if (sameAsRaiser.match) return setError("You can't raise a ticket to yourself — choose a different person in Assigned To.");
     const a = resolveName(meta.doers.filter((d) => d._id !== raisedBy), assignedName, "Assigned To");
     if (a.error) return setError(a.error);
 
@@ -120,7 +122,7 @@ export default function RaiseTicketModal({ meta, onClose, onCreated }) {
               required
             />
             <datalist id="assignee-options">
-              {meta.doers.map((d) => <option key={d._id} value={d.name}>{d.department || ""}</option>)}
+              {meta.doers.filter((d) => d._id !== (meta.canPickRaiser ? resolveName(meta.doers, raisedName, "").match?._id : meta.me?._id)).map((d) => <option key={d._id} value={d.name}>{d.department || ""}</option>)}
             </datalist>
           </label>
 

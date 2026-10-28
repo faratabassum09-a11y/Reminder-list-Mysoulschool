@@ -13,11 +13,12 @@ import TicketDateFilter, { addTicketDateParams, dateKey } from "../components/Ti
 // Inline "update note" box — the admin writes why/what changed (e.g. "waiting
 // for vendor", "fixed, please re-check") and it is saved on the ticket, so
 // the doer reading the ticket can understand the update.
-function NoteCell({ ticket, busy, onSave }) {
+function NoteCell({ ticket, busy, onSave, readOnly }) {
   const saved = ticket.resolutionNote || "";
   const [text, setText] = useState(saved);
   useEffect(() => { setText(saved); }, [saved, ticket._id]);
   const dirty = text.trim() !== saved.trim();
+  if (readOnly) return <div className="ticket-note-cell muted">{saved || "—"}</div>;
   return (
     <div className="ticket-note-cell">
       <textarea rows={2} maxLength={2000} value={text} disabled={busy}
@@ -59,7 +60,7 @@ export default function TicketsRaised({ onChanged }) {
     api.getTickets(`?${p}`).then((d) => { setData(d); setError(""); }).catch((e) => setError(e.message));
   };
   useEffect(load, [status, page, debouncedQ, dKey]);
-  usePolling(load, 20000);
+  usePolling(load, 8000);
   useEffect(() => { setPage(1); }, [status, debouncedQ, dKey]);
 
   const total = STATUS_FILTERS.reduce((n, s) => n + (data.summary?.[s] || 0), 0);
@@ -109,7 +110,7 @@ export default function TicketsRaised({ onChanged }) {
     <div className="page">
       <PageHeader
         title="Tickets Raised"
-        subtitle="Every help ticket raised between doers, newest first"
+        subtitle="Every help ticket, newest first — only the assignee can change a ticket's status"
         meta={data.rows && <span className="chip"><strong>{total.toLocaleString()}</strong> {debouncedQ || status || dateFilter.active ? "in view" : "total"}</span>}
       />
       {error && <p className="error">{error}</p>}
@@ -167,13 +168,19 @@ export default function TicketsRaised({ onChanged }) {
                   </td>
                   <td className={isOverdue(t) ? "ticket-overdue" : ""}>{fmtDateTime(t.plannedResolution)}</td>
                   <td>
-                    <select className="ticket-status-select" value={t.status} disabled={busyId === t._id}
-                      onChange={(e) => changeStatus(t, e.target.value)} aria-label={`Status of ticket ${t.ticketNo}`}>
-                      {STATUS_FILTERS.map((s) => <option key={s}>{s}</option>)}
-                    </select>
+                    {t.canUpdate ? (
+                      <select className="ticket-status-select" value={t.status} disabled={busyId === t._id}
+                        onChange={(e) => changeStatus(t, e.target.value)} aria-label={`Status of ticket ${t.ticketNo}`}>
+                        {STATUS_FILTERS.map((s) => <option key={s}>{s}</option>)}
+                      </select>
+                    ) : (
+                      <span title={`Only ${t.assignedTo?.name || "the assignee"} can change this`}>
+                        <StatusBadge status={t.status} />
+                      </span>
+                    )}
                   </td>
                   <td className="col-note">
-                    <NoteCell ticket={t} busy={busyId === t._id} onSave={saveNote} />
+                    <NoteCell ticket={t} busy={busyId === t._id} onSave={saveNote} readOnly={!t.canUpdate} />
                   </td>
                   <td>
                     <button type="button" className="link-btn danger" disabled={busyId === t._id} onClick={() => remove(t)} title="Delete ticket">🗑</button>

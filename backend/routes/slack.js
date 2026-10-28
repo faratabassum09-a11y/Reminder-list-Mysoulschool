@@ -3,7 +3,6 @@ import crypto from "crypto";
 import { URLSearchParams } from "url";
 import Ticket from "../models/Ticket.js";
 import Doer from "../models/Doer.js";
-import User from "../models/User.js";
 import { resolveSlackId, respondToInteraction, buildUpdatedMessage, buildClosedNote } from "../utils/slack.js";
 import { runTicketReminders, inReminderWindow } from "../utils/ticketReminders.js";
 
@@ -55,15 +54,9 @@ async function handleAction(payload) {
     return respondToInteraction(responseUrl, { replace_original: true, ...buildClosedNote("This help ticket no longer exists.") });
   }
 
-  // Same rule as the website: only the assignee (or an admin) may update it.
-  const isAssignee = String(ticket.assignedTo) === String(clicker._id);
-  let isAdmin = false;
-  if (!isAssignee) {
-    const u = await User.findOne({ email: String(clicker.email || "").toLowerCase() }).select("role active").lean();
-    isAdmin = Boolean(u && u.role === "admin" && u.active !== false);
-  }
-  if (!isAssignee && !isAdmin) {
-    return respondToInteraction(responseUrl, ephemeral(`Only ${ticket.assignedToName || "the assignee"} (or an admin) can update ticket #${ticket.ticketNo}.`));
+  // Same rule as the website: ONLY the assignee may update it (not admins).
+  if (String(ticket.assignedTo) !== String(clicker._id)) {
+    return respondToInteraction(responseUrl, ephemeral(`Only ${ticket.assignedToName || "the assignee"} can update ticket #${ticket.ticketNo}.`));
   }
 
   // Already closed on the website? Don't reopen it from a stale Slack button.

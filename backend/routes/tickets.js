@@ -5,7 +5,7 @@ import Doer from "../models/Doer.js";
 import { reserveSeq } from "../models/WorkshopCounter.js";
 import { getDoerMaps } from "../utils/lookups.js";
 import { sendMail } from "../utils/mailer.js";
-import { notifyTicketSlack } from "../utils/slack.js";
+import { notifyTicketSlack, postToSlack } from "../utils/slack.js";
 import { runTicketReminders } from "../utils/ticketReminders.js";
 
 const router = express.Router();
@@ -42,7 +42,7 @@ const slim = (d) => (d ? { _id: d._id, name: d.name, department: d.department } 
 
 // Turn a stored ticket into the API shape, resolving current doer info
 // (falls back to the denormalized name if the doer no longer exists).
-function shape(t, byId) {
+function shape(t, byId, viewerDoerId = null) {
   const pick = (id, fallbackName) => slim(byId.get(String(id))) || (fallbackName ? { _id: id, name: fallbackName, department: "" } : null);
   return {
     _id: t._id,
@@ -57,6 +57,10 @@ function shape(t, byId) {
     raisedBy: pick(t.raisedBy, t.raisedByName),
     assignedTo: pick(t.assignedTo, t.assignedToName),
     pcAccountable: t.pcAccountable ? pick(t.pcAccountable, t.pcAccountableName) : null,
+    lastUpdatedVia: t.lastUpdatedVia || "",
+    // ONLY the person the ticket is assigned to may change its status.
+    // (Admins can see and delete tickets but cannot mark them.)
+    canUpdate: Boolean(viewerDoerId && String(t.assignedTo) === String(viewerDoerId)),
   };
 }
 
@@ -109,8 +113,9 @@ router.get("/", async (req, res) => {
     const status = STATUSES.includes(req.query.status) ? req.query.status : null;
 
     const match = {};
+    const viewer = await myDoer(req);
     if (box !== "all") {
-      const me = await myDoer(req);
+      const me = viewer;
       // No Doer record linked to this account -> nothing is addressed to
       // (or from) them. Empty list, not an error.
       if (!me) return res.json({ rows: [], total: 0, page, limit, pages: 1, summary: { Open: 0, "In Progress": 0, Resolved: 0 } });
@@ -153,7 +158,7 @@ router.get("/", async (req, res) => {
     grouped.forEach((g) => { summary[g._id] = g.n; });
 
     res.json({
-      rows: rows.map((t) => shape(t, byId)),
+      rows: rows.map((t) => shape(t, byId, viewer?._id)),
       total,
       page,
       limit,
@@ -248,10 +253,42 @@ router.post("/", async (req, res) => {
       pc: pc ? { name: pc.name, slackId: pc.slackId } : null,
     });
 
-    res.status(201).json(shape(ticket.toObject(), byId));
+    res.status(201).json(shape(ticket.toObject(), byId, raiser._id));
   } catch (err) {
     console.error("[tickets/create]", err);
     res.status(400).json({ error: err.message });
+  }
+});
+
+// -------------------------------------------------------------- alerts ---
+// In-app reminders for the signed-in person: their own unresolved tickets
+// that are overdue or due tomorrow (IST). Polled by the Help Tickets app to
+// show a banner + browser notification.
+router.get("/alerts", async (req, res) => {
+  try {
+    const me = await myDoer(req);
+    if (!me) return res.json({ overdue: [], dueTomorrow: [], dueToday: [] });
+    const IST = 330 * 60 * 1000;
+    const key = (d) => new Date(new Date(d).getTime() + IST).toISOString().slice(0, 10);
+    const now = new Date();
+    const todayKey = key(now);
+    const tomorrowKey = key(new Date(now.getTime() + 86_400_000));
+    const rows = await Ticket.find({
+      assignedTo: me._id,
+      status: { $ne: "Resolved" },
+      plannedResolution: { $ne: null, $lt: new Date(now.getTime() + 3 * 86_400_000) },
+    }).sort({ plannedResolution: 1 }).lean();
+    const lite = (t) => ({ _id: t._id, ticketNo: t.ticketNo, issue: t.issue.slice(0, 120), raisedByName: t.raisedByName, plannedResolution: t.plannedResolution, status: t.status });
+    const out = { overdue: [], dueToday: [], dueTomorrow: [] };
+    for (const t of rows) {
+      const pk = key(t.plannedResolution);
+      if (new Date(t.plannedResolution) < now) out.overdue.push(lite(t));
+      else if (pk === todayKey) out.dueToday.push(lite(t));
+      else if (pk === tomorrowKey) out.dueTomorrow.push(lite(t));
+    }
+    res.json(out);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -268,9 +305,8 @@ router.post("/reminders/run", async (req, res) => {
 });
 
 // ------------------------------------------------------------- update ----
-// Status / resolution note / planned date — only by the person the ticket
-// is assigned to, or an admin. The raiser can't mark their own ticket
-// resolved.
+// Status / resolution note / planned date — ONLY by the person the ticket is
+// assigned to. Not the raiser, not admins. (Same rule as the Slack buttons.)
 router.patch("/:id", async (req, res) => {
   try {
     if (!isValidId(req.params.id)) return res.status(400).json({ error: "Invalid ticket ID" });
@@ -280,11 +316,14 @@ router.patch("/:id", async (req, res) => {
     const me = await myDoer(req);
     const isAssignee = me && String(ticket.assignedTo) === String(me._id);
     const isRaiser = me && String(ticket.raisedBy) === String(me._id);
-    // Anyone who isn't involved gets a 404 so a ticket's existence isn't leaked.
+    // Someone uninvolved (and not an admin) gets a 404 so existence isn't leaked.
     if (!isAdmin(req) && !isAssignee && !isRaiser) return res.status(404).json({ error: "Ticket not found" });
-    if (!isAdmin(req) && !isAssignee) return res.status(403).json({ error: "Only the person this ticket is assigned to can update it" });
+    if (!isAssignee) {
+      return res.status(403).json({ error: `Only ${ticket.assignedToName || "the person this ticket is assigned to"} can update ticket #${ticket.ticketNo}` });
+    }
 
     const { status, resolutionNote, plannedResolution } = req.body || {};
+    const before = ticket.status;
     if (status !== undefined) {
       if (!STATUSES.includes(status)) return res.status(400).json({ error: "Invalid status" });
       ticket.status = status;
@@ -299,11 +338,17 @@ router.patch("/:id", async (req, res) => {
         ticket.plannedResolution = d;
       }
     }
-    if (status !== undefined) ticket.lastUpdatedVia = "Website";
+    if (status !== undefined) ticket.lastUpdatedVia = `Website (${me.name})`;
     await ticket.save();
 
+    // Let the Slack channel know too, so Slack and the website never disagree.
+    if (status !== undefined && status !== before) {
+      const icon = status === "Resolved" ? "✅" : status === "In Progress" ? "🔄" : "↩️";
+      postToSlack({ text: `${icon} Help Ticket #${ticket.ticketNo} marked *${status}* by ${me.name} on the website.` });
+    }
+
     const { byId } = await getDoerMaps();
-    res.json(shape(ticket.toObject(), byId));
+    res.json(shape(ticket.toObject(), byId, me._id));
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

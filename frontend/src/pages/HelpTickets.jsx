@@ -43,7 +43,7 @@ export default function HelpTickets({ onChanged }) {
     api.getTickets(`?${p}`).then((d) => { setData(d); setError(""); }).catch((e) => setError(e.message));
   };
   useEffect(load, [box, status, page, debouncedQ, dKey]);
-  usePolling(load, 20000);
+  usePolling(load, 8000);
   useEffect(() => { setPage(1); }, [box, status, debouncedQ, dKey]);
 
   const switchBox = (b) => { setBox(b); setData((d) => ({ ...d, rows: null })); setOpenId(null); };

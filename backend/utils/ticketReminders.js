@@ -18,7 +18,8 @@
 
 import Ticket from "../models/Ticket.js";
 import { getDoerMaps } from "./lookups.js";
-import { buildTicketMessage, postToSlack, slackEnabled } from "./slack.js";
+import { buildTicketMessage, postToSlack } from "./slack.js";
+import { sendMail } from "./mailer.js";
 
 const IST_MS = 330 * 60 * 1000;
 const DAY_MS = 86_400_000;
@@ -52,8 +53,20 @@ async function sendOne(kind, ticket, claimFilter, claimSet, rollbackSet, byId, n
     pc: claimed.pcAccountable ? person(byId.get(String(claimed.pcAccountable)), claimed.pcAccountableName) : null,
     now,
   });
+  const assignee = byId.get(String(claimed.assignedTo));
   const r = await postToSlack(msg);
-  if (r.ok) return "sent";
+  // Email the assignee too (best effort) so the reminder reaches them even if
+  // they miss the Slack channel.
+  if (assignee?.email) {
+    const when = new Date(claimed.plannedResolution).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });
+    const label = kind === "dueSoon" ? "due tomorrow" : "OVERDUE";
+    sendMail({
+      to: assignee.email,
+      subject: `Reminder: Help Ticket #${claimed.ticketNo} is ${label}`,
+      text: `Help Ticket #${claimed.ticketNo} raised by ${claimed.raisedByName} is ${label} (planned: ${when}).\n\nIssue: ${claimed.issue}\n\nOpen Help Tickets and mark it In Progress or Resolved.`,
+    }).catch((err) => console.warn("[ticket-reminders] email failed:", err.message));
+  }
+  if (r.ok || r.skipped) return "sent"; // Slack not configured -> email/in-app still count
   await Ticket.updateOne({ _id: ticket._id }, { $set: rollbackSet }); // retry next run
   return "failed";
 }
@@ -63,8 +76,6 @@ async function sendOne(kind, ticket, claimFilter, claimSet, rollbackSet, byId, n
  * Returns counts: { dueSoon, overdue, failed, checked, skipped? }
  */
 export async function runTicketReminders({ now = new Date() } = {}) {
-  if (!slackEnabled()) return { skipped: "SLACK_WEBHOOK_URL not set", dueSoon: 0, overdue: 0, failed: 0, checked: 0 };
-
   const todayKey = istKey(now);
   const tomorrowKey = istKey(new Date(now.getTime() + DAY_MS));
 
