@@ -6,6 +6,7 @@ import { reserveSeq } from "../models/WorkshopCounter.js";
 import { getDoerMaps } from "../utils/lookups.js";
 import { sendMail } from "../utils/mailer.js";
 import { notifyTicketSlack } from "../utils/slack.js";
+import { runTicketReminders } from "../utils/ticketReminders.js";
 
 const router = express.Router();
 // Mounted behind requireAuth + requireApp("reminder") in server.js.
@@ -242,18 +243,27 @@ router.post("/", async (req, res) => {
 
     // Post the full ticket to the Slack channel — also best effort.
     notifyTicketSlack({
-      ticketNo,
-      raisedBy: raiser.name,
+      ticket: ticket.toObject(),
       assignedTo: { name: assignee.name, slackId: assignee.slackId },
       pc: pc ? { name: pc.name, slackId: pc.slackId } : null,
-      issue: text,
-      plannedResolution: planned,
     });
 
     res.status(201).json(shape(ticket.toObject(), byId));
   } catch (err) {
     console.error("[tickets/create]", err);
     res.status(400).json({ error: err.message });
+  }
+});
+
+// ------------------------------------------------------ run reminders ----
+// Admin button / manual trigger: posts any due "tomorrow" and "overdue"
+// reminders to Slack right now (still exactly-once per ticket per day).
+router.post("/reminders/run", async (req, res) => {
+  if (!isAdmin(req)) return res.status(403).json({ error: "Admins only" });
+  try {
+    res.json(await runTicketReminders());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -289,6 +299,7 @@ router.patch("/:id", async (req, res) => {
         ticket.plannedResolution = d;
       }
     }
+    if (status !== undefined) ticket.lastUpdatedVia = "Website";
     await ticket.save();
 
     const { byId } = await getDoerMaps();

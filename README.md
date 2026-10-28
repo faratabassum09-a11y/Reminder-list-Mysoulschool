@@ -33,6 +33,37 @@ mern-reminder-app/
 - **Notifications** — **Clear all** and per-item **×** dismiss (page and bell). **View task** now opens Master showing exactly that task (even if you're already on Master).
 - **Speed** — see "Performance notes" below.
 
+## Help Ticket Slack reminders + buttons
+
+Tickets are no longer posted to Slack only when raised. For every ticket that is
+**Open** or **In Progress** and has a **Planned Resolution** date:
+
+| When | What is posted to the channel |
+|------|-------------------------------|
+| Day before the planned date (IST) | "Help Ticket due tomorrow" — @-pings the assignee, once |
+| After the planned time has passed | "Help Ticket OVERDUE by N days" — @-pings the assignee, **once every day** until resolved |
+
+Every post (and the original "New Help Ticket") has **Still Ongoing** and **Resolved**
+buttons. Clicking one updates the ticket in the database straight away — the website
+(Help Tickets / Tickets Raised, which poll every 20s) shows the new status — and the
+Slack message edits itself to show the result. *Still Ongoing* = status **In Progress**;
+*Resolved* = status **Resolved** (with a resolved time). Only the assignee or an admin can
+press them, same rule as the website; anyone else gets a private "not allowed" note.
+Resolved tickets stop receiving reminders. Changing a ticket's planned date re-arms its reminder.
+
+Reminders go out between 09:00 and 21:00 IST (first run from `TICKET_REMINDER_HOUR`,
+default 9), checked every 30 minutes and once shortly after server start. Each reminder is
+claimed atomically per ticket, so it can never double-send. Admins can also trigger a run via
+`POST /api/tickets/reminders/run`.
+
+### One-time Slack setup
+1. api.slack.com/apps -> the app that owns `SLACK_WEBHOOK_URL` -> **Interactivity & Shortcuts** -> turn **On**.
+2. **Request URL:** `https://<your-backend>/api/slack/interactions`
+3. **Basic Information -> Signing Secret** -> set as `SLACK_SIGNING_SECRET` in the backend env, redeploy.
+4. Make sure every person has their **Slack ID** in the Doer List (needed both for the @ping and to know who clicked).
+5. Free-tier hosting that sleeps: add a cron-job.org job (every 30 min) calling
+   `GET https://<your-backend>/api/slack/reminders?key=<TICKET_CRON_SECRET>`.
+
 ## Workshop PMS (sub-site)
 
 ### Loading the Workshop history (one command)

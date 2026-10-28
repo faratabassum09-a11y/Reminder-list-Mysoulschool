@@ -34,6 +34,18 @@ const ticketSchema = new mongoose.Schema(
     status: { type: String, enum: ["Open", "In Progress", "Resolved"], default: "Open" },
     resolutionNote: { type: String, trim: true, maxlength: 2000, default: "" },
     resolvedAt: { type: Date, default: null },
+
+    // Slack reminder bookkeeping — makes every reminder exactly-once.
+    //   dueSoonRemindedFor : the plannedResolution (ISO) the "due tomorrow"
+    //                        reminder was already sent for. Changing the
+    //                        planned date re-arms it.
+    //   lastOverdueReminderOn : IST calendar day (YYYY-MM-DD) of the last
+    //                        overdue reminder, so it goes out once per day.
+    dueSoonRemindedFor: { type: String, default: "" },
+    lastOverdueReminderOn: { type: String, default: "" },
+
+    // Where the last status change came from, e.g. "Slack (Dolly)".
+    lastUpdatedVia: { type: String, default: "" },
   },
   { timestamps: true }
 );
@@ -41,5 +53,6 @@ const ticketSchema = new mongoose.Schema(
 ticketSchema.index({ assignedTo: 1, status: 1, createdAt: -1 });
 ticketSchema.index({ raisedBy: 1, createdAt: -1 });
 ticketSchema.index({ createdAt: -1 });
+ticketSchema.index({ status: 1, plannedResolution: 1 });
 
 export default mongoose.model("Ticket", ticketSchema);
