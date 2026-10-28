@@ -19,6 +19,8 @@ import chatbotRoutes from "./routes/chatbot.js";
 import messageRoutes from "./routes/messages.js";
 import workshopRoutes from "./routes/workshops.js";
 import ticketRoutes from "./routes/tickets.js";
+import slackRoutes from "./routes/slack.js";
+import { runTicketReminders, inReminderWindow } from "./utils/ticketReminders.js";
 import { getSettings } from "./models/Settings.js";
 import { sendDailyReminders } from "./utils/sendDailyReminders.js";
 import { requireAuth, requireAdmin, requireApp } from "./middleware/auth.js";
@@ -98,6 +100,10 @@ app.use(
     origin: allowedOrigins || true,
   })
 );
+// Slack button clicks + external cron hook. Must be mounted BEFORE express.json():
+// Slack signs the raw body, which the router reads itself. Auth is the Slack
+// signature / cron secret, not a login token.
+app.use("/api/slack", slackRoutes);
 // Proof screenshots arrive as (client-resized) data URLs, so allow more than the 100kb default.
 app.use(express.json({ limit: "3mb" }));
 // Gzip every response — the Master and Submission Log pages return
@@ -181,6 +187,16 @@ cron.schedule("0 * * * *", () => {
   refreshOverdueStatuses().catch((err) => console.error("[status-sweep] failed:", err.message));
 });
 
+// Help Ticket reminders -> Slack: every 30 min (IST), inside 09:00-21:00.
+// Each reminder is claimed atomically per ticket, so running often is safe:
+// "due tomorrow" goes out once, "overdue" once per day. Also runs shortly
+// after boot to catch up if the free-tier server was asleep.
+async function ticketReminderTick() {
+  if (!inReminderWindow()) return;
+  try { await runTicketReminders(); } catch (err) { console.error("[ticket-reminders] failed:", err.message); }
+}
+cron.schedule("*/30 * * * *", ticketReminderTick, { timezone: "Asia/Kolkata" });
+
 mongoose
   .connect(MONGO_URI, {
     // Default is 30s — on a slow/cold DB (e.g. a paused Atlas free-tier
@@ -212,6 +228,7 @@ mongoose
       .catch((err) => console.error("[times] migration failed:", err.message));
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     startKeepAlive();
+    setTimeout(ticketReminderTick, 30_000).unref();
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err.message);
